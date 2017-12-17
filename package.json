@@ -2,16 +2,17 @@
   "name": "option_dashboard",
   "version": "0.0.1",
   "private": true,
+  "homepage": "https://phillyfan1138.github.io/option_dashboard",
   "devDependencies": {
     "react-scripts": "1.0.17"
   },
   "dependencies": {
     "antd": "^3.0.1",
+    "gh-pages": "^1.1.0",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
-    "react-vis": "^1.8.0",
     "redux": "^3.7.2",
     "victory": "^0.24.2"
   },
@@ -19,6 +20,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   }
 }

@@ -4,15 +4,38 @@ import {
     VictoryLine, 
     VictoryChart,
     VictoryAxis,
-    VictoryLabel
+    VictoryLabel,
+    VictoryLegend
 } from 'victory'
 
-
-export const OptionCurves=({data, label})=>(
-    <VictoryChart domainPadding={20}>
+const callStyle={data:{stroke:"blue"}}
+const putStyle={data:{stroke:"red"}}
+const legendOption=[{
+    name:"Call",
+    symbol: { fill: "blue", type: "circle" }
+},{
+    name:"Put",
+    symbol: { fill: "red", type: "circle" }
+}]
+const domainPadding=20
+export const OptionCurves=({callData, putData, label})=>(
+    <VictoryChart domainPadding={domainPadding}>
+        <VictoryLegend x={50} y={50}
+            orientation="vertical"
+            gutter={20}
+            data={legendOption}
+        />
         <VictoryLine
+            style={callStyle}
             interpolation="natural"
-            data={data}
+            data={callData}
+            x="atPoint"
+            y="value"
+        />
+        <VictoryLine
+            style={putStyle}
+            interpolation="natural"
+            data={putData}
             x="atPoint"
             y="value"
         />
@@ -26,19 +49,21 @@ export const OptionCurves=({data, label})=>(
     </VictoryChart>
 )
 OptionCurves.propTypes={
-    data:PropTypes.arrayOf(PropTypes.shape({
+    callData:PropTypes.arrayOf(PropTypes.shape({
+        value:PropTypes.number.isRequired,
+        atPoint:PropTypes.number.isRequired
+    })),
+    putData:PropTypes.arrayOf(PropTypes.shape({
         value:PropTypes.number.isRequired,
         atPoint:PropTypes.number.isRequired
     })),
     label:PropTypes.string.isRequired
 }
-export const IVCurves=({data, label})=>{
-    console.log("IVCurves")
-    return (
-    <VictoryChart domainPadding={20}>
+export const IVCurves=({callData, label})=>(
+    <VictoryChart domainPadding={domainPadding}>
         <VictoryLine
             interpolation="natural"
-            data={data}
+            data={callData}
             x="atPoint"
             y="iv"
         />
@@ -51,9 +76,8 @@ export const IVCurves=({data, label})=>{
         />
     </VictoryChart>
 )
-}
 IVCurves.propTypes={
-    data:PropTypes.arrayOf(PropTypes.shape({
+    callData:PropTypes.arrayOf(PropTypes.shape({
         iv:PropTypes.number.isRequired,
         atPoint:PropTypes.number.isRequired
     })),

@@ -1,9 +1,12 @@
-import {keepMiddleElements} from '../utils'
+import { 
+    removeFirstAndLastElement, 
+    filterBasedOffAnotherArray
+} from '../utils'
 
 export const fangoostcall=(state=[], action)=>{
     switch(action.type){
         case 'UPDATE_CALL_FANGOOST':
-            return keepMiddleElements(action.data, .5)
+            return removeFirstAndLastElement(action.data)
         default:
             return state
     }
@@ -12,39 +15,48 @@ export const fangoostcall=(state=[], action)=>{
 export const fangoostput=(state=[], action)=>{
     switch(action.type){
         case 'UPDATE_PUT_FANGOOST':
-            return keepMiddleElements(action.data, .5)
+            return removeFirstAndLastElement(action.data)
         default:
             return state
     }
 }
-export const fstsput=(state=[], action)=>{
+const defaultOptionState={
+    call:[],
+    put:[]
+}
+const filterIv=val=>val.iv>0
+const getFilteredOptions=(put, call)=>({
+    put:filterBasedOffAnotherArray(put, call, filterIv), 
+    call:call.filter(filterIv)
+})
+export const fsts=(state=defaultOptionState, action)=>{
     switch(action.type){
         case 'UPDATE_PUT_FSTS':
-            return keepMiddleElements(action.data, .5)
-        default:
-            return state
-    }
-}
-export const fstscall=(state=[], action)=>{
-    switch(action.type){
+            if(state.call.length>0){
+                return getFilteredOptions(action.data, state.call)
+            }
+            return {...state, put:action.data}
         case 'UPDATE_CALL_FSTS':
-            return keepMiddleElements(action.data, .5)
+            if(state.put.length>0){
+                return getFilteredOptions(state.put, action.data)
+            }
+            return {...state, call:action.data}
         default:
             return state
     }
 }
-export const carrmadanput=(state=[], action)=>{
+export const carrmadan=(state=defaultOptionState, action)=>{
     switch(action.type){
         case 'UPDATE_PUT_CARRMADAN':
-            return keepMiddleElements(action.data, .5)
-        default:
-            return state
-    }
-}
-export const carrmadancall=(state=[], action)=>{
-    switch(action.type){
+            if(state.call.length>0){
+                return getFilteredOptions(action.data, state.call)
+            }
+            return {...state, put:action.data}
         case 'UPDATE_CALL_CARRMADAN':
-            return keepMiddleElements(action.data, .5)
+            if(state.put.length>0){
+                return getFilteredOptions(state.put, action.data)
+            }
+            return {...state, call:action.data}
         default:
             return state
     }

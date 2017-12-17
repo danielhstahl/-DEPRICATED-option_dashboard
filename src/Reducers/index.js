@@ -4,16 +4,16 @@ import {
     VaR, density, 
     fangoostcall, 
     fangoostput, 
-    fstsput, fstscall, 
-    carrmadanput, carrmadancall
+    fsts,
+    carrmadan
 } from './data'
 const app = combineReducers({
     optionParameters,
     VaR, density, 
     fangoostcall, 
     fangoostput, 
-    fstsput, fstscall, 
-    carrmadanput, carrmadancall
+    fsts, 
+    carrmadan
 })
 
 export default app

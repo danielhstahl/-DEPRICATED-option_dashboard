@@ -1,24 +1,17 @@
 import { connect } from 'react-redux'
 import {OptionCurves, IVCurves} from './Graphs'
 
-const mapStateToPropsCall=state=>({
-    data:state.fstscall,
-    label:'Asset Prices'
-})
-const mapStateToPropsPut=state=>({
-    data:state.fstsput,
-    label:'Asset Prices'
-})
 
+const mapStateToProps=state=>({
+    callData:state.fsts.call,
+    putData:state.fsts.put,
+    label:'Asset Prices'
+})
 
 export const IVFSTS=connect(
-    mapStateToPropsCall
+    mapStateToProps
 )(IVCurves)
 
-export const FSTSCall = connect(
-    mapStateToPropsCall
-)(OptionCurves)
-
-export const FSTSPut = connect(
-    mapStateToPropsPut
+export const FSTS = connect(
+    mapStateToProps
 )(OptionCurves)

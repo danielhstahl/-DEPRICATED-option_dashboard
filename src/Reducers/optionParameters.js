@@ -16,7 +16,6 @@ const defaultState={
     quantile:.01
 }
 const optionParameters = (state = defaultState, action) => {
-    //console.log(action)
     switch (action.type) {
         case 'UPDATE_OPTIONS':
             return {...state, [action.key]:action.value}

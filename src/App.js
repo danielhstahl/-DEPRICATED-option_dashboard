@@ -2,13 +2,13 @@ import React from 'react'
 
 import './App.css'
 import {
-  FangOostCall, FangOostPut, IVFangOost
+   FangOost, IVFangOost
 } from './Graphs/FangOost'
 import {
-  CarrMadanCall, CarrMadanPut, IVCarrMadan
+  CarrMadan, IVCarrMadan
 } from './Graphs/CarrMadan'
 import {
-  FSTSCall, FSTSPut, IVFSTS
+  FSTS, IVFSTS
 } from './Graphs/FSTS'
 import {Density} from './Graphs/Density'
 import AsyncHOC from './AsyncHoc'
@@ -37,25 +37,20 @@ const App =()=>{
       </Col>
     </Row>
     <Row gutter={16} justify="center">
-      <Col span={8}>
-          <CarrMadanCall/>
+      <Col span={12}>
+          <CarrMadan/>
       </Col>
-      <Col span={8}>
-          <CarrMadanPut/>
-      </Col>
-      <Col span={8}>
+      
+      <Col span={12}>
           <IVCarrMadan/>
       </Col>
     </Row>
       
     <Row gutter={16} justify="center">
-      <Col span={8}>
-          <FSTSCall/>
+      <Col span={12}>
+          <FSTS/>
       </Col>
-      <Col span={8}>
-          <FSTSPut/>
-      </Col>
-      <Col span={8}>
+      <Col span={12}>
           <IVFSTS/>
       </Col>
     </Row>
@@ -65,14 +60,10 @@ const App =()=>{
       </Col>
     </Row>
     <Row gutter={16} justify="center">
-      <Col span={8}>
-        <FangOostCall/>
+      <Col span={12}>
+        <FangOost/>
       </Col>
-
-      <Col span={8}>
-        <FangOostPut/>
-      </Col>
-      <Col span={8}>
+      <Col span={12}>
         <IVFangOost/>
       </Col>
     </Row>

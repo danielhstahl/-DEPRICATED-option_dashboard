@@ -80,6 +80,7 @@ export const getFangOostPut=(parms, dispatch)=>{
 }
 
 export const getAllData=(parms, dispatch)=>{
+    console.log(parms)
     allBaseAndSection.map(
         ({base, section})=>getUrl(base, section)(parms).then(response=>dispatch({
             type:createActionType(base, section),
