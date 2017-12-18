@@ -32,12 +32,12 @@ const getFilteredOptions=(put, call)=>({
 export const fsts=(state=defaultOptionState, action)=>{
     switch(action.type){
         case 'UPDATE_PUT_FSTS':
-            if(state.call.length>0){
+            if(state.call.length>0&&action.data.length>0){
                 return getFilteredOptions(action.data, state.call)
             }
             return {...state, put:action.data}
         case 'UPDATE_CALL_FSTS':
-            if(state.put.length>0){
+            if(state.put.length>0&&action.data.length>0){
                 return getFilteredOptions(state.put, action.data)
             }
             return {...state, call:action.data}
@@ -48,12 +48,12 @@ export const fsts=(state=defaultOptionState, action)=>{
 export const carrmadan=(state=defaultOptionState, action)=>{
     switch(action.type){
         case 'UPDATE_PUT_CARRMADAN':
-            if(state.call.length>0){
+            if(state.call.length>0&&action.data.length>0){
                 return getFilteredOptions(action.data, state.call)
             }
             return {...state, put:action.data}
         case 'UPDATE_CALL_CARRMADAN':
-            if(state.put.length>0){
+            if(state.put.length>0&&action.data.length>0){
                 return getFilteredOptions(state.put, action.data)
             }
             return {...state, call:action.data}

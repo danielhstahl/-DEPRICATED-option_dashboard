@@ -37,23 +37,20 @@ const App =()=>{
       </Col>
     </Row>
     <Row gutter={16} justify="center">
-      <Col span={12}>
+      <Col span={6}>
           <CarrMadan/>
       </Col>
-      
-      <Col span={12}>
+      <Col span={6}>
           <IVCarrMadan/>
       </Col>
-    </Row>
-      
-    <Row gutter={16} justify="center">
-      <Col span={12}>
+      <Col span={6}>
           <FSTS/>
       </Col>
-      <Col span={12}>
+      <Col span={6}>
           <IVFSTS/>
       </Col>
     </Row>
+      
     <Row gutter={16} justify="center">
       <Col span={8}>
         <StrikeInputs/>

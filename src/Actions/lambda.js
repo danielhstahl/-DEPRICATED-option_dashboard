@@ -55,7 +55,6 @@ const createActionType=(base, section)=>{
 export const getVaRData=(parms, dispatch)=>{
     const base='density'
     const section='var'
-    console.log(parms)
     getUrl(base, section)(parms).then(response=>dispatch({
         type:createActionType(base, section),
         data:response
@@ -72,15 +71,31 @@ export const getFangOostCall=(parms, dispatch)=>{
 export const getFangOostPut=(parms, dispatch)=>{
     const base='put'
     const section='fangoost'
-    console.log(parms)
     getUrl(base, section)(parms).then(response=>dispatch({
         type:createActionType(base, section),
         data:response
     }))
 }
-
+const resetOptions=(dispatch)=>{
+    dispatch({
+        type:'UPDATE_CALL_CARRMADAN',
+        data:[]
+    })
+    dispatch({
+        type:'UPDATE_PUT_CARRMADAN',
+        data:[]
+    })
+    dispatch({
+        type:'UPDATE_PUT_FSTS',
+        data:[]
+    })
+    dispatch({
+        type:'UPDATE_CALL_FSTS',
+        data:[]
+    })
+}
 export const getAllData=(parms, dispatch)=>{
-    console.log(parms)
+    resetOptions(dispatch)
     allBaseAndSection.map(
         ({base, section})=>getUrl(base, section)(parms).then(response=>dispatch({
             type:createActionType(base, section),

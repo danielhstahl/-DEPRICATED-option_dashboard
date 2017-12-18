@@ -18,12 +18,15 @@ const legendOption=[{
     symbol: { fill: "red", type: "circle" }
 }]
 const domainPadding=20
-export const OptionCurves=({callData, putData, label})=>(
+export const OptionCurves=({callData, putData, title, label})=>(
     <VictoryChart domainPadding={domainPadding}>
         <VictoryLegend x={50} y={50}
             orientation="vertical"
             gutter={20}
             data={legendOption}
+        />
+        <VictoryLabel x={120} y={50}
+            text={title}
         />
         <VictoryLine
             style={callStyle}
@@ -57,10 +60,14 @@ OptionCurves.propTypes={
         value:PropTypes.number.isRequired,
         atPoint:PropTypes.number.isRequired
     })),
-    label:PropTypes.string.isRequired
+    label:PropTypes.string.isRequired,
+    title:PropTypes.string.isRequired
 }
-export const IVCurves=({callData, label})=>(
+export const IVCurves=({callData, label, title})=>(
     <VictoryChart domainPadding={domainPadding}>
+        <VictoryLabel x={120} y={50}
+            text={title}
+        />
         <VictoryLine
             interpolation="natural"
             data={callData}
@@ -81,6 +88,7 @@ IVCurves.propTypes={
         iv:PropTypes.number.isRequired,
         atPoint:PropTypes.number.isRequired
     })),
+    title:PropTypes.string.isRequired,
     label:PropTypes.string.isRequired
 }
 const getMax=(data, key)=>data.reduce((aggr, cur)=>{

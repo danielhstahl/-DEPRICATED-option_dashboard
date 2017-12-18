@@ -13,7 +13,8 @@ const mapStateToPropsPut=state=>({
 const mapStateToProps=state=>({
     callData:state.fangoostcall,
     putData:state.fangoostput,
-    label:'Strikes'
+    label:'Strikes',
+    title:'Fang-Oosterlee'
 })
 /*const mapStateToPropsPut=state=>({
     data:state.carrmadanput,
