@@ -20,12 +20,10 @@ import { Row, Col, Layout} from 'antd'
 const Content=Layout.Content
 const style={ background: '#fff', padding: 24, margin: 0, minHeight: 280 }
 
-const App =()=>{
-  console.log("got here")
-  return (
-    <Layout>
-    <AsyncHOC/>
-    <Content style={style}>
+const App =()=>(
+<Layout>
+  <AsyncHOC/>
+  <Content style={style}>
     <Row gutter={16} justify="center">
       <Col span={8}>
         <QuantileInputs/>
@@ -64,9 +62,8 @@ const App =()=>{
         <IVFangOost/>
       </Col>
     </Row>
-    </Content>
-    </Layout>
+  </Content>
+</Layout>
 )
-}
 
 export default App

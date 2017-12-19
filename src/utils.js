@@ -1,7 +1,8 @@
-export const keepMiddleElements=(arr, perc)=>{
+export const keepMiddleElements=(arr, perc1, perc2)=>{
     const n=arr.length
-    const m=Math.floor(perc*n*.5)
-    return arr.slice(m, -m)
+    const m1=Math.floor(perc1*n)
+    const m2=Math.floor(perc2*n)
+    return arr.slice(m1, -m2)
 }
 
 export const createArray=(init, last, by=1)=>{
