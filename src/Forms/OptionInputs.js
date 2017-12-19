@@ -11,7 +11,8 @@ const rOptions=createArray(.001, .1, .001)
 const tOptions=createArray(.25, 5, .25)
 const sOptions=createArray(1, 100)
 const sigmaOptions=createArray(.05, .8, .05)
-const CGMOptions=createArray(.2, 10, .1)
+const COptions=createArray(0, 2, .1)
+const GMOptions=createArray(.2, 10, .1)
 const YOptions=createArray(.2, 1.8, .2)
 const speedOptions=createArray(.1, 1, .1)
 const v0Options=createArray(.7, 1.3, .05)
@@ -82,7 +83,7 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
                 objKey='C' 
                 round={1}
                 parms={optionParameters}
-                options={CGMOptions}
+                options={COptions}
                 toolTip="This is the C in CGMY"
                 label="C"
                 onChange={updateOptions}
@@ -93,7 +94,7 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
                 objKey='G'
                 round={1} 
                 parms={optionParameters}
-                options={CGMOptions}
+                options={GMOptions}
                 toolTip="This is the G in CGMY"
                 label="G"
                 onChange={updateOptions}
@@ -104,7 +105,7 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
                 objKey='M' 
                 round={1}
                 parms={optionParameters}
-                options={CGMOptions}
+                options={GMOptions}
                 toolTip="This is the M in CGMY"
                 label="M"
                 onChange={updateOptions}
