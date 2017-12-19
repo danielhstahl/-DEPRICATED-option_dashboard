@@ -1,6 +1,5 @@
 import { 
-    removeFirstAndLastElement, 
-    filterBasedOffAnotherArray,
+    removeFirstAndLastElement,
     keepMiddleElements
 } from '../utils'
 
@@ -26,7 +25,8 @@ const defaultOptionState={
     put:[]
 }
 
-const fstsLowerBound=.37
+//is it possible to make this dependent on the state? eg, make smaller for lower volatility
+const fstsLowerBound=.4
 const fstsUpperBound=.4
 const fstsMiddle=arr=>keepMiddleElements(arr, fstsLowerBound, fstsUpperBound)
 const carrMadanLowerBound=.46
