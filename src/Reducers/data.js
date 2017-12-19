@@ -1,6 +1,6 @@
 import { 
     removeFirstAndLastElement,
-    keepMiddleElements
+    filterTwoArraysSameFn
 } from '../utils'
 
 export const fangoostcall=(state=[], action)=>{
@@ -22,35 +22,39 @@ export const fangoostput=(state=[], action)=>{
 }
 const defaultOptionState={
     call:[],
-    put:[]
+    put:[],
+    callDisplay:[],
+    putDisplay:[]
 }
 
-//is it possible to make this dependent on the state? eg, make smaller for lower volatility
-const fstsLowerBound=.4
-const fstsUpperBound=.4
-const fstsMiddle=arr=>keepMiddleElements(arr, fstsLowerBound, fstsUpperBound)
-const carrMadanLowerBound=.46
-const carrMadanUpperBound=.46
-const carrMadanMiddle=arr=>keepMiddleElements(arr, carrMadanLowerBound, carrMadanUpperBound)
-export const fsts=(state=defaultOptionState, action)=>{
+
+const filterOpt=max=>val=>val.value<max&&val.value>0
+export const getFilteredOptions=(put, call, max)=>({
+    putDisplay:filterTwoArraysSameFn(put, call, filterOpt(max)),
+    callDisplay:filterTwoArraysSameFn(call, put, filterOpt(max))
+})
+
+const getMaxOptionPrice=(globalState)=>.6*globalState.optionParameters.S0
+
+export const fsts=(state=defaultOptionState, action, globalState)=>{
     switch(action.type){
         case 'UPDATE_PUT_FSTS':{
-            return {...state, put:fstsMiddle(action.data)}
+            return {...state, put:action.data, ...getFilteredOptions(action.data, state.call, getMaxOptionPrice(globalState))}
         }
         case 'UPDATE_CALL_FSTS':{
-            return {...state, call:fstsMiddle(action.data)}
+            return {...state, call:action.data, ...getFilteredOptions(state.put, action.data, getMaxOptionPrice(globalState))}
         }
         default:
             return state
     }
 }
-export const carrmadan=(state=defaultOptionState, action)=>{
+export const carrmadan=(state=defaultOptionState, action, globalState)=>{
     switch(action.type){
         case 'UPDATE_PUT_CARRMADAN':{
-            return {...state, put:carrMadanMiddle(action.data)}
+            return {...state, put:action.data, ...getFilteredOptions(action.data, state.call,getMaxOptionPrice(globalState))}
         }
         case 'UPDATE_CALL_CARRMADAN':{
-            return {...state, call:carrMadanMiddle(action.data)}
+            return {...state, call:action.data, ...getFilteredOptions(state.put, action.data, getMaxOptionPrice(globalState))}       
         }
         default:
             return state

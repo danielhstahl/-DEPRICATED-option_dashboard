@@ -34,6 +34,7 @@ QuantileInputs.propTypes={
 const mapStateToProps=state=>({
     quantileParameters:state.optionParameters
 })
+
 const mapDispatchToProps =dispatch=>({
     updateOptions:(key, value)=>updateOptions(key, value, dispatch),
     submitOptions:vals=>getVaRData(vals, dispatch)

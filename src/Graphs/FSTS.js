@@ -3,8 +3,8 @@ import {OptionCurves, IVCurves} from './Graphs'
 
 
 const mapStateToProps=state=>({
-    callData:state.fsts.call,
-    putData:state.fsts.put,
+    callData:state.fsts.callDisplay,
+    putData:state.fsts.putDisplay,
     label:'Asset Prices',
     title:'FSTS'
 })

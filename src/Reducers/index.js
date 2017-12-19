@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux'
 import optionParameters from './optionParameters'
 import {
     VaR, density, 
@@ -7,7 +6,11 @@ import {
     fsts,
     carrmadan
 } from './data'
-const app = combineReducers({
+
+const customCombineReducers=obj=>(state={}, action)=>Object.keys(obj).reduce((aggr, curr)=>({...aggr, [curr]:obj[curr](state[curr], action, state)}), {})
+
+
+export default customCombineReducers({
     optionParameters,
     VaR, density, 
     fangoostcall, 
@@ -15,5 +18,3 @@ const app = combineReducers({
     fsts, 
     carrmadan
 })
-
-export default app
