@@ -6,12 +6,7 @@ const createBody=params=>({
     body:JSON.stringify(params)
 })
 
-export const getUrl=(base, section)=>params=>fetch(`${baseUrl}${base}/${section}`, createBody(params)).then(response=>{
-    const res=response.json()
-    console.log(res)
-    return res
-}
-)
+export const getUrl=(base, section)=>params=>fetch(`${baseUrl}${base}/${section}`, createBody(params)).then(response=>response.json())
 
 const allBaseAndSection=[
     {
