@@ -1,14 +1,6 @@
 import { connect } from 'react-redux'
 import {OptionCurves, IVCurves} from './Graphs'
 
-/*const mapStateToPropsCall=state=>({
-    data:state.fangoostcall,
-    label:'Strikes'
-})
-const mapStateToPropsPut=state=>({
-    data:state.fangoostput,
-    label:'Strikes'
-})*/
 
 const mapStateToProps=state=>({
     callData:state.fangoostcall,
@@ -16,12 +8,6 @@ const mapStateToProps=state=>({
     label:'Strikes',
     title:'Fang-Oosterlee'
 })
-/*const mapStateToPropsPut=state=>({
-    data:state.carrmadanput,
-    label:'Strikes'
-})*/
-
-
 
 export const IVFangOost=connect(
     mapStateToProps
@@ -29,7 +15,5 @@ export const IVFangOost=connect(
 export const FangOost = connect(
     mapStateToProps
 )(OptionCurves)
-/*export const FangOostPut = connect(
-    mapStateToPropsPut
-)(OptionCurves)*/
+
 

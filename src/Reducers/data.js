@@ -1,7 +1,9 @@
 import { 
     removeFirstAndLastElement,
-    filterTwoArraysSameFn
+    getMiddleByVal
 } from '../utils'
+
+import gamma from 'gamma'
 
 export const fangoostcall=(state=[], action)=>{
     switch(action.type){
@@ -28,21 +30,33 @@ const defaultOptionState={
 }
 
 
-const filterOpt=max=>val=>val.value<max&&val.value>0
-export const getFilteredOptions=(put, call, max)=>({
-    putDisplay:filterTwoArraysSameFn(put, call, filterOpt(max)),
-    callDisplay:filterTwoArraysSameFn(call, put, filterOpt(max))
-})
+export const divAndY=(x, Y)=>1/Math.pow(x, 2-Y)
+export const vol=(T, sigma, C, G, M, Y)=>{
+    return Math.sqrt(T*(sigma*sigma+C*gamma(2-Y)*(divAndY(G, Y)+divAndY(M, Y))))
+}
+const upperScalar=1.2
+const lowerScalar=2.5
+export const getDomain=(params)=>{
+    const {T, sigma, C, G, M, Y, S0}=params
+    const cgmyVol=vol(T, sigma, C, G, M, Y)
+    return {
+        upper:S0*Math.exp(cgmyVol*upperScalar),
+        lower:S0*Math.exp(-cgmyVol*lowerScalar)
+    }
+}
 
-const getMaxOptionPrice=(globalState)=>.6*globalState.optionParameters.S0
+
+
 
 export const fsts=(state=defaultOptionState, action, globalState)=>{
     switch(action.type){
         case 'UPDATE_PUT_FSTS':{
-            return {...state, put:action.data, ...getFilteredOptions(action.data, state.call, getMaxOptionPrice(globalState))}
+            const {upper, lower}=getDomain(globalState.optionParameters)
+            return {...state, put:getMiddleByVal(action.data, lower, upper, 'atPoint')}
         }
         case 'UPDATE_CALL_FSTS':{
-            return {...state, call:action.data, ...getFilteredOptions(state.put, action.data, getMaxOptionPrice(globalState))}
+            const {upper, lower}=getDomain(globalState.optionParameters)
+            return {...state, call:getMiddleByVal(action.data, lower, upper, 'atPoint')}
         }
         default:
             return state
@@ -51,10 +65,12 @@ export const fsts=(state=defaultOptionState, action, globalState)=>{
 export const carrmadan=(state=defaultOptionState, action, globalState)=>{
     switch(action.type){
         case 'UPDATE_PUT_CARRMADAN':{
-            return {...state, put:action.data, ...getFilteredOptions(action.data, state.call,getMaxOptionPrice(globalState))}
+            const {upper, lower}=getDomain(globalState.optionParameters)
+            return {...state, put:getMiddleByVal(action.data, lower, upper, 'atPoint')}
         }
         case 'UPDATE_CALL_CARRMADAN':{
-            return {...state, call:action.data, ...getFilteredOptions(state.put, action.data, getMaxOptionPrice(globalState))}       
+            const {upper, lower}=getDomain(globalState.optionParameters)
+            return {...state, call:getMiddleByVal(action.data, lower, upper, 'atPoint')}      
         }
         default:
             return state

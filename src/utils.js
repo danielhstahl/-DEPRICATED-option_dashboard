@@ -5,6 +5,10 @@ export const keepMiddleElements=(arr, perc1, perc2)=>{
     return arr.slice(m1, -m2)
 }
 
+export const getMiddleByVal=(arr, lower, upper, key)=>{
+    return arr.filter(val=>val[key]>lower&&val[key]<upper)
+}
+
 export const createArray=(init, last, by=1)=>{
     let arr=[]
     const n=(last-init)/by

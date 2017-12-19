@@ -5,8 +5,8 @@ import {OptionCurves, IVCurves} from './Graphs'
 const mapStateToProps=state=>{
     console.log(state)
     return ({
-    callData:state.carrmadan.callDisplay,
-    putData:state.carrmadan.putDisplay,
+    callData:state.carrmadan.call,
+    putData:state.carrmadan.put,
     label:'Strikes',
     title:'Carr-Madan'
 })
