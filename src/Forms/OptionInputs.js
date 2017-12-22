@@ -7,7 +7,7 @@ import {getAllData} from '../Actions/lambda'
 import {updateOptions} from '../Actions/parameters'
 import { Row, Col, Form, Button} from 'antd'
 const uOptions=createArray(5, 10)
-const rOptions=createArray(.001, .1, .001)
+const rOptions=createArray(0, .1, .001)
 const tOptions=createArray(.25, 5, .25)
 const sOptions=createArray(1, 100)
 const sigmaOptions=createArray(.05, .8, .05)

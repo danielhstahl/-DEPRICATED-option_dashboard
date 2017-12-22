@@ -2,15 +2,12 @@ import { connect } from 'react-redux'
 import {OptionCurves, IVCurves} from './Graphs'
 
 
-const mapStateToProps=state=>{
-    console.log(state)
-    return ({
-    callData:state.carrmadan.call,
-    putData:state.carrmadan.put,
+const mapStateToProps=state=>({
+    callData:state.carrmadancall,
+    putData:state.carrmadanput,
     label:'Strikes',
     title:'Carr-Madan'
 })
-}
 
 
 export const IVCarrMadan=connect(

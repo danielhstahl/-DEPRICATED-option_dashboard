@@ -11,10 +11,12 @@ export const getMiddleByVal=(arr, lower, upper, key)=>{
 
 export const createArray=(init, last, by=1)=>{
     let arr=[]
-    const n=(last-init)/by
-    for(let i=0; i<n; ++i){
+    //.00000001 is to fix the rounding errors that sometimes happen
+    const n=Math.floor(.00000001+(last-init)/by)
+
+    for(let i=0; i<(n+1); ++i){
         const val=init+by*i
-        arr.push(val)
+        arr.push(val)        
     }
     return arr
 }
