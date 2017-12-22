@@ -4,27 +4,21 @@ import {
 } from '../utils'
 import {getDomain} from '../cgmyUtils'
 
-export const fangoostcall=(state=[], action)=>{
+const actionFangOostFactory=actionType=>(state=[], action)=>{
     switch(action.type){
-        case 'UPDATE_CALL_FANGOOST':
+        case actionType:
             return removeFirstAndLastElement(action.data)
         default:
             return state
     }
 }
 
-export const fangoostput=(state=[], action)=>{
-    switch(action.type){
-        case 'UPDATE_PUT_FANGOOST':
-            return removeFirstAndLastElement(action.data)
-        default:
-            return state
-    }
-}
+export const fangoostcall=actionFangOostFactory('UPDATE_CALL_FANGOOST')
+export const fangoostput=actionFangOostFactory('UPDATE_PUT_FANGOOST')
 
-export const fstscall=(state=[], action, globalState)=>{
+const actionDomainFactory=actionType=>(state=[], action, globalState)=>{
     switch(action.type){
-        case 'UPDATE_CALL_FSTS':
+        case actionType:
             const {upper, lower}=getDomain(globalState.optionParameters)
             return getMiddleByVal(action.data, lower, upper, 'atPoint')
         default:
@@ -32,50 +26,18 @@ export const fstscall=(state=[], action, globalState)=>{
     }
 }
 
-export const fstsput=(state=[], action, globalState)=>{
-    switch(action.type){
-        case 'UPDATE_PUT_FSTS':
-            const {upper, lower}=getDomain(globalState.optionParameters)
-            return getMiddleByVal(action.data, lower, upper, 'atPoint')
-        default:
-            return state
-    }
-}
-
-export const carrmadancall=(state=[], action, globalState)=>{
-    switch(action.type){
-        case 'UPDATE_CALL_CARRMADAN':
-            const {upper, lower}=getDomain(globalState.optionParameters)
-            return getMiddleByVal(action.data, lower, upper, 'atPoint')
-        default:
-            return state
-    }
-}
-
-export const carrmadanput=(state=[], action, globalState)=>{
-    switch(action.type){
-        case 'UPDATE_PUT_CARRMADAN':
-            const {upper, lower}=getDomain(globalState.optionParameters)
-            return getMiddleByVal(action.data, lower, upper, 'atPoint')
-        default:
-            return state
-    }
-}
+export const fstscall=actionDomainFactory('UPDATE_CALL_FSTS')
+export const fstsput=actionDomainFactory('UPDATE_PUT_FSTS')
+export const carrmadancall=actionDomainFactory('UPDATE_CALL_CARRMADAN')
+export const carrmadanput=actionDomainFactory('UPDATE_PUT_CARRMADAN')
  
-export const VaR=(state={}, action)=>{
+const actionVaRFactory=(actionType, defState)=>(state=defState, action)=>{
     switch (action.type){
-        case 'UPDATE_DENSITY_VAR':
+        case actionType:
             return action.data
         default:
             return state
     }
 }
-
-export const density=(state=[], action)=>{
-    switch (action.type){
-        case 'UPDATE_DENSITY_RAW':
-            return action.data
-        default:
-            return state
-    }
-}
+export const VaR=actionVaRFactory('UPDATE_DENSITY_VAR', {})
+export const density=actionVaRFactory('UPDATE_DENSITY_RAW', [])

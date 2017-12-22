@@ -11,7 +11,6 @@ import {
 
 const customCombineReducers=obj=>(state={}, action)=>Object.keys(obj).reduce((aggr, curr)=>({...aggr, [curr]:obj[curr](state[curr], action, state)}), {})
 
-
 export default customCombineReducers({
     optionParameters,
     VaR, density, 
