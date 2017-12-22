@@ -18,11 +18,10 @@ const v0Options=createArray(.7, 1.3, .05)
 const adaOptions=createArray(.05, .8, .05)
 const rhoOptions=createArray(-.95, .95, .05)
 
-
 const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
 <Form onSubmit={handleForm(optionParameters, submitOptions)}>
     <Row gutter={16}>
-        <Col span={8}>
+        <Col span={24}>
             <CustomDrop 
                 objKey='numU' 
                 parms={optionParameters}
@@ -33,7 +32,7 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
                 onChange={updateOptions}
             />
         </Col>
-        <Col span={8}>
+        <Col span={24}>
             <CustomDrop 
                 objKey='r' 
                 parms={optionParameters}
@@ -44,7 +43,7 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
                 onChange={updateOptions}
             />
         </Col>
-        <Col span={8}>
+        <Col span={24}>
             <CustomDrop 
                 objKey='T' 
                 round={2}
@@ -55,7 +54,7 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
                 onChange={updateOptions}
             />
         </Col>
-        <Col span={8}>
+        <Col span={24}>
             <CustomDrop 
                 objKey='S0' 
                 round={0}
@@ -66,7 +65,7 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
                 onChange={updateOptions}
             />
         </Col>
-        <Col span={8}>
+        <Col span={24}>
             <CustomDrop 
                 objKey='sigma' 
                 round={2}
@@ -77,7 +76,7 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
                 onChange={updateOptions}
             />
         </Col>
-        <Col span={8}>
+        <Col span={24}>
             <CustomDrop 
                 objKey='C' 
                 round={1}
@@ -88,7 +87,7 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
                 onChange={updateOptions}
             />
         </Col>
-        <Col span={8}>
+        <Col span={24}>
             <CustomDrop 
                 objKey='G'
                 round={1} 
@@ -99,7 +98,7 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
                 onChange={updateOptions}
             />
         </Col>
-        <Col span={8}>
+        <Col span={24}>
             <CustomDrop 
                 objKey='M' 
                 round={1}
@@ -110,7 +109,7 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
                 onChange={updateOptions}
             />
         </Col>
-        <Col span={8}>
+        <Col span={24}>
             <CustomDrop 
                 objKey='Y' 
                 round={1}
@@ -121,7 +120,7 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
                 onChange={updateOptions}
             />
         </Col>
-        <Col span={8}>
+        <Col span={24}>
             <CustomDrop 
                 objKey='speed' 
                 round={1}
@@ -132,7 +131,7 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
                 onChange={updateOptions}
             />
         </Col>
-        <Col span={8}>
+        <Col span={24}>
             <CustomDrop 
                 objKey='adaV' 
                 round={2}
@@ -143,7 +142,7 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
                 onChange={updateOptions}
             />
         </Col>
-        <Col span={8}>
+        <Col span={24}>
             <CustomDrop 
                 objKey='v0' 
                 round={2}
@@ -154,7 +153,7 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
                 onChange={updateOptions}
             />
         </Col>
-        <Col span={8}>
+        <Col span={24}>
             <CustomDrop 
                 objKey='rho' 
                 round={2}
@@ -165,7 +164,7 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
                 onChange={updateOptions}
             />
         </Col>
-        <Col span={8}>
+        <Col span={24}>
             <Button type="primary" htmlType="submit">Update</Button>
         </Col>
     </Row>
