@@ -1,2 +1,6 @@
 @import '~antd/dist/antd.css';
-
+.ant-layout-content { margin: 0 !important; padding: 0 !important; }
+.ant-form-item-label { float: left; width: 50%; }
+.ant-form-item-control, .ant-select  { float: right; width: 50%; }
+.ant-btn-primary { float: right; width: 50.5%; margin-bottom: 50px; }
+.left{ height: 100vh; overflow: scroll; background-color: whitesmoke; }
