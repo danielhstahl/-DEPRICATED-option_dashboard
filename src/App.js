@@ -13,7 +13,7 @@ import { Row, Col, Layout } from 'antd'
 const style={ background: '#fff', padding: 24, margin: 0, minHeight: 280 }
 const Content=Layout.Content
 
-const App =()=>{ return (
+const App =()=>(
 	<Layout>
 		<AsyncHOC/>
 		<Content style={style}>
@@ -60,6 +60,7 @@ const App =()=>{ return (
 			</Row>
 		</Content>
 	</Layout>
-)}
+)
+
 
 export default App

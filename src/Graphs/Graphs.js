@@ -5,7 +5,8 @@ import {
     VictoryChart,
     VictoryAxis,
     VictoryLabel,
-    VictoryLegend
+    VictoryLegend,
+    VictoryVoronoiContainer
 } from 'victory'
 
 const callStyle={data:{stroke:"blue"}}
@@ -17,14 +18,20 @@ const legendOption=[{
     name:"Put",
     symbol: { fill: "red", type: "circle" }
 }]
+const optionLabelFn=label=>d=>`Price ${d.y} at ${label} ${d.x}`
+const ivLabelFn=label=>d=>`Volatility ${d.y} at ${label} ${d.x}`
 const domainPadding=20
 export const OptionCurves=({callData, putData, title, label})=>(
-    <VictoryChart domainPadding={domainPadding}>
+    <VictoryChart 
+        domainPadding={domainPadding} 
+        containerComponent={<VictoryVoronoiContainer labels={optionLabelFn(label)}/>}
+    >
         <VictoryLegend x={50} y={50}
             orientation="vertical"
             gutter={20}
             data={legendOption}
         />
+        
         <VictoryLabel x={120} y={50}
             text={title}
         />
@@ -64,7 +71,10 @@ OptionCurves.propTypes={
     title:PropTypes.string.isRequired
 }
 export const IVCurves=({callData, label, title})=>(
-    <VictoryChart domainPadding={domainPadding}>
+    <VictoryChart 
+        domainPadding={domainPadding}
+        containerComponent={<VictoryVoronoiContainer labels={ivLabelFn(label)}/>}
+    >
         <VictoryLabel x={120} y={50}
             text={title}
         />

@@ -23,5 +23,5 @@ const optionParameters = (state = defaultState, action) => {
             return state
     }
 }
-  
+
 export default optionParameters
