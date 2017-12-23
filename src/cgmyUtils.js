@@ -7,10 +7,11 @@ const vol=(T, sigma, C, G, M, Y)=>{
 const upperScalar=1.2
 const lowerScalar=2.5
 export const getDomain=(params)=>{
-    const {T, sigma, C, G, M, Y, S0}=params
+    const {T, sigma, C, G, M, Y, S0, r}=params
     const cgmyVol=vol(T, sigma, C, G, M, Y)
+    const expReturn=r*T
     return {
-        upper:S0*Math.exp(cgmyVol*upperScalar),
-        lower:S0*Math.exp(-cgmyVol*lowerScalar)
+        upper:S0*Math.exp(expReturn+cgmyVol*upperScalar),
+        lower:S0*Math.exp(expReturn-cgmyVol*lowerScalar)
     }
 }
