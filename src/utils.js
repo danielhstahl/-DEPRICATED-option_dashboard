@@ -8,12 +8,11 @@ export const keepMiddleElements=(arr, perc1, perc2)=>{
 export const getMiddleByVal=(arr, lower, upper, key)=>{
     return arr.filter(val=>val[key]>lower&&val[key]<upper)
 }
-
+//.00000001 is to fix the rounding errors that sometimes happen
+const roundErr=.00000001
 export const createArray=(init, last, by=1)=>{
     let arr=[]
-    //.00000001 is to fix the rounding errors that sometimes happen
-    const n=Math.floor(.00000001+(last-init)/by)
-
+    const n=Math.floor(roundErr+(last-init)/by)
     for(let i=0; i<(n+1); ++i){
         const val=init+by*i
         arr.push(val)        
