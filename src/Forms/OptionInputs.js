@@ -16,7 +16,7 @@ const GMOptions=createArray(.2, 10, .1)
 const YOptions=createArray(.2, 1.8, .2)
 const speedOptions=createArray(.1, 1, .1)
 const v0Options=createArray(.7, 1.3, .05)
-const adaOptions=createArray(.05, .8, .05)
+const adaOptions=createArray(0, .8, .05)
 const rhoOptions=createArray(-.95, .95, .05)
 
 const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
