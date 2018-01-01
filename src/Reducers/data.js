@@ -12,7 +12,6 @@ const actionFangOostFactory=actionType=>(state=[], action)=>{
             return state
     }
 }
-
 export const fangoostcall=actionFangOostFactory('UPDATE_CALL_FANGOOST')
 export const fangoostput=actionFangOostFactory('UPDATE_PUT_FANGOOST')
 
@@ -25,7 +24,6 @@ const actionDomainFactory=actionType=>(state=[], action, globalState)=>{
             return state
     }
 }
-
 export const fstscall=actionDomainFactory('UPDATE_CALL_FSTS')
 export const fstsput=actionDomainFactory('UPDATE_PUT_FSTS')
 export const carrmadancall=actionDomainFactory('UPDATE_CALL_CARRMADAN')
