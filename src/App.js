@@ -18,29 +18,29 @@ const App =()=>(
 		<AsyncHOC/>
 		<Content style={style}>
 			<Row gutter={32}>
-				<Col span={4} className='left'>
+				<Col xs={6} className='left'>
 					<OptionInputs/>
 					<QuantileInputs/>
 					<StrikeInputs/>
 				</Col>
 
-				<Col span={20} className='right'>
+				<Col xs={18} className='right'>
 					<Row gutter={32} justify="center">
-						<Col span={8}>
+						<Col lg={8}>
 							<Card title="Carr-Madan" bordered={false}>
 								<CarrMadan />
 								<IVCarrMadan />
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 							</Card>
 						</Col>
-						<Col span={8}>
+						<Col lg={8}>
 							<Card title="FSTS" bordered={false}>
 								<FSTS />
 								<IVFSTS />
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 							</Card>
 						</Col>
-						<Col span={8}>
+						<Col lg={8}>
 							<Card title="Fang-Oosterlee" bordered={false}>
 								<FangOost />
 								<IVFangOost />
@@ -50,7 +50,7 @@ const App =()=>(
 					</Row>
 					<br /><br />
 					<Row gutter={32} justify="center">
-						<Col span={8}>
+						<Col lg={8}>
 							<Card title="Density" bordered={false}>
 								<Density />
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
