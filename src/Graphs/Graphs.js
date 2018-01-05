@@ -20,7 +20,9 @@ const legendOption=[{
 }]
 const optionLabelFn=label=>d=>`Price ${d.y} at ${label} ${d.x}`
 const ivLabelFn=label=>d=>`Volatility ${d.y} at ${label} ${d.x}`
-const domainPadding=20
+const axisStyleOption={axisLabel: {padding: 30} }
+const axisStyleIV={axisLabel: {padding: 40} }
+const domainPadding=25
 export const OptionCurves=({callData, putData, title, label})=>(
     <VictoryChart 
         domainPadding={domainPadding} 
@@ -51,6 +53,7 @@ export const OptionCurves=({callData, putData, title, label})=>(
         />
         <VictoryAxis 
             dependentAxis
+            style={axisStyleOption}
             label="Option Price"
         />
         <VictoryAxis
@@ -86,6 +89,7 @@ export const IVCurves=({callData, label, title})=>(
         />
         <VictoryAxis 
             dependentAxis
+            style={axisStyleIV}
             label="Implied Volatility"
         />
         <VictoryAxis
@@ -115,7 +119,7 @@ const getVar=(VaR, data)=>[
     }
 ]
 export const DensityCurves=({data, VaR, ES})=>(
-    <VictoryChart domainPadding={20}>
+    <VictoryChart domainPadding={domainPadding}>
         <VictoryLabel x={25} y={24}
             text={`Value at Risk: ${VaR}`}
         />

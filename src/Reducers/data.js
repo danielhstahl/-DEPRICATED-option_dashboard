@@ -11,7 +11,7 @@ const actionFangOostFactory=actionType=>(state=[], action)=>{
         default:
             return state
     }
-}
+
 
 export const fangoostcall=actionFangOostFactory('UPDATE_CALL_PRICE_FANGOOST')
 export const fangoostput=actionFangOostFactory('UPDATE_PUT_PRICE_FANGOOST')
@@ -25,12 +25,11 @@ const actionDomainFactory=actionType=>(state=[], action, globalState)=>{
             return state
     }
 }
-
 export const fstscall=actionDomainFactory('UPDATE_CALL_PRICE_FSTS')
 export const fstsput=actionDomainFactory('UPDATE_PUT_PRICE_FSTS')
 export const carrmadancall=actionDomainFactory('UPDATE_CALL_PRICE_CARRMADAN')
 export const carrmadanput=actionDomainFactory('UPDATE_PUT_PRICE_CARRMADAN')
- 
+
 const actionVaRFactory=(actionType, defState)=>(state=defState, action)=>{
     switch (action.type){
         case actionType:
