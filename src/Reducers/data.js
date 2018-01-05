@@ -11,24 +11,25 @@ const actionFangOostFactory=actionType=>(state=[], action)=>{
         default:
             return state
     }
-}
-export const fangoostcall=actionFangOostFactory('UPDATE_CALL_FANGOOST')
-export const fangoostput=actionFangOostFactory('UPDATE_PUT_FANGOOST')
+
+
+export const fangoostcall=actionFangOostFactory('UPDATE_CALL_PRICE_FANGOOST')
+export const fangoostput=actionFangOostFactory('UPDATE_PUT_PRICE_FANGOOST')
 
 const actionDomainFactory=actionType=>(state=[], action, globalState)=>{
     switch(action.type){
-        case actionType:
+        case actionType:           
             const {upper, lower}=getDomain(globalState.optionParameters)
             return getMiddleByVal(action.data, lower, upper, 'atPoint')
         default:
             return state
     }
 }
-export const fstscall=actionDomainFactory('UPDATE_CALL_FSTS')
-export const fstsput=actionDomainFactory('UPDATE_PUT_FSTS')
-export const carrmadancall=actionDomainFactory('UPDATE_CALL_CARRMADAN')
-export const carrmadanput=actionDomainFactory('UPDATE_PUT_CARRMADAN')
- 
+export const fstscall=actionDomainFactory('UPDATE_CALL_PRICE_FSTS')
+export const fstsput=actionDomainFactory('UPDATE_PUT_PRICE_FSTS')
+export const carrmadancall=actionDomainFactory('UPDATE_CALL_PRICE_CARRMADAN')
+export const carrmadanput=actionDomainFactory('UPDATE_PUT_PRICE_CARRMADAN')
+
 const actionVaRFactory=(actionType, defState)=>(state=defState, action)=>{
     switch (action.type){
         case actionType:
