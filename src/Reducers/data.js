@@ -11,7 +11,7 @@ const actionFangOostFactory=actionType=>(state=[], action)=>{
         default:
             return state
     }
-
+}
 
 export const fangoostcall=actionFangOostFactory('UPDATE_CALL_PRICE_FANGOOST')
 export const fangoostput=actionFangOostFactory('UPDATE_PUT_PRICE_FANGOOST')

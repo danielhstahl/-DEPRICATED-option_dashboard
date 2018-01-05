@@ -6,7 +6,7 @@ cache:
   - node_modules
 
 script:
-  - npm test
+  - npm test -- --coverage
   - npm run build
 after_success:
 - bash <(curl -s https://codecov.io/bash)
