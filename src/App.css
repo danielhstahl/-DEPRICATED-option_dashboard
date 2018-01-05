@@ -1,7 +1,33 @@
 @import '~antd/dist/antd.css';
-.ant-layout-content { margin: 0 !important; padding: 0 !important; }
-.ant-form-item-label { float: left; width: 60%; }
-.ant-form {overflow: auto;}
-.ant-form-item-control, .ant-select  { float: right; width: 40%; }
-.ant-btn-primary { float: right; width: 40%; margin-bottom: 50px; }
-.left{ height: 100vh; overflow: scroll; background-color: whitesmoke; }
+.ant-layout-content { 
+    margin: 0 !important; 
+    padding: 0 !important; 
+    background-color: whitesmoke !important;
+    max-width: 97vw !important;
+}
+.ant-form-item-label { 
+    float: left; 
+    width: 60%; 
+}
+.ant-form {
+    overflow: hidden;
+}
+.ant-form-item-control, .ant-select  { 
+    float: right; 
+    width: 40%; 
+}
+.ant-btn-primary { 
+    float: right; 
+    width: 40%; 
+    margin-bottom: 50px; 
+}
+.left{ 
+    padding: 30px 0px 30px 0px;
+    /*min-height: 100vh;
+    overflow-y: scroll;
+    */
+    background-color: whitesmoke; 
+}
+.right{
+    padding: 30px 0px 30px 0px;
+}
