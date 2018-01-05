@@ -8,7 +8,7 @@ import AsyncHOC from './AsyncHoc'
 import OptionInputs from './Forms/OptionInputs'
 import QuantileInputs from './Forms/QuantileInputs'
 import StrikeInputs from './Forms/StrikeInputs'
-import { Row, Col, Layout } from 'antd'
+import { Row, Col, Layout, Card } from 'antd'
 
 const style={ background: '#fff', padding: 24, margin: 0, minHeight: 280 }
 const Content=Layout.Content
@@ -17,43 +17,44 @@ const App =()=>(
 	<Layout>
 		<AsyncHOC/>
 		<Content style={style}>
-			<Row gutter={100}>
-				<Col span={6} className='left'>
+			<Row gutter={32}>
+				<Col span={4} className='left'>
 					<OptionInputs/>
 					<QuantileInputs/>
 					<StrikeInputs/>
 				</Col>
 
-				<Col span={18} className='right'>
-					<Row gutter={16} justify="center">
+				<Col span={20} className='right'>
+					<Row gutter={32} justify="center">
 						<Col span={8}>
-							<Density/>
+							<Card title="Carr-Madan" bordered={false}>
+								<CarrMadan />
+								<IVCarrMadan />
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+							</Card>
 						</Col>
-					</Row>
-					<Row gutter={16} justify="center">
-						<Col span={6}>
-							<CarrMadan/>
-						</Col>
-						<Col span={6}>
-							<IVCarrMadan/>
-						</Col>
-						<Col span={6}>
-							<FSTS/>
-						</Col>
-						<Col span={6}>
-							<IVFSTS/>
-						</Col>
-					</Row>
-					<Row gutter={16} justify="center">
 						<Col span={8}>
+							<Card title="FSTS" bordered={false}>
+								<FSTS />
+								<IVFSTS />
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+							</Card>
+						</Col>
+						<Col span={8}>
+							<Card title="Fang-Oosterlee" bordered={false}>
+								<FangOost />
+								<IVFangOost />
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+							</Card>
 						</Col>
 					</Row>
-					<Row gutter={16} justify="center">
-						<Col span={12}>
-							<FangOost/>
-						</Col>
-						<Col span={12}>
-							<IVFangOost/>
+					<br /><br />
+					<Row gutter={32} justify="center">
+						<Col span={8}>
+							<Card title="Density" bordered={false}>
+								<Density />
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+							</Card>
 						</Col>
 					</Row>
 				</Col>
