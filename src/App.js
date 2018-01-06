@@ -57,8 +57,18 @@ const CardPlot=({Algorithm, HelpComponent, url, match, location, title})=>{
 
 	)
 }
-const HoldCards=props=>(
-<Row gutter={32} justify="center">
+const MenuSensitivities=({match})=> (
+	<Menu theme="light" mode="horizontal" selectedKeys={[match.params[paramKey]]}>
+		{sensitivities.map(sensitivity=>(
+			<Menu.Item key={sensitivity}>
+				<Link key={sensitivity} to={`/${sensitivity}`}>{sensitivity}</Link>
+			</Menu.Item>
+		))}
+	</Menu>
+)
+const HoldCards=props=>[
+<MenuSensitivities key={0} {...props}/>,
+<Row gutter={32} key={1} justify="center">
 	<Col lg={8}>
 		<CardPlot
 			Algorithm={CarrMadan} 
@@ -87,7 +97,7 @@ const HoldCards=props=>(
 		/>
 	</Col>
 </Row>
-)
+]
 
 const App =()=>(
 	<Layout>
@@ -101,13 +111,6 @@ const App =()=>(
 				</Col>
 				<BrowserRouter basename={process.env.PUBLIC_URL}>
 					<Col xs={18} className='right'>
-						<Menu theme="light" mode="horizontal" defaultSelectedKeys={[priceName]}>
-							{sensitivities.map(sensitivity=>(
-								<Menu.Item key={sensitivity}>
-									<Link key={sensitivity} to={`/${sensitivity}`}>{sensitivity}</Link>
-								</Menu.Item>
-							))}
-						</Menu>
 						<Switch>
 							<Route path={paramUrl} component={HoldCards}/>
 							<Redirect from={baseUrl} exact to={redirectUrl} />
