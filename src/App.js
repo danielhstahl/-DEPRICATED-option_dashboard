@@ -41,14 +41,12 @@ const App =({carrMadanHelp, fangOostHelp, fstsHelp, openCarrMadanHelp, closeCarr
 							<Card title="FSTS" bordered={false} extra={<HelpButton showModal={openFSTSHelp}/>}>
 								<FSTS />
 								<IVFSTS />
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 							</Card>
 						</Col>
 						<Col lg={8}>
 							<Card title="Fang-Oosterlee" bordered={false} extra={<HelpButton showModal={openFangOostHelp}/>}>
 								<FangOost />
 								<IVFangOost />
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 							</Card>
 						</Col>
 					</Row>
@@ -57,7 +55,6 @@ const App =({carrMadanHelp, fangOostHelp, fstsHelp, openCarrMadanHelp, closeCarr
 						<Col lg={8}>
 							<Card title="Density" bordered={false}>
 								<Density />
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 							</Card>
 						</Col>
 					</Row>
