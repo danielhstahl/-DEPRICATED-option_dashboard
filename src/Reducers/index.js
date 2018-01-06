@@ -1,9 +1,8 @@
-import optionParameters from './optionParameters'
-/*import {
-    helpCarrMadan,
-    helpFSTS,
-    helpFangOost
-} from './help'*/
+import {
+    optionParameters,
+    optionModal
+} from './optionParameters'
+
 import {
     VaR, density, 
     fangoost,
@@ -16,6 +15,7 @@ const customCombineReducers=obj=>(state={}, action)=>Object.keys(obj).reduce((ag
 /**Note that each import for the algorithms contains nested properties which must be unnested*/
 export default customCombineReducers({
     optionParameters,
+    optionModal,
     VaR, density, 
     ...fangoost,
     ...carrmadan,

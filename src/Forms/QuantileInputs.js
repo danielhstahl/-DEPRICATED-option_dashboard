@@ -20,7 +20,7 @@ const QuantileInputs=({quantileParameters, updateOptions, submitOptions})=>(
             label="Quantile"
             onChange={updateOptions}
         />
-        <Button type="primary" htmlType="submit">Update</Button>
+        <Button className='side-button submit-button' type="primary" htmlType="submit">Update</Button>
     </Form>
 )
 QuantileInputs.propTypes={

@@ -4,8 +4,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import CustomDrop from './FormHelper'
 import {getAllData} from '../Actions/lambda'
-import {updateOptions} from '../Actions/parameters'
-import { Row, Col, Form, Button} from 'antd'
+import {
+    updateOptions, showOptionModal
+} from '../Actions/parameters'
+import { Row, Col, Form, Button, Modal} from 'antd'
 const uOptions=createArray(5, 10)
 const rOptions=createArray(0, .1, .001)
 const tOptions=createArray(.25, 5, .25)
@@ -19,9 +21,27 @@ const v0Options=createArray(.7, 1.3, .05)
 const adaOptions=createArray(0, .8, .05)
 const rhoOptions=createArray(-.95, .95, .05)
 
-const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
+const ShowInputs=connect(
+    state=>({
+        visible:state.optionModal
+    }),
+    dispatch=>({
+        close:()=>showOptionModal(false, dispatch)
+    })
+)(({inputs, visible, close})=>(
+    <Modal title="Attributes" visible={visible} onOk={close} onCancel={close}>
+       <pre><code>{inputs}</code></pre>
+    </Modal>
+))
+
+
+const OptionInputs=({optionParameters, updateOptions, submitOptions, viewOptionsModal})=>(
 <Form onSubmit={handleForm(optionParameters, submitOptions)}>
     <Row gutter={16}>
+        <Col span={24}>
+            <Button className='side-button' type="default" onClick={viewOptionsModal}>View Json</Button>
+        </Col>
+        <ShowInputs inputs={JSON.stringify(optionParameters, null, 2)}/>
         <Col span={24}>
             <CustomDrop 
                 objKey='numU' 
@@ -166,7 +186,7 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
             />
         </Col>
         <Col span={24}>
-            <Button type="primary" htmlType="submit">Update</Button>
+            <Button className='side-button submit-button' type="primary" htmlType="submit">Update</Button>
         </Col>
     </Row>
 </Form>
@@ -196,7 +216,8 @@ const mapStateToProps=state=>({
 })
 const mapDispatchToProps =dispatch=>({
     updateOptions:(key, value)=>updateOptions(key, value, dispatch),
-    submitOptions:vals=>getAllData(vals, dispatch)
+    submitOptions:vals=>getAllData(vals, dispatch),
+    viewOptionsModal:()=>showOptionModal(true, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(OptionInputs)

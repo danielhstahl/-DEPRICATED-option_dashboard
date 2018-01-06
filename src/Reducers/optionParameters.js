@@ -15,7 +15,7 @@ const defaultState={
     k:[],
     quantile:.01
 }
-const optionParameters = (state = defaultState, action) => {
+export const optionParameters = (state = defaultState, action) => {
     switch (action.type) {
         case 'UPDATE_OPTIONS':
             return {...state, [action.key]:action.value}
@@ -23,5 +23,11 @@ const optionParameters = (state = defaultState, action) => {
             return state
     }
 }
-
-export default optionParameters
+export const optionModal = (state=false, action)=>{
+    switch(action.type){
+        case 'SHOW_OPTION_MODAL':
+            return action.visible
+        default:
+            return state
+    }
+}
