@@ -1,6 +1,8 @@
 import React from 'react'
 import './App.css'
-import {sensitivities} from './appSkeleton'
+import {
+	sensitivities
+} from './appSkeleton'
 
 import {
 	FangOost, 
@@ -28,9 +30,10 @@ const style={ background: '#fff', padding: 24, margin: 0, minHeight: 280 }
 const Content=Layout.Content
 
 const paramKey='sensitivity'
-const paramUrl=`${process.env.PUBLIC_URL}/:${paramKey}`
-const baseUrl=`${process.env.PUBLIC_URL}/`
-const redirectUrl=`${process.env.PUBLIC_URL}/price`
+const paramUrl=`/:${paramKey}`
+const baseUrl='/'
+const [priceName]=sensitivities
+const redirectUrl=`/${priceName}`
 
 const fangOostHelpUrl='/fangoost/help'
 const carrMadanHelpUrl='/carrmadan/help'
@@ -42,7 +45,7 @@ const NoSensitivity=({sensitivity, title})=>(
 
 const CardPlot=({Algorithm, HelpComponent, url, match, location, title})=>{
 	const matchParam=match.params[paramKey]
-	const localUrl=`${process.env.PUBLIC_URL}/${matchParam}${url}`
+	const localUrl=`/${matchParam}${url}`
 	const Component=Algorithm[matchParam]
 	const IVComponent=Algorithm.IV
 	return (
@@ -54,8 +57,18 @@ const CardPlot=({Algorithm, HelpComponent, url, match, location, title})=>{
 
 	)
 }
-const HoldCards=props=>(
-<Row gutter={32} justify="center">
+const MenuSensitivities=({match})=> (
+	<Menu theme="light" mode="horizontal" selectedKeys={[match.params[paramKey]]}>
+		{sensitivities.map(sensitivity=>(
+			<Menu.Item key={sensitivity}>
+				<Link key={sensitivity} to={`/${sensitivity}`}>{sensitivity}</Link>
+			</Menu.Item>
+		))}
+	</Menu>
+)
+const HoldCards=props=>[
+<MenuSensitivities key={0} {...props}/>,
+<Row gutter={32} key={1} justify="center">
 	<Col lg={8}>
 		<CardPlot
 			Algorithm={CarrMadan} 
@@ -84,7 +97,7 @@ const HoldCards=props=>(
 		/>
 	</Col>
 </Row>
-)
+]
 
 const App =()=>(
 	<Layout>
@@ -96,15 +109,8 @@ const App =()=>(
 					<QuantileInputs/>
 					<StrikeInputs/>
 				</Col>
-				<BrowserRouter>
+				<BrowserRouter basename={process.env.PUBLIC_URL}>
 					<Col xs={18} className='right'>
-						<Menu theme="light" mode="horizontal" defaultSelectedKeys={[sensitivities[0]]}>
-							{sensitivities.map(sensitivity=>(
-								<Menu.Item key={sensitivity}>
-									<Link key={sensitivity} to={`${process.env.PUBLIC_URL}/${sensitivity}`}>{sensitivity}</Link>
-								</Menu.Item>
-							))}
-						</Menu>
 						<Switch>
 							<Route path={paramUrl} component={HoldCards}/>
 							<Redirect from={baseUrl} exact to={redirectUrl} />
