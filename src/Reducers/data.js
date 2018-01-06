@@ -4,9 +4,12 @@ import {
 } from '../utils'
 import {
     keySkeleton,
+    algorithms,
     createActionType
 } from '../appSkeleton'
 import {getDomain} from '../cgmyUtils'
+
+const [fangoostName, carrMadanName, fstsName]=algorithms
 
 const actionFangOostFactory=actionType=>(state=[], action)=>{
     switch(action.type){
@@ -27,7 +30,6 @@ const actionDomainFactory=actionType=>(state=[], action, globalState)=>{
     }
 }
 
-
 const generateAlgorithmState=(keySkeleton, algorithm, factory)=>{
     return keySkeleton[algorithm].reduce((aggr, [sensitivity, optionType])=>{
         return {
@@ -37,9 +39,9 @@ const generateAlgorithmState=(keySkeleton, algorithm, factory)=>{
     }, {})
 }
 
-export const fangoost=generateAlgorithmState(keySkeleton, 'fangoost', actionFangOostFactory)
-export const carrmadan=generateAlgorithmState(keySkeleton, 'carrmadan', actionDomainFactory)
-export const fsts=generateAlgorithmState(keySkeleton, 'fsts', actionDomainFactory)
+export const fangoost=generateAlgorithmState(keySkeleton, fangoostName, actionFangOostFactory)
+export const carrmadan=generateAlgorithmState(keySkeleton, carrMadanName, actionDomainFactory)
+export const fsts=generateAlgorithmState(keySkeleton, fstsName, actionDomainFactory)
 
 const actionVaRFactory=(actionType, defState)=>(state=defState, action)=>{
     switch (action.type){

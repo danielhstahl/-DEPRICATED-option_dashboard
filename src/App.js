@@ -1,10 +1,7 @@
 import React from 'react'
 import './App.css'
 import {sensitivities} from './appSkeleton'
-//import { connect } from 'react-redux'
-/*import { FangOost, IVFangOost, FangOostHelp } from './Graphs/FangOost'
-import { CarrMadan, IVCarrMadan, CarrMadanHelp} from './Graphs/CarrMadan'
-import { FSTS, IVFSTS, FSTSHelp } from './Graphs/FSTS'*/
+
 import {
 	FangOost, 
 	CarrMadan, 
@@ -20,8 +17,7 @@ import QuantileInputs from './Forms/QuantileInputs'
 import StrikeInputs from './Forms/StrikeInputs'
 import { Row, Col, Layout, Card, Menu} from 'antd'
 
-//import HelpButton from './HelperComponents/HelpButton'
-//import {toggleCarrMadanHelp, toggleFangOostHelp, toggleFSTSHelp} from './Actions/help'
+
 import { 
 	BrowserRouter,Route,
 	Link, Redirect,
@@ -32,22 +28,21 @@ const style={ background: '#fff', padding: 24, margin: 0, minHeight: 280 }
 const Content=Layout.Content
 
 const paramKey='sensitivity'
-const paramUrl=`/:${paramKey}`
+const paramUrl=`${process.env.PUBLIC_URL}/:${paramKey}`
+const baseUrl=`${process.env.PUBLIC_URL}/`
+const redirectUrl=`${process.env.PUBLIC_URL}/price`
 
 const fangOostHelpUrl='/fangoost/help'
 const carrMadanHelpUrl='/carrmadan/help'
 const fstsHelpUrl='/fsts/help'
 
-//const generateHelpUrl=url=>location=>`${location.pathname}${url}`
 const NoSensitivity=({sensitivity, title})=>(
 	<p>Attribute {sensitivity} is not available for {title}!</p>
 )
 
-
-
 const CardPlot=({Algorithm, HelpComponent, url, match, location, title})=>{
 	const matchParam=match.params[paramKey]
-	const localUrl=`/${matchParam}${url}`
+	const localUrl=`${process.env.PUBLIC_URL}/${matchParam}${url}`
 	const Component=Algorithm[matchParam]
 	const IVComponent=Algorithm.IV
 	return (
@@ -106,13 +101,13 @@ const App =()=>(
 						<Menu theme="light" mode="horizontal" defaultSelectedKeys={[sensitivities[0]]}>
 							{sensitivities.map(sensitivity=>(
 								<Menu.Item key={sensitivity}>
-									<Link key={sensitivity} to={`/${sensitivity}`}>{sensitivity}</Link>
+									<Link key={sensitivity} to={`${process.env.PUBLIC_URL}/${sensitivity}`}>{sensitivity}</Link>
 								</Menu.Item>
 							))}
 						</Menu>
 						<Switch>
 							<Route path={paramUrl} component={HoldCards}/>
-							<Redirect from="/" exact to="/price" />
+							<Redirect from={baseUrl} exact to={redirectUrl} />
 						</Switch>
 						<br /><br />
 						<Row gutter={32} justify="center">
@@ -128,19 +123,5 @@ const App =()=>(
 		</Content>
 	</Layout>
 )
-/**TODO! need to make this into a router parameter.  This is hard to maintain and hard to link to. */
-/*const mapStateToProps=state=>({
-	carrMadanHelp:state.helpCarrMadan,
-	fangOostHelp:state.helpFangOost,
-	fstsHelp:state.helpFSTS,
-})
-const mapDispatchToProps=dispatch=>({
-	openCarrMadanHelp:()=>toggleCarrMadanHelp(dispatch, true),
-	closeCarrMadanHelp:()=>toggleCarrMadanHelp(dispatch, false),
-	openFangOostHelp:()=>toggleFangOostHelp(dispatch, true),
-	closeFangOostHelp:()=>toggleFangOostHelp(dispatch, false),
-	openFSTSHelp:()=>toggleFSTSHelp(dispatch, true),
-	closeFSTSHelp:()=>toggleFSTSHelp(dispatch, false),
-	
-})*/
+
 export default App

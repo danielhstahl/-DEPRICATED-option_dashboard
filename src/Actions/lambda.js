@@ -1,6 +1,8 @@
 import appSkeleton, {
     sensitivities,  
-    createActionType
+    createActionType,
+    optionTypes,
+    algorithms
 } from '../appSkeleton'
 const baseUrl= 'https://ni6jd9f0z4.execute-api.us-east-1.amazonaws.com/dev/'
 
@@ -9,6 +11,8 @@ const createBody=params=>({
     body:JSON.stringify(params)
 })
 
+const [callName, putName]=optionTypes
+const [fangOostName]=algorithms
 export const getOptionUrl=(optionType, sensitivity, algorithm)=>params=>fetch(`${baseUrl}${optionType}/${sensitivity}/${algorithm}`, createBody(params)).then(response=>response.json())
 
 export const getUnderlyingUrl=(base, section)=>params=>fetch(`${baseUrl}${base}/${section}`, createBody(params)).then(response=>response.json())
@@ -31,19 +35,19 @@ export const getDensity=(parms, dispatch)=>{
     }))
 }
 
-const generateFangOost=optionType=>(parms, dispatch)=>{
-    const algorithm='fangoost'
-    sensitivities.forEach(sensitivity=>getOptionUrl(optionType, sensitivity, algorithm)(parms).then(response=>dispatch({
-        type:createActionType(optionType, sensitivity, algorithm),
+const generateFangOost=optionType=>(parms, dispatch)=>sensitivities.forEach(
+    sensitivity=>getOptionUrl(optionType, sensitivity, fangOostName)(parms).then(response=>dispatch({
+        type:createActionType(optionType, sensitivity, fangOostName),
         data:response
-    })))
-}
+    }))
+)
 
-export const getFangOostCall=generateFangOost('call')
-export const getFangOostPut=generateFangOost('put')
 
-const resetOptions=(dispatch)=>{
-    appSkeleton.filter(([optionType, sensitivity, algorithm])=>algorithm!=='fangoost').forEach(row=>{
+export const getFangOostCall=generateFangOost(callName)
+export const getFangOostPut=generateFangOost(putName)
+
+export const resetOptions=(dispatch)=>{
+    appSkeleton.filter(([optionType, sensitivity, algorithm])=>algorithm!==fangOostName).forEach(row=>{
         dispatch({
             type:createActionType(...row),
             data:[]

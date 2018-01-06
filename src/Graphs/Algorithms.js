@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {OptionCurves, IVCurves} from './Graphs'
-import {keySkeleton, optionTypes} from '../appSkeleton'
+import {keySkeleton, optionTypes, sensitivities} from '../appSkeleton'
 import {Modal} from 'antd'
 import {getUniqueArray} from 'array_utils'
 const sensitivityIndex=0
@@ -17,8 +17,13 @@ const generateAlgorithmOptionPrices=(keySkeleton, algorithm, Component, initStat
         }), initState)
     )(Component)
 }), {})
+
+
+const [callName]=optionTypes
+const [priceName]=sensitivities
+
 const generateIVState=(algorithm, Component, initState)=>connect(
-    state=>({call:state[algorithm+'callprice'], ...initState})
+    state=>({call:state[algorithm+callName+priceName], ...initState})
 )(Component)
 
 const fangOostInitState={
