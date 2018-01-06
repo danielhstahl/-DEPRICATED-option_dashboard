@@ -21,7 +21,9 @@ export const createArray=(init, last, by=1)=>{
 }
 
 const f = (a, b) => [].concat(...a.map(d => b.map(e => [].concat(d, e))))
+
 export const cartesian = (a, b, ...c) => (b ? cartesian(f(a, b), ...c) : a)
+
 export const excludePotentialArray=(maybeArr, maybeInArr)=>maybeArr?maybeArr.indexOf(maybeInArr)===-1:true
 
 export const handleForm=(optionParameters, submitOptions)=>e=>{

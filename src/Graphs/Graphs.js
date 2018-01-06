@@ -23,7 +23,7 @@ const ivLabelFn=label=>d=>`Volatility ${d.y} at ${label} ${d.x}`
 const axisStyleOption={axisLabel: {padding: 30} }
 const axisStyleIV={axisLabel: {padding: 40} }
 const domainPadding=25
-export const OptionCurves=({callData, putData, title, label})=>(
+export const OptionCurves=({call, put, title, label})=>(
     <VictoryChart 
         domainPadding={domainPadding} 
         containerComponent={<VictoryVoronoiContainer labels={optionLabelFn(label)}/>}
@@ -40,14 +40,14 @@ export const OptionCurves=({callData, putData, title, label})=>(
         <VictoryLine
             style={callStyle}
             interpolation="natural"
-            data={callData}
+            data={call}
             x="atPoint"
             y="value"
         />
         <VictoryLine
             style={putStyle}
             interpolation="natural"
-            data={putData}
+            data={put}
             x="atPoint"
             y="value"
         />
@@ -73,7 +73,7 @@ OptionCurves.propTypes={
     label:PropTypes.string.isRequired,
     title:PropTypes.string.isRequired
 }
-export const IVCurves=({callData, label, title})=>(
+export const IVCurves=({call, label, title})=>(
     <VictoryChart 
         domainPadding={domainPadding}
         containerComponent={<VictoryVoronoiContainer labels={ivLabelFn(label)}/>}
@@ -83,7 +83,7 @@ export const IVCurves=({callData, label, title})=>(
         />
         <VictoryLine
             interpolation="natural"
-            data={callData}
+            data={call}
             x="atPoint"
             y="iv"
         />
@@ -98,7 +98,7 @@ export const IVCurves=({callData, label, title})=>(
     </VictoryChart>
 )
 IVCurves.propTypes={
-    callData:PropTypes.arrayOf(PropTypes.shape({
+    call:PropTypes.arrayOf(PropTypes.shape({
         iv:PropTypes.number.isRequired,
         atPoint:PropTypes.number.isRequired
     })),
