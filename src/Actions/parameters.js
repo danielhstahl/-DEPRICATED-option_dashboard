@@ -5,4 +5,10 @@ export const updateOptions=(key, value, dispatch)=>{
         value
     })
 }
+export const showOptionModal=(visible, dispatch)=>{
+    dispatch({
+        type:'SHOW_OPTION_MODAL',
+        visible
+    })
+}
 

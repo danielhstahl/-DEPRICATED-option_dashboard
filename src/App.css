@@ -16,9 +16,11 @@
     float: right; 
     width: 40%; 
 }
-.ant-btn-primary { 
+.side-button { 
     float: right; 
     width: 40%; 
+}
+.submit-button {
     margin-bottom: 50px; 
 }
 .left{ 

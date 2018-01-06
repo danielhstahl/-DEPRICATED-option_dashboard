@@ -20,7 +20,7 @@ const StrikeInputs=({strikeParameters, updateOptions, submitOptions})=>(
         round={0}
         multiSelect={true}
     />
-    <Button type="primary" htmlType="submit">Update</Button>
+    <Button className='side-button submit-button' type="primary" htmlType="submit">Update</Button>
 </Form>
 )
 StrikeInputs.propTypes={
