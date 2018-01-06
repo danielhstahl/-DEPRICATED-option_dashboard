@@ -4,7 +4,8 @@ import CustomDrop from './FormHelper'
 import {updateOptions} from '../Actions/parameters'
 import {getVaRData} from '../Actions/lambda'
 import { connect } from 'react-redux'
-import {Form, Button} from 'antd'
+import {Form} from 'antd'
+import Button from '../HelperComponents/AaronComponent'
 import PropTypes from 'prop-types'
 
 const quantileOptions=createArray(.001, .05, .001)

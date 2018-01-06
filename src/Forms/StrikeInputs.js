@@ -5,7 +5,8 @@ import {getFangOostCall, getFangOostPut} from '../Actions/lambda'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import CustomDrop from './FormHelper'
-import {Form, Button} from 'antd'
+import {Form} from 'antd'
+import Button from '../HelperComponents/AaronComponent'
 
 const strikeOptions=createArray(1, 100)
 const StrikeInputs=({strikeParameters, updateOptions, submitOptions})=>(
