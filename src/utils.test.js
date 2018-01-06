@@ -4,7 +4,8 @@ import {
     handleForm,
     removeFirstAndLastElement,
     filterBasedOffAnotherArray,
-    filterTwoArraysSameFn
+    filterTwoArraysSameFn,
+    cartesian
 } from './utils'
 
 it('correctly filters array', ()=>{
@@ -48,4 +49,18 @@ it('correctly filters based off another array', ()=>{
     const cb=val=>val>3
     const expected=[4, 7]
     expect(filterBasedOffAnotherArray(arr1, arr2, cb)).toEqual(expected)
+})
+
+it('correctly joins two arrays', ()=>{
+    const arr1=[1, 2, 3]
+    const arr2=[4, 5]
+    const expected=[[1, 4], [1, 5], [2, 4], [2, 5], [3, 4], [3, 5]]
+    expect(cartesian(arr1, arr2)).toEqual(expected)
+})
+it('correctly joins three arrays', ()=>{
+    const arr1=[1, 2]
+    const arr2=[3, 4]
+    const arr3=[5, 6]
+    const expected=[[1, 3, 5], [1, 3, 6], [1, 4, 5], [1, 4, 6], [2, 3, 5], [2, 3, 6], [2, 4, 5], [2, 4, 6]]
+    expect(cartesian(arr1, arr2, arr3)).toEqual(expected)
 })
