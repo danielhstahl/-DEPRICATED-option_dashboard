@@ -1,5 +1,10 @@
 import optionParameters from './optionParameters'
 import {
+    helpCarrMadan,
+    helpFSTS,
+    helpFangOost
+} from './help'
+import {
     VaR, density, 
     fangoostcall, 
     fangoostput, 
@@ -19,5 +24,8 @@ export default customCombineReducers({
     fstscall,
     fstsput,
     carrmadancall,
-    carrmadanput
+    carrmadanput,
+    helpCarrMadan,
+    helpFSTS,
+    helpFangOost
 })
