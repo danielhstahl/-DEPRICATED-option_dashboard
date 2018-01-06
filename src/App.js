@@ -1,19 +1,22 @@
 import React from 'react'
 import './App.css'
-import { FangOost, IVFangOost } from './Graphs/FangOost'
-import { CarrMadan, IVCarrMadan } from './Graphs/CarrMadan'
-import { FSTS, IVFSTS } from './Graphs/FSTS'
+import { connect } from 'react-redux'
+import { FangOost, IVFangOost, FangOostHelp } from './Graphs/FangOost'
+import { CarrMadan, IVCarrMadan, CarrMadanHelp} from './Graphs/CarrMadan'
+import { FSTS, IVFSTS, FSTSHelp } from './Graphs/FSTS'
 import { Density } from './Graphs/Density'
 import AsyncHOC from './AsyncHoc'
 import OptionInputs from './Forms/OptionInputs'
 import QuantileInputs from './Forms/QuantileInputs'
 import StrikeInputs from './Forms/StrikeInputs'
 import { Row, Col, Layout, Card } from 'antd'
+import HelpButton from './HelperComponents/HelpButton'
+import {toggleCarrMadanHelp, toggleFangOostHelp, toggleFSTSHelp} from './Actions/help'
 
 const style={ background: '#fff', padding: 24, margin: 0, minHeight: 280 }
 const Content=Layout.Content
 
-const App =()=>(
+const App =({carrMadanHelp, fangOostHelp, fstsHelp, openCarrMadanHelp, closeCarrMadanHelp, openFSTSHelp, closeFSTSHelp, openFangOostHelp, closeFangOostHelp})=>(
 	<Layout>
 		<AsyncHOC/>
 		<Content style={style}>
@@ -23,25 +26,26 @@ const App =()=>(
 					<QuantileInputs/>
 					<StrikeInputs/>
 				</Col>
-
+				<CarrMadanHelp visible={carrMadanHelp} onOk={closeCarrMadanHelp} onCancel={closeCarrMadanHelp}/>
+				<FangOostHelp visible={fangOostHelp}  onOk={closeFangOostHelp} onCancel={closeFangOostHelp}/>
+				<FSTSHelp visible={fstsHelp} onOk={closeFSTSHelp} onCancel={closeFSTSHelp}/>
 				<Col xs={18} className='right'>
 					<Row gutter={32} justify="center">
 						<Col lg={8}>
-							<Card title="Carr-Madan" bordered={false}>
+							<Card title="Carr-Madan" bordered={false} extra={<HelpButton showModal={openCarrMadanHelp}/>}>
 								<CarrMadan />
 								<IVCarrMadan />
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 							</Card>
 						</Col>
 						<Col lg={8}>
-							<Card title="FSTS" bordered={false}>
+							<Card title="FSTS" bordered={false} extra={<HelpButton showModal={openFSTSHelp}/>}>
 								<FSTS />
 								<IVFSTS />
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 							</Card>
 						</Col>
 						<Col lg={8}>
-							<Card title="Fang-Oosterlee" bordered={false}>
+							<Card title="Fang-Oosterlee" bordered={false} extra={<HelpButton showModal={openFangOostHelp}/>}>
 								<FangOost />
 								<IVFangOost />
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -62,6 +66,22 @@ const App =()=>(
 		</Content>
 	</Layout>
 )
-
-
-export default App
+/**TODO! need to make this into a router parameter.  This is hard to maintain and hard to link to. */
+const mapStateToProps=state=>({
+	carrMadanHelp:state.helpCarrMadan,
+	fangOostHelp:state.helpFangOost,
+	fstsHelp:state.helpFSTS,
+})
+const mapDispatchToProps=dispatch=>({
+	openCarrMadanHelp:()=>toggleCarrMadanHelp(dispatch, true),
+	closeCarrMadanHelp:()=>toggleCarrMadanHelp(dispatch, false),
+	openFangOostHelp:()=>toggleFangOostHelp(dispatch, true),
+	closeFangOostHelp:()=>toggleFangOostHelp(dispatch, false),
+	openFSTSHelp:()=>toggleFSTSHelp(dispatch, true),
+	closeFSTSHelp:()=>toggleFSTSHelp(dispatch, false),
+	
+})
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(App)
