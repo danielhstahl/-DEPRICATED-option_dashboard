@@ -22,8 +22,8 @@ const actionFangOostFactory=actionType=>(state=[], action)=>{
 
 const actionDomainFactory=actionType=>(state=[], action, globalState)=>{
     switch(action.type){
-        case actionType:           
-            const {upper, lower}=getDomain(globalState.optionParameters)
+        case actionType:
+            const {upper, lower}=getDomain(globalState.customParameters)
             return getMiddleByVal(action.data, lower, upper, 'atPoint')
         default:
             return state

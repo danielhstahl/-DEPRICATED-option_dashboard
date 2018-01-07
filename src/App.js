@@ -14,12 +14,10 @@ import {
 } from './Graphs/Algorithms'
 import { Density } from './Graphs/Density'
 import AsyncHOC from './AsyncHoc'
-import OptionInputs from './Forms/OptionInputs'
+import ModalInputs from './Forms/ModalInputs'
 import QuantileInputs from './Forms/QuantileInputs'
 import StrikeInputs from './Forms/StrikeInputs'
 import { Row, Col, Layout, Card, Menu} from 'antd'
-
-
 import { 
 	BrowserRouter,Route,
 	Link, Redirect,
@@ -54,80 +52,81 @@ const CardPlot=({Algorithm, HelpComponent, url, match, location, title})=>{
 		<IVComponent />
 		<Route path={localUrl} exact component={HelpComponent}/>
 	</Card>
-
 	)
 }
+const floatRight={float:'right'}
 const MenuSensitivities=({match})=> (
 	<Menu theme="light" mode="horizontal" selectedKeys={[match.params[paramKey]]}>
 		{sensitivities.map(sensitivity=>(
 			<Menu.Item key={sensitivity}>
-				<Link key={sensitivity} to={`/${sensitivity}`}>{sensitivity}</Link>
+				<Link to={`/${sensitivity}`}>{sensitivity}</Link>
 			</Menu.Item>
 		))}
+		<Menu.Item style={floatRight}>
+			<Link to={`/${match.params[paramKey]}/inputs/Heston`}>Edit Inputs</Link>
+		</Menu.Item>
 	</Menu>
 )
+
+const WrapModalInputs=({match})=>(
+	<Route path={`/${match.params[paramKey]}/inputs/:inputChoice`} component={ModalInputs}/>
+)
 const HoldCards=props=>[
+<WrapModalInputs {...props} key={-1}/>,
 <MenuSensitivities key={0} {...props}/>,
-<Row gutter={32} key={1} justify="center">
-	<Col lg={8}>
-		<CardPlot
-			Algorithm={CarrMadan} 
-			title="Carr-Madan" 
-			HelpComponent={CarrMadanHelp}
-			url={carrMadanHelpUrl}
-			{...props}
-		/>
-	</Col>
-	<Col lg={8}>
-		<CardPlot 
-			Algorithm={FSTS} 
-			title="Fourier Space Time Step" 
-			HelpComponent={FSTSHelp}
-			url={fstsHelpUrl}
-			{...props}
-		/>
-	</Col>
-	<Col lg={8}>
-		<CardPlot 
-			Algorithm={FangOost} 
-			title="Fang-Oosterlee" 
-			HelpComponent={FangOostHelp}
-			url={fangOostHelpUrl}
-			{...props}
-		/>
-	</Col>
-</Row>
+<Col lg={8} key={1}>
+	<CardPlot
+		Algorithm={CarrMadan} 
+		title="Carr-Madan" 
+		HelpComponent={CarrMadanHelp}
+		url={carrMadanHelpUrl}
+		{...props}
+	/>
+</Col>,
+<Col lg={8} key={2}>
+	<CardPlot 
+		Algorithm={FSTS} 
+		title="Fourier Space Time Step" 
+		HelpComponent={FSTSHelp}
+		url={fstsHelpUrl}
+		{...props}
+	/>
+</Col>,
+<Col lg={8} key={3}>
+	<CardPlot 
+		Algorithm={FangOost} 
+		title="Fang-Oosterlee" 
+		HelpComponent={FangOostHelp}
+		url={fangOostHelpUrl}
+		{...props}
+	/>
+	<StrikeInputs/>
+</Col>
 ]
 
 const App =()=>(
+<BrowserRouter basename={process.env.PUBLIC_URL}>
 	<Layout>
 		<AsyncHOC/>
 		<Content style={style}>
 			<Row gutter={32}>
-				<Col xs={6} className='left'>
-					<OptionInputs/>
-					<QuantileInputs/>
-					<StrikeInputs/>
+				<Switch>
+					<Route path={paramUrl} component={HoldCards}/>
+					<Redirect from={baseUrl} exact to={redirectUrl} />
+				</Switch>
+				
+			</Row>
+			<Row gutter={32} justify="center">
+				<Col lg={8}>
+					<Card title="Density" bordered={false}>
+						<Density />
+						<QuantileInputs/>
+					</Card>
 				</Col>
-				<BrowserRouter basename={process.env.PUBLIC_URL}>
-					<Col xs={18} className='right'>
-						<Switch>
-							<Route path={paramUrl} component={HoldCards}/>
-							<Redirect from={baseUrl} exact to={redirectUrl} />
-						</Switch>
-						<br /><br />
-						<Row gutter={32} justify="center">
-							<Col lg={8}>
-								<Card title="Density" bordered={false}>
-									<Density />
-								</Card>
-							</Col>
-						</Row>
-					</Col>
-				</BrowserRouter>
 			</Row>
 		</Content>
 	</Layout>
+</BrowserRouter>
 )
 
 export default App

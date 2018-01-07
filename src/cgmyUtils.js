@@ -6,7 +6,7 @@ const vol=(T, sigma, C, G, M, Y)=>{
 }
 const upperScalar=1.2
 const lowerScalar=2.5
-export const getDomain=(params)=>{
+export const getDomain=params=>{
     const {T, sigma, C, G, M, Y, S0, r}=params
     const cgmyVol=vol(T, sigma, C, G, M, Y)
     const expReturn=r*T
