@@ -23,10 +23,10 @@ const ivLabelFn=label=>d=>`Volatility ${d.y} at ${label} ${d.x}`
 const axisStyleOption={axisLabel: {padding: 30} }
 const axisStyleIV={axisLabel: {padding: 40} }
 const domainPadding=25
-export const OptionCurves=({call, put, title, label})=>(
+export const OptionCurves=({call, put, title, xLabel, yLabel})=>(
     <VictoryChart 
         domainPadding={domainPadding} 
-        containerComponent={<VictoryVoronoiContainer labels={optionLabelFn(label)}/>}
+        containerComponent={<VictoryVoronoiContainer labels={optionLabelFn(xLabel)}/>}
     >
         <VictoryLegend x={50} y={50}
             orientation="vertical"
@@ -54,10 +54,10 @@ export const OptionCurves=({call, put, title, label})=>(
         <VictoryAxis 
             dependentAxis
             style={axisStyleOption}
-            label="Option Price"
+            label={yLabel}
         />
         <VictoryAxis
-            label={label}
+            label={xLabel}
         />
     </VictoryChart>
 )
@@ -70,7 +70,8 @@ OptionCurves.propTypes={
         value:PropTypes.number.isRequired,
         atPoint:PropTypes.number.isRequired
     })),
-    label:PropTypes.string.isRequired,
+    xLabel:PropTypes.string.isRequired,
+    yLabel:PropTypes.string.isRequired,
     title:PropTypes.string.isRequired
 }
 export const IVCurves=({call, label, title})=>(
@@ -103,7 +104,7 @@ IVCurves.propTypes={
         atPoint:PropTypes.number.isRequired
     })),
     title:PropTypes.string.isRequired,
-    label:PropTypes.string.isRequired
+    xLabel:PropTypes.string.isRequired
 }
 const getMax=(data, key)=>data.reduce((aggr, cur)=>{
     return cur[key]>aggr?cur[key]:aggr

@@ -1,7 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {OptionCurves, IVCurves} from './Graphs'
-import {keySkeleton, optionTypes, sensitivities} from '../appSkeleton'
+import {upperFirstLetter} from '../utils'
+import {
+    keySkeleton, optionTypes, 
+    sensitivities, algorithms
+} from '../appSkeleton'
 import {Modal} from 'antd'
 import {getUniqueArray} from 'array_utils'
 const sensitivityIndex=0
@@ -13,12 +17,13 @@ const generateAlgorithmOptionPrices=(keySkeleton, algorithm, Component, initStat
     [sensitivity]:connect(
         state=>optionTypes.reduce((aggrState, optionType)=>({
             ...aggrState,
-            [optionType]:state[algorithm+optionType+sensitivity]
+            [optionType]:state[algorithm+optionType+sensitivity],
+            yLabel:upperFirstLetter(sensitivity)
         }), initState)
     )(Component)
 }), {})
 
-
+const [fangOostName, carrMadanName, fstsName]=algorithms
 const [callName]=optionTypes
 const [priceName]=sensitivities
 
@@ -27,31 +32,31 @@ const generateIVState=(algorithm, Component, initState)=>connect(
 )(Component)
 
 const fangOostInitState={
-    label:'Strikes',
+    xLabel:'Strikes',
     title:'Fang-Oosterlee'
 }
 const carrMadanInitState={
-    label:'Strikes',
+    xLabel:'Strikes',
     title:'Carr-Madan'
 }
 const fstsInitState={
-    label:'Asset Prices',
+    xLabel:'Asset Prices',
     title:'Fourier Space Time Step'
 }
 
 export const FangOost={
-    ...generateAlgorithmOptionPrices(keySkeleton, 'fangoost', OptionCurves, fangOostInitState),
-    IV:generateIVState('fangoost', IVCurves, fangOostInitState)
+    ...generateAlgorithmOptionPrices(keySkeleton, fangOostName, OptionCurves, fangOostInitState),
+    IV:generateIVState(fangOostName, IVCurves, fangOostInitState)
 }
 
 export const CarrMadan={
-    ...generateAlgorithmOptionPrices(keySkeleton, 'carrmadan', OptionCurves, carrMadanInitState),
-    IV:generateIVState('carrmadan', IVCurves, carrMadanInitState)
+    ...generateAlgorithmOptionPrices(keySkeleton, carrMadanName, OptionCurves, carrMadanInitState),
+    IV:generateIVState(carrMadanName, IVCurves, carrMadanInitState)
 }
 
 export const FSTS={
-    ...generateAlgorithmOptionPrices(keySkeleton, 'fsts', OptionCurves, fstsInitState),
-    IV:generateIVState('fsts', IVCurves, fstsInitState)
+    ...generateAlgorithmOptionPrices(keySkeleton, fstsName, OptionCurves, fstsInitState),
+    IV:generateIVState(fstsName, IVCurves, fstsInitState)
 }
 
 
