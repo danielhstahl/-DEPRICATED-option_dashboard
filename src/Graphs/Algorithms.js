@@ -1,13 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {OptionCurves, IVCurves} from './Graphs'
-import {upperFirstLetter} from '../utils'
+import { OptionCurves, IVCurves } from './Graphs'
+import { upperFirstLetter } from '../utils'
 import {
     keySkeleton, optionTypes, 
     sensitivities, algorithms
 } from '../appSkeleton'
-import {Modal} from 'antd'
-import {getUniqueArray} from 'array_utils'
+import { Modal } from 'antd'
+import { getUniqueArray } from 'array_utils'
 const sensitivityIndex=0
 const generateAlgorithmOptionPrices=(keySkeleton, algorithm, Component, initState)=>getUniqueArray(
     keySkeleton[algorithm], 

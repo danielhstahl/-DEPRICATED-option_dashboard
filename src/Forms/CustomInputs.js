@@ -15,7 +15,6 @@ import {
 } from './globalOptions'
 
 import { Row, Col, Form, Button } from 'antd'
-import { Route } from 'react-router-dom'
 
 const COptions=createArray(0, 2, .1)
 const GMOptions=createArray(.2, 10, .1)
