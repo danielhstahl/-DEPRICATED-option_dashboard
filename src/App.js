@@ -14,7 +14,7 @@ import {
 } from './Graphs/Algorithms'
 import { Density } from './Graphs/Density'
 import AsyncHOC from './AsyncHoc'
-import OptionInputs from './Forms/OptionInputs'
+import ModalInputs from './Forms/ModalInputs'
 import QuantileInputs from './Forms/QuantileInputs'
 import StrikeInputs from './Forms/StrikeInputs'
 import { Row, Col, Layout, Card, Menu} from 'antd'
@@ -66,12 +66,12 @@ const MenuSensitivities=({match})=> (
 const WrapInputLink=({match})=>(
 	<Link to={`/${match.params[paramKey]}/inputs/Heston`}>Edit Inputs</Link>
 )
-const WrapOptionInputs=({match})=>(
-	<Route path={`/${match.params[paramKey]}/inputs/:inputChoice`} component={OptionInputs}/>
+const WrapModalInputs=({match})=>(
+	<Route path={`/${match.params[paramKey]}/inputs/:inputChoice`} component={ModalInputs}/>
 )
 const HoldCards=props=>[
 <WrapInputLink key={-2} {...props}/>,
-<WrapOptionInputs {...props} key={-1}/>,
+<WrapModalInputs {...props} key={-1}/>,
 <MenuSensitivities key={0} {...props}/>,
 <Col lg={8} key={1}>
 	<CardPlot

@@ -1,6 +1,6 @@
 import React from 'react'
 import {createArray, handleForm} from '../utils'
-import {updateOptions} from '../Actions/parameters'
+import { updateCustom } from '../Actions/parameters'
 import {getFangOostCall, getFangOostPut} from '../Actions/lambda'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -32,10 +32,10 @@ StrikeInputs.propTypes={
 }
 
 const mapStateToProps=state=>({
-    strikeParameters:state.optionParameters
+    strikeParameters:state.customParameters
 })
 const mapDispatchToProps =dispatch=>({
-    updateOptions:(key, value)=>updateOptions(key, value, dispatch),
+    updateOptions:(key, value)=>updateCustom(key, value, dispatch),
     submitOptions:vals=>{
         getFangOostCall(vals, dispatch)
         getFangOostPut(vals, dispatch)

@@ -1,14 +1,11 @@
-export const updateOptions=(key, value, dispatch)=>{
+const generateOptions=type=>(key, value, dispatch)=>{
     dispatch({
-        type:'UPDATE_OPTIONS',
+        type,
         key,
         value
     })
 }
-export const showOptionModal=(visible, dispatch)=>{
-    dispatch({
-        type:'SHOW_OPTION_MODAL',
-        visible
-    })
-}
+export const updateCustom=generateOptions('UPDATE_OPTIONS')
+export const updateHeston=generateOptions('UPDATE_HESTON')
+
 

@@ -26,9 +26,9 @@ export const cartesian = (a, b, ...c) => (b ? cartesian(f(a, b), ...c) : a)
 
 export const excludePotentialArray=(maybeArr, maybeInArr)=>maybeArr?maybeArr.indexOf(maybeInArr)===-1:true
 
-export const handleForm=(optionParameters, submitOptions)=>e=>{
+export const handleForm=(submitOptions, ...parameters)=>e=>{
     e.preventDefault()
-    submitOptions(optionParameters)
+    submitOptions(...parameters)
 }
 
 export const removeFirstAndLastElement=arr=>arr.slice(1, -1)

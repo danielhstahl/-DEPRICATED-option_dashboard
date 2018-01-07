@@ -15,7 +15,13 @@ const defaultState={
     k:[],
     quantile:.01
 }
-export const optionParameters = (state = defaultState, action) => {
+const hestonState={
+    v0:.04,
+    adaV:.2,
+    rho:-.5,
+    meanVol:.04
+}
+export const customParameters = (state = defaultState, action) => {
     switch (action.type) {
         case 'UPDATE_OPTIONS':
             return {...state, [action.key]:action.value}
@@ -23,11 +29,12 @@ export const optionParameters = (state = defaultState, action) => {
             return state
     }
 }
-export const optionModal = (state=false, action)=>{
-    switch(action.type){
-        case 'SHOW_OPTION_MODAL':
-            return action.visible
+export const hestonParameters = (state = hestonState, action) => {
+    switch (action.type) {
+        case 'UPDATE_HESTON':
+            return {...state, [action.key]:action.value}
         default:
             return state
     }
 }
+

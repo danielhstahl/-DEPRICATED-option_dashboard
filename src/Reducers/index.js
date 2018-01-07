@@ -1,6 +1,6 @@
 import {
-    optionParameters,
-    optionModal
+    customParameters,
+    hestonParameters
 } from './optionParameters'
 
 import {
@@ -14,8 +14,8 @@ const customCombineReducers=obj=>(state={}, action)=>Object.keys(obj).reduce((ag
 
 /**Note that each import for the algorithms contains nested properties which must be unnested*/
 export default customCombineReducers({
-    optionParameters,
-    optionModal,
+    customParameters,
+    hestonParameters,
     VaR, density, 
     ...fangoost,
     ...carrmadan,
