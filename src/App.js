@@ -63,7 +63,15 @@ const MenuSensitivities=({match})=> (
 		))}
 	</Menu>
 )
+const WrapInputLink=({match})=>(
+	<Link to={`/${match.params[paramKey]}/inputs/Heston`}>Edit Inputs</Link>
+)
+const WrapOptionInputs=({match})=>(
+	<Route path={`/${match.params[paramKey]}/inputs/:inputChoice`} component={OptionInputs}/>
+)
 const HoldCards=props=>[
+<WrapInputLink key={-2} {...props}/>,
+<WrapOptionInputs {...props} key={-1}/>,
 <MenuSensitivities key={0} {...props}/>,
 <Col lg={8} key={1}>
 	<CardPlot
@@ -94,20 +102,13 @@ const HoldCards=props=>[
 	<StrikeInputs/>
 </Col>
 ]
-/**<Col xs={6} className='left'>
-					<OptionInputs/>
-					
-					
-				</Col> */
+
 const App =()=>(
 <BrowserRouter basename={process.env.PUBLIC_URL}>
 	<Layout>
 		<AsyncHOC/>
 		<Content style={style}>
 			<Row gutter={32}>
-				
-				<Link to='/inputs'>WooWassup</Link>
-				<Route path='/inputs' component={OptionInputs}/>
 				<Switch>
 					<Route path={paramUrl} component={HoldCards}/>
 					<Redirect from={baseUrl} exact to={redirectUrl} />

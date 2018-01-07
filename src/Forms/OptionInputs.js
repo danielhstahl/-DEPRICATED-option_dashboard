@@ -39,22 +39,18 @@ const ShowInputs=connect(
     </Modal>
 ))
 
-/**<Col span={24}>
-            <Button className='side-button' type="default" onClick={viewOptionsModal}>View Json</Button>
-        </Col> */
-
-/**<ShowInputs inputs={JSON.stringify(optionParameters, null, 2)}/> */
 const InputChoices=[
     'Heston',
     'Black Scholes',
     'Custom',
     'JSON'
 ]
+const [HestonName, BSName, CustomName, JSONName]=InputChoices
 const MenuTypes=({match})=>(
-	<Menu theme="light" mode="horizontal" /*selectedKeys={[match.params[paramKey]]}*/>
+	<Menu theme="light" mode="horizontal" selectedKeys={[match.params.inputChoice]}>
 		{InputChoices.map(choice=>(
 			<Menu.Item key={choice}>
-				<Link to={`/inputs/${choice}`}>{choice}</Link>
+				<Link to={`/${match.params.sensitivity}/inputs/${choice}`}>{choice}</Link>
 			</Menu.Item>
 		))}
 	</Menu>
@@ -62,7 +58,6 @@ const MenuTypes=({match})=>(
 const CustomForm=({optionParameters, submitOptions, updateOptions})=>(
 <Form onSubmit={handleForm(optionParameters, submitOptions)}>
     <Row gutter={16}>
-        
         <Col span={12}>
             <CustomDrop 
                 objKey='sigma' 
@@ -336,9 +331,9 @@ const EnhBSForm=connect(
     mapDispatchToPropsBS
 )(BSForm)
 
-const OptionInputs=({optionParameters, updateOptions, submitOptions, history})=>(
+const OptionInputs=({optionParameters, updateOptions, submitOptions, history, match})=>(
 <Modal title="Attributes" visible={true} onOk={history.back} onCancel={history.back} width={1200}>
-    <MenuTypes/>
+    <MenuTypes match={match}/>
     <Row>
         <Col span={12}>
             <CustomDrop 
@@ -385,10 +380,10 @@ const OptionInputs=({optionParameters, updateOptions, submitOptions, history})=>
             />
         </Col>
     </Row>
-    <Route path={'/inputs/custom'} component={EnhCustomForm}/>
-    <Route path={'/inputs/heston'} component={EnhHestonForm}/>
-    <Route path={'/inputs/bs'} component={EnhBSForm}/>
-    <Route path={'/inputs/JSON'} render={props=><pre><code>{JSON.stringify(optionParameters, null, 2)}</code></pre>}/>
+    <Route path={`/${match.params.sensitivity}/inputs/${HestonName}`} component={EnhHestonForm}/>
+    <Route path={`/${match.params.sensitivity}/inputs/${CustomName}`} component={EnhCustomForm}/>
+    <Route path={`/${match.params.sensitivity}/inputs/${BSName}`} component={EnhBSForm}/>
+    <Route path={`/${match.params.sensitivity}/inputs/${JSONName}`} render={props=><pre><code>{JSON.stringify(optionParameters, null, 2)}</code></pre>}/>
 </Modal>
 )
 OptionInputs.propTypes={
