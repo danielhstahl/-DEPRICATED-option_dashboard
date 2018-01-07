@@ -3,7 +3,9 @@ import {
     uOptions,
     rOptions,
     tOptions,
-    sOptions
+    sOptions,
+    gutter,
+    flexObj
 } from './globalOptions'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -27,11 +29,10 @@ const generateUrl=(path, choice)=>`${getBaseUrl(path)}/${choice}`
 const InputChoices=[
     'Heston',
     'Black Scholes',
-    'Custom',
-    'JSON'
+    'Advanced',
 ]
 
-const [HestonName, BSName, CustomName, JSONName]=InputChoices
+const [HestonName, BSName, CustomName]=InputChoices
 
 const MenuTypes=({match})=>(
 <Menu theme="light" mode="horizontal" selectedKeys={[match.params.inputChoice]}>
@@ -42,8 +43,7 @@ const MenuTypes=({match})=>(
     ))}
 </Menu>
 ) 
-
-const OptionInputs=({customParameters, updateCustom, history, match})=>{
+const ModalInputs=({customParameters, updateCustom, history, match})=>{
     const closeModal=()=>history.push(getBaseUrl(match.path))
     return (
     <Modal 
@@ -52,8 +52,8 @@ const OptionInputs=({customParameters, updateCustom, history, match})=>{
         onCancel={closeModal} width={900}
     >
         <MenuTypes match={match}/>
-        <Row>
-            <Col span={12}>
+        <Row gutter={gutter}>
+            <Col {...flexObj}>
                 <CustomDrop 
                     objKey='numU' 
                     parms={customParameters}
@@ -64,7 +64,7 @@ const OptionInputs=({customParameters, updateCustom, history, match})=>{
                     onChange={updateCustom}
                 />
             </Col>
-            <Col span={12}>
+            <Col {...flexObj}>
                 <CustomDrop 
                     objKey='r' 
                     parms={customParameters}
@@ -75,7 +75,7 @@ const OptionInputs=({customParameters, updateCustom, history, match})=>{
                     onChange={updateCustom}
                 />
             </Col>
-            <Col span={12}>
+            <Col {...flexObj}>
                 <CustomDrop 
                     objKey='T' 
                     round={2}
@@ -86,7 +86,7 @@ const OptionInputs=({customParameters, updateCustom, history, match})=>{
                     onChange={updateCustom}
                 />
             </Col>
-            <Col span={12}>
+            <Col {...flexObj}>
                 <CustomDrop 
                     objKey='S0' 
                     round={0}
@@ -101,11 +101,10 @@ const OptionInputs=({customParameters, updateCustom, history, match})=>{
         <Route path={generateUrl(match.path, HestonName)} component={HestonForm}/>
         <Route path={generateUrl(match.path, CustomName)} component={CustomForm}/>
         <Route path={generateUrl(match.path, BSName)} component={BSForm}/>
-        <Route path={generateUrl(match.path, JSONName)} render={props=><pre><code>{JSON.stringify(customParameters, null, 2)}</code></pre>}/>
     </Modal>
     )
 }
-OptionInputs.propTypes={
+ModalInputs.propTypes={
     customParameters:PropTypes.shape({
        numU:PropTypes.number.isRequired, 
        r:PropTypes.number.isRequired, 
@@ -120,7 +119,7 @@ OptionInputs.propTypes={
        v0:PropTypes.number.isRequired, 
        adaV:PropTypes.number.isRequired, 
        rho:PropTypes.number.isRequired
-    }),
+    })
 }
 const mapStateToProps=state=>({
     customParameters:state.customParameters
@@ -128,5 +127,4 @@ const mapStateToProps=state=>({
 const mapDispatchToProps=dispatch=>({
     updateCustom:(key, value)=>updateCustom(key, value, dispatch)
 })
-
-export default connect(mapStateToProps, mapDispatchToProps)(OptionInputs)
+export default connect(mapStateToProps, mapDispatchToProps)(ModalInputs)

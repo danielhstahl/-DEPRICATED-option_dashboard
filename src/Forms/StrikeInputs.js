@@ -1,26 +1,39 @@
 import React from 'react'
-import {createArray, handleForm} from '../utils'
+import { createArray, handleForm } from '../utils'
 import { updateCustom } from '../Actions/parameters'
-import {getFangOostCall, getFangOostPut} from '../Actions/lambda'
+import { getFangOostCall, getFangOostPut } from '../Actions/lambda'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import CustomDrop from './FormHelper'
-import {Form, Button} from 'antd'
+import { Form, Button, Row, Col } from 'antd'
+import {
+    flexObj,
+    gutter
+} from './globalOptions'
+const FormItem=Form.Item
 
 const strikeOptions=createArray(1, 100)
 const StrikeInputs=({strikeParameters, updateOptions, submitOptions})=>(
 <Form onSubmit={handleForm(strikeParameters, submitOptions)}>
-    <CustomDrop 
-        options={strikeOptions}
-        objKey='k'
-        parms={strikeParameters}
-        label=""
-        toolTip="Select any number of strikes to see the price at each strike"
-        onChange={updateOptions}
-        round={0}
-        multiSelect={true}
-    />
-    <Button className='side-button submit-button' type="primary" htmlType="submit">Update</Button>
+    <Row gutter={gutter}>
+        <Col {...flexObj}>
+            <CustomDrop 
+                options={strikeOptions}
+                objKey='k'
+                parms={strikeParameters}
+                label="Strikes"
+                toolTip="Select any number of strikes to see the price at each strike"
+                onChange={updateOptions}
+                round={0}
+                multiSelect={true}
+            />
+        </Col>
+        <Col {...flexObj}>
+            <FormItem>
+                <Button className='side-button submit-button' type="primary" htmlType="submit">Update</Button>
+            </FormItem>
+        </Col>
+    </Row>
 </Form>
 )
 StrikeInputs.propTypes={

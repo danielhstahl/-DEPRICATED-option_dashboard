@@ -7,3 +7,5 @@ export const sOptions=createArray(1, 100)
 export const speedOptions=createArray(.1, 1, .1)
 export const adaOptions=createArray(0, .8, .05)
 export const sigmaOptions=createArray(.05, .8, .05)
+export const gutter=16
+export const flexObj={xs:24, md:12}

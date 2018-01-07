@@ -7,15 +7,20 @@ const fixedVal=round=>val=>val.toFixed(round)
 const FormItem=Form.Item
 const onChangeHelper=(onChange, key, parms)=>value=>onChange(key, parseArrOrNumber(value, parseFloat), parms)
 
-
 const ToolTip=(label, title)=><Tooltip placement="top" title={title}><span>{label}</span></Tooltip>
 
+const formItemLayout={
+    labelCol: { span: 4 },
+    wrapperCol: { span: 8 }
+}
+const style={ width: '100%' }
 const CustomDrop=({objKey, parms, options, label, onChange, round, toolTip, multiSelect})=>(
-<FormItem label={ToolTip(label, toolTip)}>
+<FormItem label={ToolTip(label, toolTip)} {...formItemLayout}>
     <Select
         value={parseArrOrNumber(parms[objKey], fixedVal(round))}
         onChange={onChangeHelper(onChange, objKey, parms)}
         mode={multiSelect?'multiple':null}
+        style={style}
     >
         {options.map(option=>{
             const val=option.toFixed(round)

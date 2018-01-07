@@ -6,15 +6,19 @@ import {getAllData} from '../Actions/lambda'
 import {
     updateCustom
 } from '../Actions/parameters'
-
+import ShowJson from './ShowJson'
 import {
     rhoOptions,
     speedOptions,
     adaOptions,
-    sigmaOptions
+    sigmaOptions,
+    flexObj,
+    gutter
 } from './globalOptions'
 
 import { Row, Col, Form, Button } from 'antd'
+
+const FormItem=Form.Item
 
 const COptions=createArray(0, 2, .1)
 const GMOptions=createArray(.2, 10, .1)
@@ -23,8 +27,8 @@ const v0Options=createArray(.7, 1.3, .05)
 
 const CustomForm=({customParameters, submitOptions, updateCustom})=>(
 <Form onSubmit={handleForm(submitOptions, customParameters)}>
-    <Row gutter={16}>
-        <Col span={12}>
+    <Row gutter={gutter}>
+        <Col {...flexObj}>
             <CustomDrop 
                 objKey='sigma' 
                 round={2}
@@ -35,7 +39,7 @@ const CustomForm=({customParameters, submitOptions, updateCustom})=>(
                 onChange={updateCustom}
             />
         </Col>
-        <Col span={12}>
+        <Col {...flexObj}>
             <CustomDrop 
                 objKey='C' 
                 round={1}
@@ -46,7 +50,7 @@ const CustomForm=({customParameters, submitOptions, updateCustom})=>(
                 onChange={updateCustom}
             />
         </Col>
-        <Col span={12}>
+        <Col {...flexObj}>
             <CustomDrop 
                 objKey='G'
                 round={1} 
@@ -57,7 +61,7 @@ const CustomForm=({customParameters, submitOptions, updateCustom})=>(
                 onChange={updateCustom}
             />
         </Col>
-        <Col span={12}>
+        <Col {...flexObj}>
             <CustomDrop 
                 objKey='M' 
                 round={1}
@@ -68,7 +72,7 @@ const CustomForm=({customParameters, submitOptions, updateCustom})=>(
                 onChange={updateCustom}
             />
         </Col>
-        <Col span={12}>
+        <Col {...flexObj}>
             <CustomDrop 
                 objKey='Y' 
                 round={1}
@@ -79,7 +83,7 @@ const CustomForm=({customParameters, submitOptions, updateCustom})=>(
                 onChange={updateCustom}
             />
         </Col>
-        <Col span={12}>
+        <Col {...flexObj}>
             <CustomDrop 
                 objKey='speed' 
                 round={1}
@@ -90,7 +94,7 @@ const CustomForm=({customParameters, submitOptions, updateCustom})=>(
                 onChange={updateCustom}
             />
         </Col>
-        <Col span={12}>
+        <Col {...flexObj}>
             <CustomDrop 
                 objKey='adaV' 
                 round={2}
@@ -101,7 +105,7 @@ const CustomForm=({customParameters, submitOptions, updateCustom})=>(
                 onChange={updateCustom}
             />
         </Col>
-        <Col span={12}>
+        <Col {...flexObj}>
             <CustomDrop 
                 objKey='v0' 
                 round={2}
@@ -112,7 +116,7 @@ const CustomForm=({customParameters, submitOptions, updateCustom})=>(
                 onChange={updateCustom}
             />
         </Col>
-        <Col span={12}>
+        <Col {...flexObj}>
             <CustomDrop 
                 objKey='rho' 
                 round={2}
@@ -123,10 +127,13 @@ const CustomForm=({customParameters, submitOptions, updateCustom})=>(
                 onChange={updateCustom}
             />
         </Col>
-        <Col span={12}>
-            <Button className='side-button submit-button' type="primary" htmlType="submit">Update</Button>
+        <Col {...flexObj}>
+            <FormItem>
+                <Button className='side-button submit-button' type="primary" htmlType="submit">Update</Button>
+            </FormItem>
         </Col>
     </Row>
+    <ShowJson parameters={customParameters}/>
 </Form>
 )
 const mapStateToPropsCustom=state=>({
