@@ -54,77 +54,74 @@ const CardPlot=({Algorithm, HelpComponent, url, match, location, title})=>{
 		<IVComponent />
 		<Route path={localUrl} exact component={HelpComponent}/>
 	</Card>
-
 	)
 }
 const MenuSensitivities=({match})=> (
 	<Menu theme="light" mode="horizontal" selectedKeys={[match.params[paramKey]]}>
 		{sensitivities.map(sensitivity=>(
 			<Menu.Item key={sensitivity}>
-				<Link key={sensitivity} to={`/${sensitivity}`}>{sensitivity}</Link>
+				<Link to={`/${sensitivity}`}>{sensitivity}</Link>
 			</Menu.Item>
 		))}
 	</Menu>
 )
 const HoldCards=props=>[
 <MenuSensitivities key={0} {...props}/>,
-<Row gutter={32} key={1} justify="center">
-	<Col lg={8}>
-		<CardPlot
-			Algorithm={CarrMadan} 
-			title="Carr-Madan" 
-			HelpComponent={CarrMadanHelp}
-			url={carrMadanHelpUrl}
-			{...props}
-		/>
-	</Col>
-	<Col lg={8}>
-		<CardPlot 
-			Algorithm={FSTS} 
-			title="Fourier Space Time Step" 
-			HelpComponent={FSTSHelp}
-			url={fstsHelpUrl}
-			{...props}
-		/>
-	</Col>
-	<Col lg={8}>
-		<CardPlot 
-			Algorithm={FangOost} 
-			title="Fang-Oosterlee" 
-			HelpComponent={FangOostHelp}
-			url={fangOostHelpUrl}
-			{...props}
-		/>
-	</Col>
-</Row>
+<Col lg={8} key={1}>
+	<CardPlot
+		Algorithm={CarrMadan} 
+		title="Carr-Madan" 
+		HelpComponent={CarrMadanHelp}
+		url={carrMadanHelpUrl}
+		{...props}
+	/>
+</Col>,
+<Col lg={8} key={2}>
+	<CardPlot 
+		Algorithm={FSTS} 
+		title="Fourier Space Time Step" 
+		HelpComponent={FSTSHelp}
+		url={fstsHelpUrl}
+		{...props}
+	/>
+</Col>,
+<Col lg={8} key={3}>
+	<CardPlot 
+		Algorithm={FangOost} 
+		title="Fang-Oosterlee" 
+		HelpComponent={FangOostHelp}
+		url={fangOostHelpUrl}
+		{...props}
+	/>
+	<StrikeInputs/>
+</Col>
 ]
-
+/**<Col xs={6} className='left'>
+					<OptionInputs/>
+					
+					
+				</Col> */
 const App =()=>(
 	<Layout>
 		<AsyncHOC/>
 		<Content style={style}>
 			<Row gutter={32}>
-				<Col xs={6} className='left'>
-					<OptionInputs/>
-					<QuantileInputs/>
-					<StrikeInputs/>
-				</Col>
 				<BrowserRouter basename={process.env.PUBLIC_URL}>
-					<Col xs={18} className='right'>
-						<Switch>
-							<Route path={paramUrl} component={HoldCards}/>
-							<Redirect from={baseUrl} exact to={redirectUrl} />
-						</Switch>
-						<br /><br />
-						<Row gutter={32} justify="center">
-							<Col lg={8}>
-								<Card title="Density" bordered={false}>
-									<Density />
-								</Card>
-							</Col>
-						</Row>
-					</Col>
+					<Link to='/inputs' />
+					<Route path='/inputs' component={OptionInputs}/>
+					<Switch>
+						<Route path={paramUrl} component={HoldCards}/>
+						<Redirect from={baseUrl} exact to={redirectUrl} />
+					</Switch>
 				</BrowserRouter>
+			</Row>
+			<Row gutter={32} justify="center">
+				<Col lg={8}>
+					<Card title="Density" bordered={false}>
+						<Density />
+						<QuantileInputs/>
+					</Card>
+				</Col>
 			</Row>
 		</Content>
 	</Layout>

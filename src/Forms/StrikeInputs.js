@@ -14,7 +14,7 @@ const StrikeInputs=({strikeParameters, updateOptions, submitOptions})=>(
         options={strikeOptions}
         objKey='k'
         parms={strikeParameters}
-        label="Strikes"
+        label=""
         toolTip="Select any number of strikes to see the price at each strike"
         onChange={updateOptions}
         round={0}
