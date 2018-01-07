@@ -54,6 +54,7 @@ const CardPlot=({Algorithm, HelpComponent, url, match, location, title})=>{
 	</Card>
 	)
 }
+const floatRight={float:'right'}
 const MenuSensitivities=({match})=> (
 	<Menu theme="light" mode="horizontal" selectedKeys={[match.params[paramKey]]}>
 		{sensitivities.map(sensitivity=>(
@@ -61,16 +62,16 @@ const MenuSensitivities=({match})=> (
 				<Link to={`/${sensitivity}`}>{sensitivity}</Link>
 			</Menu.Item>
 		))}
+		<Menu.Item style={floatRight}>
+			<Link to={`/${match.params[paramKey]}/inputs/Heston`}>Edit Inputs</Link>
+		</Menu.Item>
 	</Menu>
 )
-const WrapInputLink=({match})=>(
-	<Link to={`/${match.params[paramKey]}/inputs/Heston`}>Edit Inputs</Link>
-)
+
 const WrapModalInputs=({match})=>(
 	<Route path={`/${match.params[paramKey]}/inputs/:inputChoice`} component={ModalInputs}/>
 )
 const HoldCards=props=>[
-<WrapInputLink key={-2} {...props}/>,
 <WrapModalInputs {...props} key={-1}/>,
 <MenuSensitivities key={0} {...props}/>,
 <Col lg={8} key={1}>
