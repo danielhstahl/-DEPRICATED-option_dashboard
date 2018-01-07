@@ -18,8 +18,6 @@ import OptionInputs from './Forms/OptionInputs'
 import QuantileInputs from './Forms/QuantileInputs'
 import StrikeInputs from './Forms/StrikeInputs'
 import { Row, Col, Layout, Card, Menu} from 'antd'
-
-
 import { 
 	BrowserRouter,Route,
 	Link, Redirect,
@@ -102,18 +100,19 @@ const HoldCards=props=>[
 					
 				</Col> */
 const App =()=>(
+<BrowserRouter basename={process.env.PUBLIC_URL}>
 	<Layout>
 		<AsyncHOC/>
 		<Content style={style}>
 			<Row gutter={32}>
-				<BrowserRouter basename={process.env.PUBLIC_URL}>
-					<Link to='/inputs' />
-					<Route path='/inputs' component={OptionInputs}/>
-					<Switch>
-						<Route path={paramUrl} component={HoldCards}/>
-						<Redirect from={baseUrl} exact to={redirectUrl} />
-					</Switch>
-				</BrowserRouter>
+				
+				<Link to='/inputs'>WooWassup</Link>
+				<Route path='/inputs' component={OptionInputs}/>
+				<Switch>
+					<Route path={paramUrl} component={HoldCards}/>
+					<Redirect from={baseUrl} exact to={redirectUrl} />
+				</Switch>
+				
 			</Row>
 			<Row gutter={32} justify="center">
 				<Col lg={8}>
@@ -125,6 +124,7 @@ const App =()=>(
 			</Row>
 		</Content>
 	</Layout>
+</BrowserRouter>
 )
 
 export default App

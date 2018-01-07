@@ -7,7 +7,12 @@ import {getAllData} from '../Actions/lambda'
 import {
     updateOptions, showOptionModal
 } from '../Actions/parameters'
-import { Row, Col, Form, Button, Modal} from 'antd'
+import { Row, Col, Form, Button, Modal, Menu} from 'antd'
+import { 
+	BrowserRouter,Route,
+	Link, Redirect,
+	Switch
+} from 'react-router-dom'
 const uOptions=createArray(5, 10)
 const rOptions=createArray(0, .1, .001)
 const tOptions=createArray(.25, 5, .25)
@@ -46,7 +51,7 @@ const InputChoices=[
     'JSON'
 ]
 const MenuTypes=({match})=>(
-	<Menu theme="light" mode="horizontal" selectedKeys={[match.params[paramKey]]}>
+	<Menu theme="light" mode="horizontal" /*selectedKeys={[match.params[paramKey]]}*/>
 		{InputChoices.map(choice=>(
 			<Menu.Item key={choice}>
 				<Link to={`/inputs/${choice}`}>{choice}</Link>
@@ -171,7 +176,7 @@ const mapDispatchToPropsCustom =dispatch=>({
     submitOptions:vals=>getAllData(vals, dispatch)
 })
 
-const EnhanceCustomForm=connect(
+const EnhCustomForm=connect(
     mapStateToPropsCustom, mapDispatchToPropsCustom
 )(CustomForm)
 
@@ -260,10 +265,10 @@ const BSForm=({optionParameters, submitOptions, updateOptions})=>(
 
 const convertCustomToHestonB=sigma=>sigma*sigma
 const convertCustomToHestonC=(ada, sigma)=>ada*sigma*sigma
-const convertCustomtoHestonV0=(V0, sigma)=>V0*sigma*sigma
+const convertCustomToHestonV0=(V0, sigma)=>V0*sigma*sigma
 
-const convertHestonToCustomAda=(c, b)=>c/sqrt(b)
-const convertHestonToCustomSig=b=>sqrt(b)
+const convertHestonToCustomAda=(c, b)=>c/Math.sqrt(b)
+const convertHestonToCustomSig=b=>Math.sqrt(b)
 const convertHestonToCustomV0=(v0, b)=>v0/b
 
 const mapStateToPropsHeston=state=>{
@@ -276,7 +281,7 @@ const mapStateToPropsHeston=state=>{
             v0:convertCustomToHestonV0(v0, sigma)
         }
     }
-})
+}
 const mapDispatchToPropsHeston =dispatch=>({
     updateOptions:(key, value, optionParameters)=>{
         const {sigma, adaV, v0}=optionParameters
@@ -284,7 +289,7 @@ const mapDispatchToPropsHeston =dispatch=>({
         switch(key){
             case 'meanVol':{
                 const c=convertCustomToHestonC(adaV, sigma)
-                const hestV0=convertCustomToHestonV0(V0, sigma)
+                const hestV0=convertCustomToHestonV0(v0, sigma)
                 updateOptions(key, convertHestonToCustomAda(c, value), dispatch)
                 updateOptions(key, convertHestonToCustomSig(value), dispatch)
                 updateOptions(key, convertHestonToCustomV0(hestV0, value), dispatch)
@@ -295,9 +300,9 @@ const mapDispatchToPropsHeston =dispatch=>({
                 updateOptions(key, convertHestonToCustomAda(value, b), dispatch)
                 break
             }
-            case 'V0':{
+            case 'v0':{
                 const b=convertCustomToHestonB(sigma)
-                updateOptions(key, convertCustomtoHestonV0(value, b), dispatch)
+                updateOptions(key, convertCustomToHestonV0(value, b), dispatch)
                 break
             }
             default:{
@@ -317,22 +322,22 @@ const EnhHestonForm=connect(
 const mapStateToPropsBS=state=>({
     optionParameters:state.optionParameters
 })
-const mapDispatchToPropsBS=dispatch=>{
+const mapDispatchToPropsBS=dispatch=>({
     updateOptions:(key, value)=>{
         updateOptions('C', 0, dispatch)
-        updateOptions('V0', 1.0, dispatch)
+        updateOptions('v0', 1.0, dispatch)
         updateOptions('adaV', 0.0, dispatch)
         updateOptions(key, value, dispatch)
     },
     submitOptions:vals=>getAllData(vals, dispatch)
-}
+})
 const EnhBSForm=connect(
-    mapStateTopPropsBS,
+    mapStateToPropsBS,
     mapDispatchToPropsBS
 )(BSForm)
 
-const OptionInputs=({optionParameters, updateOptions, submitOptions})=>(
-<Modal title="Attributes" visible={visible} onOk={close} onCancel={close}>
+const OptionInputs=({optionParameters, updateOptions, submitOptions, history})=>(
+<Modal title="Attributes" visible={true} onOk={history.back} onCancel={history.back} width={1200}>
     <MenuTypes/>
     <Row>
         <Col span={12}>
