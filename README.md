@@ -13,7 +13,7 @@ Currently, the dashboard is simply a calculator for options on an asset which fo
 In a future state, we want the following:
 
 * Add tabs for American options (using FSTS)
-* Have a "simple" and "advanced" view
-* Add "Greeks" (at least delta, maybe gamma and theta)
+* ~~Have a "simple" and "advanced" view [DONE]~~ [Complete](https://github.com/phillyfan1138/option_dashboard/commit/5bba9ab7ed50cc03b20662591789d887fe4f066f)
+* ~~Add "Greeks" (at least delta, maybe gamma and theta)~~ [Complete](https://github.com/phillyfan1138/option_dashboard/commit/c8a8174aea080c8d95d2ae76e74f5ed616accd42)
 * Add calibration (mark to market)
 * Add data feeds?
