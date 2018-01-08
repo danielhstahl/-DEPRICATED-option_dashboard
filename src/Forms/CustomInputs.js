@@ -1,11 +1,9 @@
 import React from 'react'
-import {createArray, handleForm} from '../utils'
+import { createArray, handleForm } from '../utils'
 import { connect } from 'react-redux'
 import CustomDrop from './FormHelper'
-import {getAllData} from '../Actions/lambda'
-import {
-    updateCustom
-} from '../Actions/parameters'
+import { getAllData } from '../Actions/lambda'
+import { updateCustom } from '../Actions/parameters'
 import ShowJson from './ShowJson'
 import {
     rhoOptions,

@@ -1,25 +1,25 @@
 @import '~antd/dist/antd.css';
 .ant-layout-content { 
-    margin: 0 !important; 
-    padding: 0 !important; 
+    margin: 0 0 0 0 !important;
+    padding: 0 0 25% 0 !important; 
     background-color: whitesmoke !important;
-    max-width: 97vw !important;
 }
-.ant-form-item-label { 
-    float: left; 
-    width: 60%; 
+.container {
+    padding: 0 5% 0 5%;
 }
-.ant-form {
-    overflow: hidden;
+.padMe {
+    padding: 0px;
 }
-
-.left{ 
-    padding: 30px 0px 30px 0px;
-    /*min-height: 100vh;
-    overflow-y: scroll;
-    */
-    background-color: whitesmoke; 
+.ant-menu-horizontal {
+    margin-bottom: 25px;
 }
-.right{
-    padding: 30px 0px 30px 0px;
+.ant-modal .side-button {
+    float: right;
+    margin-top: 20%;
+}
+.ant-form-item-control {
+    min-width: 100px;
+}
+.ant-select{
+    width: 100%;
 }

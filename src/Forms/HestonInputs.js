@@ -3,10 +3,7 @@ import { createArray, handleForm } from '../utils'
 import CustomDrop from './FormHelper'
 import { getAllData } from '../Actions/lambda'
 import { connect } from 'react-redux'
-import {
-    updateHeston,
-    updateAllCustom
-} from '../Actions/parameters'
+import { updateHeston, updateAllCustom } from '../Actions/parameters'
 import { Row, Col, Form, Button } from 'antd'
 import ShowJson from './ShowJson'
 import {
