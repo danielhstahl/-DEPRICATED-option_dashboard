@@ -1,21 +1,11 @@
 import React from 'react'
-import {createArray, handleForm} from '../utils'
+import { createArray, handleForm } from '../utils'
 import { connect } from 'react-redux'
 import CustomDrop from './FormHelper'
-import {getAllData} from '../Actions/lambda'
-import {
-    updateCustom
-} from '../Actions/parameters'
+import { getAllData } from '../Actions/lambda'
+import { updateCustom } from '../Actions/parameters'
 import ShowJson from './ShowJson'
-import {
-    rhoOptions,
-    speedOptions,
-    adaOptions,
-    sigmaOptions,
-    flexObj,
-    gutter
-} from './globalOptions'
-
+import { rhoOptions, speedOptions, adaOptions, sigmaOptions, flexObj, gutter } from './globalOptions'
 import { Row, Col, Form, Button } from 'antd'
 
 const FormItem=Form.Item
@@ -26,7 +16,7 @@ const YOptions=createArray(.2, 1.8, .2)
 const v0Options=createArray(.7, 1.3, .05)
 
 const CustomForm=({customParameters, submitOptions, updateCustom})=>(
-<Form onSubmit={handleForm(submitOptions, customParameters)}>
+<Form onSubmit={handleForm(submitOptions, customParameters)} layout='vertical'>
     <Row gutter={gutter}>
         <Col {...flexObj}>
             <CustomDrop 

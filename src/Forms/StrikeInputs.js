@@ -14,27 +14,21 @@ const FormItem=Form.Item
 
 const strikeOptions=createArray(1, 100)
 const StrikeInputs=({strikeParameters, updateOptions, submitOptions})=>(
-<Form onSubmit={handleForm(strikeParameters, submitOptions)}>
-    <Row gutter={gutter}>
-        <Col {...flexObj}>
-            <CustomDrop 
-                options={strikeOptions}
-                objKey='k'
-                parms={strikeParameters}
-                label="Strikes"
-                toolTip="Select any number of strikes to see the price at each strike"
-                onChange={updateOptions}
-                round={0}
-                multiSelect={true}
-            />
-        </Col>
-        <Col {...flexObj}>
-            <FormItem>
-                <Button className='side-button submit-button' type="primary" htmlType="submit">Update</Button>
-            </FormItem>
-        </Col>
-    </Row>
-</Form>
+    <Form onSubmit={handleForm(strikeParameters, submitOptions)} layout='inline'>
+        <CustomDrop 
+            options={strikeOptions}
+            objKey='k'
+            parms={strikeParameters}
+            label="Strikes"
+            toolTip="Select any number of strikes to see the price at each strike"
+            onChange={updateOptions}
+            round={0}
+            multiSelect={true}
+        />
+        <FormItem>
+            <Button className='side-button submit-button' type="primary" htmlType="submit">Update</Button>
+        </FormItem>
+    </Form>
 )
 StrikeInputs.propTypes={
     strikeParameters:PropTypes.shape({

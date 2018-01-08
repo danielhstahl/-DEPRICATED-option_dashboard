@@ -9,25 +9,19 @@ const onChangeHelper=(onChange, key, parms)=>value=>onChange(key, parseArrOrNumb
 
 const ToolTip=(label, title)=><Tooltip placement="top" title={title}><span>{label}</span></Tooltip>
 
-const formItemLayout={
-    labelCol: { span: 4 },
-    wrapperCol: { span: 8 }
-}
-const style={ width: '100%' }
 const CustomDrop=({objKey, parms, options, label, onChange, round, toolTip, multiSelect})=>(
-<FormItem label={ToolTip(label, toolTip)} {...formItemLayout}>
-    <Select
-        value={parseArrOrNumber(parms[objKey], fixedVal(round))}
-        onChange={onChangeHelper(onChange, objKey, parms)}
-        mode={multiSelect?'multiple':null}
-        style={style}
-    >
-        {options.map(option=>{
-            const val=option.toFixed(round)
-            return <Option key={val} value={val}>{val}</Option>
-        })}
-    </Select>
-</FormItem>
+    <FormItem label={ToolTip(label, toolTip)}>
+        <Select
+            value={parseArrOrNumber(parms[objKey], fixedVal(round))}
+            onChange={onChangeHelper(onChange, objKey, parms)}
+            mode={multiSelect?'multiple':null}
+        >
+            {options.map(option=>{
+                const val=option.toFixed(round)
+                return <Option key={val} value={val}>{val}</Option>
+            })}
+        </Select>
+    </FormItem>
 )
 CustomDrop.propTypes={
     objKey:PropTypes.string.isRequired,

@@ -3,28 +3,16 @@ import { createArray, handleForm } from '../utils'
 import CustomDrop from './FormHelper'
 import { getAllData } from '../Actions/lambda'
 import { connect } from 'react-redux'
-import {
-    updateHeston,
-    updateAllCustom
-} from '../Actions/parameters'
+import { updateHeston, updateAllCustom } from '../Actions/parameters'
 import { Row, Col, Form, Button } from 'antd'
 import ShowJson from './ShowJson'
-import {
-    rhoOptions,
-    speedOptions,
-    adaOptions,
-    flexObj,
-    gutter
-} from './globalOptions'
-
-import {
-    convertHestonToCustom
-} from './parameterConversion'
+import { rhoOptions, speedOptions, adaOptions, flexObj, gutter } from './globalOptions'
+import { convertHestonToCustom } from './parameterConversion'
 
 const FormItem=Form.Item
 const v0Options=createArray(.01, .25, .01)
 const HestonForm=({customParameters, hestonParameters, submitOptions, updateHeston})=>(
-    <Form onSubmit={handleForm(submitOptions, hestonParameters, customParameters)}>
+    <Form onSubmit={handleForm(submitOptions, hestonParameters, customParameters)} layout='vertical'>
         <Row gutter={gutter}>
             <Col {...flexObj}>
                 <CustomDrop 
