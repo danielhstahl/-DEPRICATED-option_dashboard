@@ -10,14 +10,11 @@ import {
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import CustomDrop from './FormHelper'
-
 import { updateCustom } from '../Actions/parameters'
-
 import HestonForm from './HestonInputs'
 import CustomForm from './CustomInputs'
 import BSForm from './BSInputs'
 import { Row, Col, Modal, Menu} from 'antd'
-
 import { 
 	Route,
 	Link
@@ -26,23 +23,25 @@ import {
 const getBaseUrl=path=>path.split("/:")[0]
 const generateUrl=(path, choice)=>`${getBaseUrl(path)}/${choice}`
 
-const InputChoices=[
+export const inputChoices=[
     'Heston',
     'Black Scholes',
     'Advanced',
 ]
 
-const [HestonName, BSName, CustomName]=InputChoices
+export const urlName='inputs'
+const [HestonName, BSName, CustomName]=inputChoices
 
 const MenuTypes=({match})=>(
 <Menu theme="light" mode="horizontal" selectedKeys={[match.params.inputChoice]}>
-    {InputChoices.map(choice=>(
+    {inputChoices.map(choice=>(
         <Menu.Item key={choice}>
             <Link to={generateUrl(match.path, choice)}>{choice}</Link>
         </Menu.Item>
     ))}
 </Menu>
 ) 
+
 const ModalInputs=({customParameters, updateCustom, history, match})=>{
     const closeModal=()=>history.push(getBaseUrl(match.path))
     return (
