@@ -52,9 +52,6 @@ const mapStateToPropsBS=state=>({
 })
 const mapDispatchToPropsBS=dispatch=>({
     updateCustom:(key, value)=>{
-        /*updateCustom('C', 0, dispatch)
-        updateCustom('v0', 1.0, dispatch)
-        updateCustom('adaV', 0.0, dispatch)*/
         updateCustom(key, value, dispatch)
     },
     submitOptions:vals=>{

@@ -1,7 +1,3 @@
-/*const convertCustomToHestonB=sigma=>sigma*sigma
-const convertCustomToHestonC=(ada, sigma)=>ada*sigma*sigma
-const convertCustomToHestonV0=(V0, sigma)=>V0*sigma*sigma*/
-
 export const convertHestonToCustomAda=(c, b)=>c/Math.sqrt(b)
 export const convertHestonToCustomSig=b=>Math.sqrt(b)
 export const convertHestonToCustomV0=(v0, b)=>v0/b

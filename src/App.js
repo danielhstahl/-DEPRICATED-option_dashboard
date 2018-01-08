@@ -3,7 +3,6 @@ import './App.css'
 import {
 	sensitivities
 } from './appSkeleton'
-
 import {
 	FangOost, 
 	CarrMadan, 
@@ -24,15 +23,16 @@ import {
 	Switch
 } from 'react-router-dom'
 
+import { urlName, inputChoices } from './Forms/ModalInputs'
+const [HestonName]=inputChoices
+
 const style={ background: '#fff', padding: 24, margin: 0, minHeight: 280 }
 const Content=Layout.Content
-
 const paramKey='sensitivity'
 const paramUrl=`/:${paramKey}`
 const baseUrl='/'
 const [priceName]=sensitivities
 const redirectUrl=`/${priceName}`
-
 const fangOostHelpUrl='/fangoost/help'
 const carrMadanHelpUrl='/carrmadan/help'
 const fstsHelpUrl='/fsts/help'
@@ -63,13 +63,13 @@ const MenuSensitivities=({match})=> (
 			</Menu.Item>
 		))}
 		<Menu.Item style={floatRight}>
-			<Link to={`/${match.params[paramKey]}/inputs/Heston`}>Edit Inputs</Link>
+			<Link to={`/${match.params[paramKey]}/${urlName}/${HestonName}`}>Edit Inputs</Link>
 		</Menu.Item>
 	</Menu>
 )
 
 const WrapModalInputs=({match})=>(
-	<Route path={`/${match.params[paramKey]}/inputs/:inputChoice`} component={ModalInputs}/>
+	<Route path={`/${match.params[paramKey]}/${urlName}/:inputChoice`} component={ModalInputs}/>
 )
 const HoldCards=props=>[
 <WrapModalInputs {...props} key={-1}/>,
