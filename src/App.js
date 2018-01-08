@@ -23,7 +23,7 @@ import {
 	Switch
 } from 'react-router-dom'
 
-import { urlName, inputChoices } = './Forms/ModalInputs'
+import { urlName, inputChoices } from './Forms/ModalInputs'
 const [HestonName]=inputChoices
 
 const style={ background: '#fff', padding: 24, margin: 0, minHeight: 280 }
