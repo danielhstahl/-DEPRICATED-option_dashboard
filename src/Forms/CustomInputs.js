@@ -13,7 +13,9 @@ import {
     adaOptions,
     sigmaOptions,
     flexObj,
-    gutter
+    gutter,
+    formItemLayoutLabel,
+    fullWidth
 } from './globalOptions'
 
 import { Row, Col, Form, Button } from 'antd'
@@ -25,9 +27,8 @@ const GMOptions=createArray(.2, 10, .1)
 const YOptions=createArray(.2, 1.8, .2)
 const v0Options=createArray(.7, 1.3, .05)
 
-const CustomForm=({customParameters, submitOptions, updateCustom})=>(
-<Form onSubmit={handleForm(submitOptions, customParameters)}>
-    <Row gutter={gutter}>
+const CustomForm=({customParameters, submitOptions, updateCustom})=>[
+    <Row gutter={gutter} key={0}>
         <Col {...flexObj}>
             <CustomDrop 
                 objKey='sigma' 
@@ -128,14 +129,20 @@ const CustomForm=({customParameters, submitOptions, updateCustom})=>(
             />
         </Col>
         <Col {...flexObj}>
-            <FormItem>
-                <Button className='side-button submit-button' type="primary" htmlType="submit">Update</Button>
+            <FormItem {...formItemLayoutLabel} colon={false} label=" ">
+                <Button 
+                    style={fullWidth}
+                    className='side-button submit-button' 
+                    type="primary" 
+                    onClick={handleForm(submitOptions, customParameters)}
+                >Update</Button>
             </FormItem>
         </Col>
+    </Row>,
+    <Row key={1}>
+        <ShowJson parameters={customParameters}/>
     </Row>
-    <ShowJson parameters={customParameters}/>
-</Form>
-)
+]
 const mapStateToPropsCustom=state=>({
     customParameters:state.customParameters
 })

@@ -9,3 +9,8 @@ export const adaOptions=createArray(0, .8, .05)
 export const sigmaOptions=createArray(.05, .8, .05)
 export const gutter=16
 export const flexObj={xs:24, md:12}
+export const formItemLayoutLabel={
+    labelCol: { span: 4 },
+    wrapperCol: { span: 8 }
+}
+export const fullWidth={ width: '100%' }
