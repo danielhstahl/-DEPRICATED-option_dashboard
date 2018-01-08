@@ -13,20 +13,27 @@ import {
 const quantileOptions=createArray(.001, .05, .001)
 const FormItem=Form.Item
 const QuantileInputs=({quantileParameters, updateOptions, submitOptions})=>(
-    <Form onSubmit={handleForm(quantileParameters, submitOptions)} layout='inline'>
-        <CustomDrop 
-            objKey='quantile' 
-            parms={quantileParameters}
-            options={quantileOptions}
-            round={3}
-            toolTip="This is the quantile of the asset return distribution.  A .01 quantile translates to a 99% VaR"
-            label="Quantile"
-            onChange={updateOptions}
-        />
-        <FormItem>
-            <Button className='side-button submit-button' type="primary" htmlType="submit">Update</Button>
-        </FormItem>
-    </Form>
+    <Row gutter={gutter}>
+        <Col {...flexObj}>
+            <CustomDrop 
+                objKey='quantile' 
+                parms={quantileParameters}
+                options={quantileOptions}
+                round={3}
+                toolTip="This is the quantile of the asset return distribution.  A .01 quantile translates to a 99% VaR"
+                label="Quantile"
+                onChange={updateOptions}
+            />
+        </Col>
+        <Col {...flexObj}>
+            <FormItem>
+                <Button 
+                    className='side-button submit-button' type="primary" 
+                    onClick={handleForm(submitOptions, quantileParameters)}
+                >Update</Button>
+            </FormItem>
+        </Col>
+    </Row>
 )
 QuantileInputs.propTypes={
     quantileParameters:PropTypes.shape({

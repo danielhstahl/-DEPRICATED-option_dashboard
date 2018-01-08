@@ -36,22 +36,23 @@ const NoSensitivity=({sensitivity, title})=>(
 	<p>Attribute {sensitivity} is not available for {title}!</p>
 )
 
-const CardPlot=({Algorithm, HelpComponent, url, match, location, title})=>{
+const CardPlot=({Algorithm, HelpComponent, url, match, location, title, CardFooter})=>{
 	const matchParam=match.params[paramKey]
 	const localUrl=`/${matchParam}${url}`
 	const Component=Algorithm[matchParam]
 	const IVComponent=Algorithm.IV
 	return (
-	<Card 
-		title={title} 
-		bordered={false} 
-		extra={ <Link to={localUrl}>?</Link> }
-		style={cardPlot}
-	>
-		{ Component?<Component/> :<NoSensitivity sensitivity={matchParam} title={title}/> }
-		<IVComponent />
-		<Route path={localUrl} exact component={HelpComponent}/>
-	</Card>
+		<Card 
+			title={title} 
+			bordered={false} 
+			extra={ <Link to={localUrl}>?</Link> }
+			style={cardPlot}
+		>
+			{ Component?<Component/> :<NoSensitivity sensitivity={matchParam} title={title}/> }
+			<IVComponent />
+			<Route path={localUrl} exact component={HelpComponent}/>
+			{ CardFooter? <CardFooter/> :null }
+		</Card>
 	)
 }
 const floatRight={float:'right'}
@@ -110,8 +111,8 @@ const HoldCards=props=>[
 			HelpComponent={FangOostHelp}
 			url={fangOostHelpUrl}
 			{...props}
+			CardFooter = {StrikeInputs}
 		/>
-		<StrikeInputs/>
 	</Col>
 ]
 

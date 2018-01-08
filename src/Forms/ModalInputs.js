@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-    uOptions,
-    rOptions,
-    tOptions,
-    sOptions,
-    gutter,
-    flexObj
-} from './globalOptions'
+import { uOptions, rOptions, tOptions, sOptions, gutter, flexObj } from './globalOptions'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import CustomDrop from './FormHelper'
@@ -14,11 +7,8 @@ import { updateCustom } from '../Actions/parameters'
 import HestonForm from './HestonInputs'
 import CustomForm from './CustomInputs'
 import BSForm from './BSInputs'
-import { Row, Col, Modal, Menu} from 'antd'
-import { 
-	Route,
-	Link
-} from 'react-router-dom'
+import { Row, Col, Modal, Menu } from 'antd'
+import { Route, Link } from 'react-router-dom'
 
 const getBaseUrl=path=>path.split("/:")[0]
 const generateUrl=(path, choice)=>`${getBaseUrl(path)}/${choice}`
@@ -47,8 +37,11 @@ const ModalInputs=({customParameters, updateCustom, history, match})=>{
     return (
     <Modal 
         title="Attributes" 
-        visible={true} onOk={closeModal} 
-        onCancel={closeModal} width={900}
+        visible={true} 
+        onOk={closeModal} 
+        onCancel={closeModal} 
+        width={900}
+        footer={null}
     >
         <MenuTypes match={match}/>
         <Row gutter={gutter}>

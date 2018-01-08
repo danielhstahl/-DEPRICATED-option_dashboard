@@ -6,7 +6,9 @@ import { getAllData } from '../Actions/lambda'
 import {
     sigmaOptions,
     flexObj,
-    gutter
+    gutter,
+    formItemLayoutLabel,
+    fullWidth
 } from './globalOptions'
 import { Row, Col, Form, Button } from 'antd'
 import {
@@ -20,32 +22,35 @@ import {
 
 const FormItem=Form.Item
 
-const BSForm=({customParameters, submitOptions, updateCustom})=>(
-    <Form onSubmit={handleForm(submitOptions, customParameters)}>
-        <Row gutter={gutter}>
-            <Col {...flexObj}>
-                <CustomDrop 
-                    objKey='sigma' 
-                    round={2}
-                    parms={customParameters}
-                    options={sigmaOptions}
-                    toolTip="Volatility of diffusion"
-                    label="Volatility"
-                    onChange={updateCustom}
-                />
-            </Col>
-            <Col {...flexObj}>
-                <FormItem>
-                    <Button 
-                        className='side-button submit-button' 
-                        type="primary" htmlType="submit"
-                    >Update</Button>
-                </FormItem>
-            </Col>
-        </Row>
+const BSForm=({customParameters, submitOptions, updateCustom})=>[
+    <Row gutter={gutter} key={0}>
+        <Col {...flexObj}>
+            <CustomDrop 
+                objKey='sigma' 
+                round={2}
+                parms={customParameters}
+                options={sigmaOptions}
+                toolTip="Volatility of diffusion"
+                label="Volatility"
+                onChange={updateCustom}
+            />
+        </Col>
+        <Col {...flexObj}>
+            <FormItem {...formItemLayoutLabel} colon={false} label=" ">
+                <Button 
+                    style={fullWidth}
+                    className='side-button submit-button' 
+                    type="primary" 
+                    onClick={handleForm(submitOptions, customParameters)}
+                >Update</Button>
+            </FormItem>
+        </Col>
+        
+    </Row>,
+    <Row key={1}>
         <ShowJson parameters={convertBSToCustom(customParameters)}/>
-    </Form>
-)
+    </Row>
+]
 
 const mapStateToPropsBS=state=>({
     customParameters:state.customParameters
