@@ -14,11 +14,10 @@ import {upperFirstLetter} from './utils'
 
 const style = {
 	background: 'whitesmoke',
-	padding: 24,
 	margin: 0,
 	minHeight: 280
 }
-const cardPlot = { margin: '25px' }
+const cardPlot = { margin: '20px' }
 
 const [HestonName]=inputChoices
 
@@ -51,7 +50,7 @@ const CardPlot=({Algorithm, HelpComponent, url, match, location, title, CardFoot
 			{ Component?<Component/> :<NoSensitivity sensitivity={matchParam} title={title}/> }
 			<IVComponent />
 			<Route path={localUrl} exact component={HelpComponent}/>
-			{ CardFooter? <CardFooter/> :null }
+			{CardFooter ? <div className='cardFooter'><CardFooter /></div> : <div className='cardFooter'></div> }
 		</Card>
 	)
 }
@@ -84,7 +83,7 @@ const HoldCards=props=>[
 
 	<MenuSensitivities key={0} {...props}/>,
 
-	<Col lg={8} key={1}>
+	<Col lg={6} key={1}>
 		<CardPlot
 			Algorithm={CarrMadan} 
 			title="Carr-Madan" 
@@ -94,7 +93,7 @@ const HoldCards=props=>[
 		/>
 	</Col>,
 
-	<Col lg={8} key={2}>
+	<Col lg={6} key={2}>
 		<CardPlot 
 			Algorithm={FSTS} 
 			title="Fourier Space Time Step" 
@@ -104,7 +103,7 @@ const HoldCards=props=>[
 		/>
 	</Col>,
 
-	<Col lg={8} key={3}>
+	<Col lg={6} key={3}>
 		<CardPlot 
 			Algorithm={FangOost} 
 			title="Fang-Oosterlee" 
@@ -122,20 +121,14 @@ const App =()=>(
 			<AsyncHOC/>
 			<Content style={style}>
 				<div className='container'>
-					<Row gutter={32}>
+					<Row gutter={8}>
 						<Switch>
 							<Route path={paramUrl} component={HoldCards}/>
 							<Redirect from={baseUrl} exact to={redirectUrl} />
 						</Switch>
-					</Row>
-					<Row gutter={32} justify="center">
-						<Col lg={8}>
-							<Card 
-								title="Density" 
-								bordered={false}
-							>
-								<Density />
-								<QuantileInputs />
+						<Col lg={6}>
+							<Card title="Density" bordered={false} style={cardPlot}>
+								<Density /> <div class='cardFooter'> <QuantileInputs /> </div>
 							</Card>
 						</Col>
 					</Row>
