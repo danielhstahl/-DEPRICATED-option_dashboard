@@ -74,10 +74,10 @@ OptionCurves.propTypes={
     yLabel:PropTypes.string.isRequired,
     title:PropTypes.string.isRequired
 }
-export const IVCurves=({call, label, title})=>(
+export const IVCurves=({call, xLabel, title})=>(
     <VictoryChart 
         domainPadding={domainPadding}
-        containerComponent={<VictoryVoronoiContainer labels={ivLabelFn(label)}/>}
+        containerComponent={<VictoryVoronoiContainer labels={ivLabelFn(xLabel)}/>}
     >
         <VictoryLabel x={120} y={50}
             text={title}
@@ -94,7 +94,7 @@ export const IVCurves=({call, label, title})=>(
             label="Implied Volatility"
         />
         <VictoryAxis
-            label={label}
+            label={xLabel}
         />
     </VictoryChart>
 )
