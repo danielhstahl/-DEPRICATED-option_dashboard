@@ -19,7 +19,6 @@ export const inputChoices=[
     'Advanced',
 ]
 
-export const urlName='inputs'
 const [HestonName, BSName, CustomName]=inputChoices
 
 const MenuTypes=({match})=>(

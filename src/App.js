@@ -7,23 +7,24 @@ import AsyncHOC from './AsyncHoc'
 import ModalInputs from './Forms/ModalInputs'
 import QuantileInputs from './Forms/QuantileInputs'
 import StrikeInputs from './Forms/StrikeInputs'
+import CardPlot, {cardPlot} from './Cards/CardPlot'
 import { Row, Col, Layout, Card, Menu } from 'antd'
 import { BrowserRouter,Route, Link, Redirect, Switch } from 'react-router-dom'
-import { urlName, inputChoices } from './Forms/ModalInputs'
-import {upperFirstLetter} from './utils'
-
+import { inputChoices } from './Forms/ModalInputs'
+import { upperFirstLetter } from './Utils/utils'
+import { rootParamName } from './Routes/routeDefinitions'
 const style = {
 	background: 'whitesmoke',
 	margin: 0,
 	minHeight: 280
 }
-const cardPlot = { margin: '20px' }
+const inputsUrl='inputs'
+
 
 const [HestonName]=inputChoices
 
 const Content=Layout.Content
-const paramKey='sensitivity'
-const paramUrl=`/:${paramKey}`
+const paramUrl=`/:${rootParamName}`
 const baseUrl='/'
 const [priceName]=sensitivities
 const redirectUrl=`/${priceName}`
@@ -31,35 +32,12 @@ const fangOostHelpUrl='/fangoost/help'
 const carrMadanHelpUrl='/carrmadan/help'
 const fstsHelpUrl='/fsts/help'
 
-const NoSensitivity=({sensitivity, title})=>(
-	<p>Attribute {sensitivity} is not available for {title}!</p>
-)
-
-const CardPlot=({Algorithm, HelpComponent, url, match, location, title, CardFooter})=>{
-	const matchParam=match.params[paramKey]
-	const localUrl=`/${matchParam}${url}`
-	const Component=Algorithm[matchParam]
-	const IVComponent=Algorithm.IV
-	return (
-		<Card 
-			title={title} 
-			bordered={false} 
-			extra={ <Link to={localUrl}>?</Link> }
-			style={cardPlot}
-		>
-			{ Component?<Component/> :<NoSensitivity sensitivity={matchParam} title={title}/> }
-			<IVComponent />
-			<Route path={localUrl} exact component={HelpComponent}/>
-			{CardFooter ? <div className='cardFooter'><CardFooter /></div> : <div className='cardFooter'></div> }
-		</Card>
-	)
-}
 const floatRight={float:'right'}
 const MenuSensitivities=({match})=> (
 	<Menu 
 		theme="light" 
 		mode="horizontal" 
-		selectedKeys={ [match.params[paramKey]] }
+		selectedKeys={ [match.params[rootParamName]] }
 		style={{backgroundColor: 'whitesmoke'}}
 	>
 		{
@@ -70,13 +48,13 @@ const MenuSensitivities=({match})=> (
 			))
 		}
 		<Menu.Item style={floatRight}>
-			<Link to={`/${match.params[paramKey]}/${urlName}/${HestonName}`}>Edit Inputs</Link>
+			<Link to={`/${match.params[rootParamName]}/${inputsUrl}/${HestonName}`}>Edit Inputs</Link>
 		</Menu.Item>
 	</Menu>
 )
 
 const WrapModalInputs=({match})=>(
-	<Route path={`/${match.params[paramKey]}/${urlName}/:inputChoice`} component={ModalInputs}/>
+	<Route path={`/${match.params[rootParamName]}/${inputsUrl}/:inputChoice`} component={ModalInputs}/>
 )
 const HoldCards=props=>[
 	<WrapModalInputs {...props} key={-1}/>,

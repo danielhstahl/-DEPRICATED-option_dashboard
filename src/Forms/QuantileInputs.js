@@ -1,5 +1,5 @@
 import React from 'react'
-import { createArray, handleForm } from '../utils'
+import { createArray, handleForm } from '../Utils/utils'
 import CustomDrop from './FormHelper'
 import { updateCustom } from '../Actions/parameters'
 import { getVaRData } from '../Actions/lambda'

@@ -1,9 +1,10 @@
 import React from 'react'
-import { createArray, handleForm } from '../utils'
+import { createArray, handleForm } from '../Utils/utils'
 import { connect } from 'react-redux'
 import CustomDrop from './FormHelper'
 import { getAllData } from '../Actions/lambda'
 import { updateCustom } from '../Actions/parameters'
+
 import ShowJson from './ShowJson'
 import {
     rhoOptions,
@@ -141,9 +142,7 @@ const CustomForm=({customParameters, submitOptions, updateCustom})=>[
         <ShowJson parameters={customParameters}/>
     </Row>
 ]
-const mapStateToPropsCustom=state=>({
-    customParameters:state.customParameters
-})
+const mapStateToPropsCustom=({customParameters})=>({customParameters})
 const mapDispatchToPropsCustom =dispatch=>({
     updateCustom:(key, value)=>updateCustom(key, value, dispatch),
     submitOptions:vals=>getAllData(vals, dispatch)
