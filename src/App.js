@@ -106,7 +106,7 @@ const App =()=>(
 						</Switch>
 						<Col lg={6}>
 							<Card title="Density" bordered={false} style={cardPlot}>
-								<Density /> <div class='cardFooter'> <QuantileInputs /> </div>
+								<Density /> <div className='cardFooter'> <QuantileInputs /> </div>
 							</Card>
 						</Col>
 					</Row>

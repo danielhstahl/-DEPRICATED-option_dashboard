@@ -112,9 +112,7 @@ ModalInputs.propTypes={
        rho:PropTypes.number.isRequired
     })
 }
-const mapStateToProps=state=>({
-    customParameters:state.customParameters
-})
+const mapStateToProps=({customParameters})=>({customParameters})
 const mapDispatchToProps=dispatch=>({
     updateCustom:(key, value)=>updateCustom(key, value, dispatch)
 })
