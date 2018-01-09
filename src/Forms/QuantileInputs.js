@@ -4,7 +4,7 @@ import CustomDrop from './FormHelper'
 import { updateCustom } from '../Actions/parameters'
 import { getVaRData } from '../Actions/lambda'
 import { connect } from 'react-redux'
-import { Form, Button, Row, Col} from 'antd'
+import { Button, Row, Col} from 'antd'
 import PropTypes from 'prop-types'
 import {    
     gutter

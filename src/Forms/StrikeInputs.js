@@ -5,7 +5,7 @@ import { getFangOostCall, getFangOostPut } from '../Actions/lambda'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import CustomDrop from './FormHelper'
-import { Form, Button, Row, Col } from 'antd'
+import { Button, Row, Col } from 'antd'
 import {
     gutter,
     fullWidth
