@@ -25,15 +25,16 @@ const FormItem=Form.Item
 const BSForm=({customParameters, submitOptions, updateCustom})=>[
     <Row gutter={gutter} key={0}>
         <Col {...flexObj}>
-            <CustomDrop 
-                objKey='sigma' 
-                round={2}
-                parms={customParameters}
-                options={sigmaOptions}
-                toolTip="Volatility of diffusion"
-                label="Volatility"
-                onChange={updateCustom}
-            />
+            <FormItem {...formItemLayoutLabel} label="Volatility">
+                <CustomDrop 
+                    objKey='sigma' 
+                    round={2}
+                    parms={customParameters}
+                    options={sigmaOptions}
+                    toolTip="Volatility of diffusion"
+                    onChange={updateCustom}
+                />
+            </FormItem>
         </Col>
         <Col {...flexObj}>
             <FormItem {...formItemLayoutLabel} colon={false} label=" ">

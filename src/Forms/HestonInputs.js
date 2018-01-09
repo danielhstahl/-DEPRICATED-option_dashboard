@@ -28,59 +28,64 @@ const HestonForm=({
 })=>[
     <Row gutter={gutter} key={0}>
         <Col {...flexObj}>
-            <CustomDrop 
-                objKey='speed' 
-                round={1}
-                parms={hestonParameters}
-                options={speedOptions}
-                toolTip="Speed of mean reversion of variance process"
-                label="Speed"
-                onChange={(key, value)=>updateHeston(key, value, hestonParameters)}
-            />
+            <FormItem {...formItemLayoutLabel} label="Speed">
+                <CustomDrop 
+                    objKey='speed' 
+                    round={1}
+                    parms={hestonParameters}
+                    options={speedOptions}
+                    toolTip="Speed of mean reversion of variance process"
+                    onChange={(key, value)=>updateHeston(key, value, hestonParameters)}
+                />
+            </FormItem>
         </Col>
         <Col {...flexObj}>
-            <CustomDrop 
-                objKey='meanVol' 
-                round={2}
-                parms={hestonParameters}
-                options={v0Options}
-                toolTip="Long run average of the variance process"
-                label="Average Vol"
-                onChange={(key, value)=>updateHeston(key, value, hestonParameters)}
-            />
+            <FormItem {...formItemLayoutLabel} label="Average Vol">
+                <CustomDrop 
+                    objKey='meanVol' 
+                    round={2}
+                    parms={hestonParameters}
+                    options={v0Options}
+                    toolTip="Long run average of the variance process"
+                    onChange={(key, value)=>updateHeston(key, value, hestonParameters)}
+                />
+            </FormItem>
         </Col>
         <Col {...flexObj}>
-            <CustomDrop 
-                objKey='adaV' 
-                round={2}
-                parms={hestonParameters}
-                options={adaOptions}
-                toolTip="This is the volatility of the variance process"
-                label="Vol of Vol"
-                onChange={(key, value)=>updateHeston(key, value, hestonParameters)}
-            />
+            <FormItem {...formItemLayoutLabel} label="Vol of Vol">
+                <CustomDrop 
+                    objKey='adaV' 
+                    round={2}
+                    parms={hestonParameters}
+                    options={adaOptions}
+                    toolTip="This is the volatility of the variance process"
+                    onChange={(key, value)=>updateHeston(key, value, hestonParameters)}
+                />
+            </FormItem>
         </Col>
         <Col {...flexObj}>
-            <CustomDrop 
-                objKey='v0' 
-                round={2}
-                parms={hestonParameters}
-                options={v0Options}
-                toolTip="This is the current value of the variance process."
-                label="V0"
-                onChange={(key, value)=>updateHeston(key, value, hestonParameters)}
-            />
+            <FormItem {...formItemLayoutLabel} label="V0">
+                <CustomDrop 
+                    objKey='v0' 
+                    round={2}
+                    parms={hestonParameters}
+                    options={v0Options}
+                    toolTip="This is the current value of the variance process."
+                    onChange={(key, value)=>updateHeston(key, value, hestonParameters)}
+                />
+            </FormItem>
         </Col>
         <Col {...flexObj}>
-            <CustomDrop 
-                objKey='rho' 
-                round={2}
-                parms={hestonParameters}
-                options={rhoOptions}
-                toolTip="Correlation between asset and variance"
-                label="Rho"
-                onChange={(key, value)=>updateHeston(key, value, hestonParameters)}
-            />
+            <FormItem {...formItemLayoutLabel} label="Rho">
+                <CustomDrop 
+                    objKey='rho' 
+                    round={2}
+                    parms={hestonParameters}
+                    options={rhoOptions}
+                    toolTip="Correlation between asset and variance"
+                    onChange={(key, value)=>updateHeston(key, value, hestonParameters)}
+                />
+            </FormItem>
         </Col>
         <Col {...flexObj} >
             <FormItem {...formItemLayoutLabel} colon={false} label=" ">

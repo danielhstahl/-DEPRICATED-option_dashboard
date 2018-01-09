@@ -29,103 +29,112 @@ const v0Options=createArray(.7, 1.3, .05)
 const CustomForm=({customParameters, submitOptions, updateCustom})=>[
     <Row gutter={gutter} key={0}>
         <Col {...flexObj}>
-            <CustomDrop 
-                objKey='sigma' 
-                round={2}
-                parms={customParameters}
-                options={sigmaOptions}
-                toolTip="This is the volatility of the diffusion component of the (extended) CGMY process"
-                label="Volatility"
-                onChange={updateCustom}
-            />
+            <FormItem {...formItemLayoutLabel} label="Volatility">
+                <CustomDrop 
+                    objKey='sigma' 
+                    round={2}
+                    parms={customParameters}
+                    options={sigmaOptions}
+                    toolTip="This is the volatility of the diffusion component of the (extended) CGMY process"
+                    onChange={updateCustom}
+                />
+            </FormItem>
         </Col>
         <Col {...flexObj}>
-            <CustomDrop 
-                objKey='C' 
-                round={1}
-                parms={customParameters}
-                options={COptions}
-                toolTip="This is the C in CGMY"
-                label="C"
-                onChange={updateCustom}
-            />
+            <FormItem {...formItemLayoutLabel} label="C">
+                <CustomDrop 
+                    objKey='C' 
+                    round={1}
+                    parms={customParameters}
+                    options={COptions}
+                    toolTip="This is the C in CGMY"
+                    onChange={updateCustom}
+                />
+            </FormItem>
         </Col>
         <Col {...flexObj}>
-            <CustomDrop 
-                objKey='G'
-                round={1} 
-                parms={customParameters}
-                options={GMOptions}
-                toolTip="This is the G in CGMY"
-                label="G"
-                onChange={updateCustom}
-            />
+            <FormItem {...formItemLayoutLabel} label="G">
+                <CustomDrop 
+                    objKey='G'
+                    round={1} 
+                    parms={customParameters}
+                    options={GMOptions}
+                    toolTip="This is the G in CGMY"
+                    onChange={updateCustom}
+                />
+            </FormItem>
         </Col>
         <Col {...flexObj}>
-            <CustomDrop 
-                objKey='M' 
-                round={1}
-                parms={customParameters}
-                options={GMOptions}
-                toolTip="This is the M in CGMY"
-                label="M"
-                onChange={updateCustom}
-            />
+            <FormItem {...formItemLayoutLabel} label="M">
+                <CustomDrop 
+                    objKey='M' 
+                    round={1}
+                    parms={customParameters}
+                    options={GMOptions}
+                    toolTip="This is the M in CGMY"
+                    onChange={updateCustom}
+                />
+            </FormItem>
         </Col>
         <Col {...flexObj}>
-            <CustomDrop 
-                objKey='Y' 
-                round={1}
-                parms={customParameters}
-                options={YOptions}
-                toolTip="This is the Y in CGMY"
-                label="Y"
-                onChange={updateCustom}
-            />
+            <FormItem {...formItemLayoutLabel} label="Y">
+                <CustomDrop 
+                    objKey='Y' 
+                    round={1}
+                    parms={customParameters}
+                    options={YOptions}
+                    toolTip="This is the Y in CGMY"
+                    onChange={updateCustom}
+                />
+            </FormItem>
         </Col>
         <Col {...flexObj}>
-            <CustomDrop 
-                objKey='speed' 
-                round={1}
-                parms={customParameters}
-                options={speedOptions}
-                toolTip="Speed of mean reversion of time change"
-                label="Speed"
-                onChange={updateCustom}
-            />
+            <FormItem {...formItemLayoutLabel} label="Speed">
+                <CustomDrop 
+                    objKey='speed' 
+                    round={1}
+                    parms={customParameters}
+                    options={speedOptions}
+                    toolTip="Speed of mean reversion of time change"
+                    onChange={updateCustom}
+                />
+            </FormItem>
         </Col>
         <Col {...flexObj}>
-            <CustomDrop 
-                objKey='adaV' 
-                round={2}
-                parms={customParameters}
-                options={adaOptions}
-                toolTip="This is the volatility of the time change"
-                label="Vol of Vol"
-                onChange={updateCustom}
-            />
+            <FormItem {...formItemLayoutLabel} label="Vol of Vol">
+                <CustomDrop 
+                    objKey='adaV' 
+                    round={2}
+                    parms={customParameters}
+                    options={adaOptions}
+                    toolTip="This is the volatility of the time change"
+                    onChange={updateCustom}
+                />
+            </FormItem>
         </Col>
         <Col {...flexObj}>
-            <CustomDrop 
-                objKey='v0' 
-                round={2}
-                parms={customParameters}
-                options={v0Options}
-                toolTip="This is the initial value of the time change process.  The long run mean is one"
-                label="V0"
-                onChange={updateCustom}
-            />
+            <FormItem {...formItemLayoutLabel} label="V0">
+                <CustomDrop 
+                    objKey='v0' 
+                    round={2}
+                    parms={customParameters}
+                    options={v0Options}
+                    toolTip="This is the initial value of the time change process.  The long run mean is one"
+                    onChange={updateCustom}
+                />
+            </FormItem>
         </Col>
         <Col {...flexObj}>
-            <CustomDrop 
-                objKey='rho' 
-                round={2}
-                parms={customParameters}
-                options={rhoOptions}
-                toolTip="Correlation between diffusion and time change"
-                label="Rho"
-                onChange={updateCustom}
-            />
+            <FormItem {...formItemLayoutLabel} label="Rho">
+                <CustomDrop 
+                    objKey='rho' 
+                    round={2}
+                    parms={customParameters}
+                    options={rhoOptions}
+                    toolTip="Correlation between diffusion and time change"
+                    onChange={updateCustom}
+                />
+            </FormItem>
         </Col>
         <Col {...flexObj}>
             <FormItem {...formItemLayoutLabel} colon={false} label=" ">
