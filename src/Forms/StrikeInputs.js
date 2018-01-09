@@ -1,5 +1,5 @@
 import React from 'react'
-import { createArray, handleForm } from '../utils'
+import { createArray, handleForm } from '../Utils/utils'
 import { updateCustom } from '../Actions/parameters'
 import { getFangOostCall, getFangOostPut } from '../Actions/lambda'
 import PropTypes from 'prop-types'

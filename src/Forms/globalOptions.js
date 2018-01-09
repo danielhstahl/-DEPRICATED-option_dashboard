@@ -1,4 +1,4 @@
-import { createArray } from '../utils'
+import { createArray } from '../Utils/utils'
 export const rhoOptions=createArray(-.95, .95, .05)
 export const uOptions=createArray(5, 10)
 export const rOptions=createArray(0, .1, .001)

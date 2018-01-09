@@ -1,5 +1,5 @@
 import React from 'react'
-import { handleForm } from '../utils'
+import { handleForm } from '../Utils/utils'
 import { connect } from 'react-redux'
 import CustomDrop from './FormHelper'
 import { getAllData } from '../Actions/lambda'
@@ -52,9 +52,7 @@ const BSForm=({customParameters, submitOptions, updateCustom})=>[
     </Row>
 ]
 
-const mapStateToPropsBS=state=>({
-    customParameters:state.customParameters
-})
+const mapStateToPropsBS=({customParameters})=>({customParameters})
 const mapDispatchToPropsBS=dispatch=>({
     updateCustom:(key, value)=>{
         updateCustom(key, value, dispatch)

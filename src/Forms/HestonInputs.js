@@ -1,5 +1,5 @@
 import React from 'react'
-import { createArray, handleForm } from '../utils'
+import { createArray, handleForm } from '../Utils/utils'
 import CustomDrop from './FormHelper'
 import { getAllData } from '../Actions/lambda'
 import { connect } from 'react-redux'
@@ -101,9 +101,9 @@ const HestonForm=({
     </Row>
 ]
 
-const mapStateToPropsHeston=state=>({
-    hestonParameters:state.hestonParameters,
-    customParameters:state.customParameters
+const mapStateToPropsHeston=({hestonParameters, customParameters})=>({
+    hestonParameters,
+    customParameters
 })
 const mapDispatchToPropsHeston=dispatch=>({
     updateHeston:(key, value, hestonParameters)=>{

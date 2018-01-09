@@ -1,13 +1,13 @@
 import { 
     removeFirstAndLastElement,
     getMiddleByVal
-} from '../utils'
+} from '../Utils/utils'
 import {
     keySkeleton,
     algorithms,
     createActionType
 } from '../appSkeleton'
-import {getDomain} from '../cgmyUtils'
+import { getDomain } from '../Utils/cgmyUtils'
 
 const [fangoostName, carrMadanName, fstsName]=algorithms
 
