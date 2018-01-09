@@ -20,7 +20,6 @@ const style = {
 }
 const inputsUrl='inputs'
 
-
 const [HestonName]=inputChoices
 
 const Content=Layout.Content
@@ -61,7 +60,7 @@ const HoldCards=props=>[
 
 	<MenuSensitivities key={0} {...props}/>,
 
-	<Col lg={6} key={1}>
+	<Col sm={24} md={12} xl={6} key={1}>
 		<CardPlot
 			Algorithm={CarrMadan} 
 			title="Carr-Madan" 
@@ -71,7 +70,7 @@ const HoldCards=props=>[
 		/>
 	</Col>,
 
-	<Col lg={6} key={2}>
+	<Col sm={24}  md={12} xl={6} key={2}>
 		<CardPlot 
 			Algorithm={FSTS} 
 			title="Fourier Space Time Step" 
@@ -81,7 +80,7 @@ const HoldCards=props=>[
 		/>
 	</Col>,
 
-	<Col lg={6} key={3}>
+	<Col sm={24}  md={12}  xl={6} key={3}>
 		<CardPlot 
 			Algorithm={FangOost} 
 			title="Fang-Oosterlee" 
@@ -104,7 +103,7 @@ const App =()=>(
 							<Route path={paramUrl} component={HoldCards}/>
 							<Redirect from={baseUrl} exact to={redirectUrl} />
 						</Switch>
-						<Col lg={6}>
+						<Col sm={24}  md={12}  xl={6}>
 							<Card title="Density" bordered={false} style={cardPlot}>
 								<Density /> <div className='cardFooter'> <QuantileInputs /> </div>
 							</Card>

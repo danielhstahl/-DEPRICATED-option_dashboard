@@ -7,14 +7,13 @@ import { connect } from 'react-redux'
 import { Form, Button, Row, Col} from 'antd'
 import PropTypes from 'prop-types'
 import {    
-    flexObj,
     gutter
 } from './globalOptions'
 const quantileOptions=createArray(.001, .05, .001)
-const FormItem=Form.Item
+const DummyComponent=({children})=><div>{children}</div>
 const QuantileInputs=({quantileParameters, updateOptions, submitOptions})=>(
     <Row gutter={gutter}>
-        <Col {...flexObj}>
+        <Col xs={24} md={16}>
             <CustomDrop 
                 objKey='quantile' 
                 parms={quantileParameters}
@@ -23,15 +22,15 @@ const QuantileInputs=({quantileParameters, updateOptions, submitOptions})=>(
                 toolTip="This is the quantile of the asset return distribution.  A .01 quantile translates to a 99% VaR"
                 label="Quantile"
                 onChange={updateOptions}
+                WrapperComponent={DummyComponent}
             />
         </Col>
-        <Col {...flexObj}>
-            <FormItem>
-                <Button 
-                    className='side-button submit-button' type="primary" 
-                    onClick={handleForm(submitOptions, quantileParameters)}
-                >Update</Button>
-            </FormItem>
+        <Col xs={24} md={8}>
+            
+            <Button 
+                className='side-button submit-button' type="primary" 
+                onClick={handleForm(submitOptions, quantileParameters)}
+            >Update</Button>
         </Col>
     </Row>
 )

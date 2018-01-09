@@ -7,33 +7,35 @@ import { connect } from 'react-redux'
 import CustomDrop from './FormHelper'
 import { Form, Button, Row, Col } from 'antd'
 import {
-    flexObj,
-    gutter
+    gutter,
+    fullWidth
 } from './globalOptions'
-const FormItem=Form.Item
-
 const strikeOptions=createArray(1, 100)
+const DummyComponent=({children})=><div>{children}</div>
 const StrikeInputs=({strikeParameters, updateOptions, submitOptions})=>(
 <Row gutter={gutter}>
-    <Col {...flexObj}>
+    <Col xs={24} md={16}>
         <CustomDrop 
             options={strikeOptions}
             objKey='k'
+            style={fullWidth}
             parms={strikeParameters}
             label="Strikes"
             toolTip="Select any number of strikes to see the price at each strike"
             onChange={updateOptions}
             round={0}
+            WrapperComponent={DummyComponent}
             multiSelect={true}
         />
     </Col>
-    <Col {...flexObj}>
-        <FormItem>
-            <Button className='side-button submit-button' type="primary" onClick={handleForm(submitOptions, strikeParameters)}>Update</Button>
-        </FormItem>
+    <Col xs={24} md={8}>
+
+        <Button className='side-button submit-button' type="primary" onClick={handleForm(submitOptions, strikeParameters)}>Update</Button>
+
     </Col>
 </Row>
 )
+
 StrikeInputs.propTypes={
     strikeParameters:PropTypes.shape({
         k:PropTypes.arrayOf(PropTypes.number.isRequired).isRequired
