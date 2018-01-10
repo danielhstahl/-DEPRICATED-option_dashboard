@@ -32,8 +32,5 @@ export const handleForm=(submitOptions, ...parameters)=>e=>{
 }
 
 export const removeFirstAndLastElement=arr=>arr.slice(1, -1)
-export const filterBasedOffAnotherArray=(arrToFilter, arrFilterLogic, cb)=>arrToFilter.filter((val, index)=>cb(arrFilterLogic[index]))
-
-export const filterTwoArraysSameFn=(arrToFilter, arrFilterLogic, cb)=>arrToFilter.length===arrFilterLogic.length&&arrToFilter.length>0?arrToFilter.filter((val, index)=>cb(arrFilterLogic[index])&&cb(val)):[]
 
 export const upperFirstLetter=string=>string[0].toUpperCase() + string.substring(1)

@@ -7,7 +7,7 @@ import AsyncHOC from './AsyncHoc'
 import ModalInputs from './Forms/ModalInputs'
 import QuantileInputs from './Forms/QuantileInputs'
 import StrikeInputs from './Forms/StrikeInputs'
-import CardPlot, {cardPlot} from './Cards/CardPlot'
+import CardPlot from './Cards/CardPlot'
 import { Row, Col, Layout, Card, Menu } from 'antd'
 import { BrowserRouter,Route, Link, Redirect, Switch } from 'react-router-dom'
 import { inputChoices } from './Forms/ModalInputs'
@@ -31,7 +31,8 @@ const fangOostHelpUrl='/fangoost/help'
 const carrMadanHelpUrl='/carrmadan/help'
 const fstsHelpUrl='/fsts/help'
 
-const floatRight={float:'right'}
+const floatRight={ float:'right' }
+const colBreaks={ sm:24, md:12, xl:6 }
 const MenuSensitivities=({match})=> (
 	<Menu 
 		theme="light" 
@@ -56,40 +57,43 @@ const WrapModalInputs=({match})=>(
 	<Route path={`/${match.params[rootParamName]}/${inputsUrl}/:inputChoice`} component={ModalInputs}/>
 )
 const HoldCards=props=>[
-	<WrapModalInputs {...props} key={-1}/>,
-
-	<MenuSensitivities key={0} {...props}/>,
-
-	<Col sm={24} md={12} xl={6} key={1}>
-		<CardPlot
-			Algorithm={CarrMadan} 
-			title="Carr-Madan" 
-			HelpComponent={CarrMadanHelp}
-			url={carrMadanHelpUrl}
-			{...props}
-		/>
-	</Col>,
-
-	<Col sm={24}  md={12} xl={6} key={2}>
-		<CardPlot 
-			Algorithm={FSTS} 
-			title="Fourier Space Time Step" 
-			HelpComponent={FSTSHelp}
-			url={fstsHelpUrl}
-			{...props}
-		/>
-	</Col>,
-
-	<Col sm={24}  md={12}  xl={6} key={3}>
-		<CardPlot 
-			Algorithm={FangOost} 
-			title="Fang-Oosterlee" 
-			HelpComponent={FangOostHelp}
-			url={fangOostHelpUrl}
-			{...props}
-			CardFooter = {StrikeInputs}
-		/>
-	</Col>
+	<WrapModalInputs {...props} key={0}/>,
+	<MenuSensitivities {...props} key={1}/>,
+	<Row gutter={16} type="flex" justify="space-between" key={2}>
+		<Col {...colBreaks} >
+			<CardPlot
+				Algorithm={CarrMadan} 
+				title="Carr-Madan" 
+				HelpComponent={CarrMadanHelp}
+				url={carrMadanHelpUrl}
+				{...props}
+			/>
+		</Col>
+		<Col {...colBreaks} >
+			<CardPlot 
+				Algorithm={FSTS} 
+				title="Fourier Space Time Step" 
+				HelpComponent={FSTSHelp}
+				url={fstsHelpUrl}
+				{...props}
+			/>
+		</Col>
+		<Col {...colBreaks} >
+			<CardPlot 
+				Algorithm={FangOost} 
+				title="Fang-Oosterlee" 
+				HelpComponent={FangOostHelp}
+				url={fangOostHelpUrl}
+				{...props}
+				CardFooter = {StrikeInputs}
+			/>
+		</Col>
+		<Col {...colBreaks} >
+			<Card title="Density" bordered={false} >
+				<Density /> <div className='cardFooter'> <QuantileInputs /> </div>
+			</Card>
+		</Col>
+	</Row>
 ]
 
 const App =()=>(
@@ -98,17 +102,12 @@ const App =()=>(
 			<AsyncHOC/>
 			<Content style={style}>
 				<div className='container'>
-					<Row gutter={8}>
+					
 						<Switch>
 							<Route path={paramUrl} component={HoldCards}/>
 							<Redirect from={baseUrl} exact to={redirectUrl} />
 						</Switch>
-						<Col sm={24}  md={12}  xl={6}>
-							<Card title="Density" bordered={false} style={cardPlot}>
-								<Density /> <div className='cardFooter'> <QuantileInputs /> </div>
-							</Card>
-						</Col>
-					</Row>
+					
 				</div>
 			</Content>
 		</Layout>

@@ -8,7 +8,6 @@ import {
     sensitivities
 } from '../appSkeleton'
 
-export const cardPlot = { margin: '20px' }
 
 const [, , thetaName]=sensitivities
 const switchTheta=(adaV, v0, sensitivity, Component)=>(sensitivity===thetaName&&(adaV>0||v0!==1))&&Component
@@ -33,7 +32,6 @@ const CardPlot=({Algorithm, HelpComponent, url, match, title, adaV, v0, CardFoot
 			title={title} 
 			bordered={false} 
 			extra={ <Link to={localUrl}>?</Link> }
-			style={cardPlot}
 		>
 			{switchTheta(adaV, v0, matchParam, Component)?<ThetaWarning adaV={adaV} v0={v0}/>:null}
 			{Component?<Component/> :<NoSensitivity sensitivity={matchParam} title={title}/>}

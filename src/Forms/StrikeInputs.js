@@ -29,9 +29,7 @@ const StrikeInputs=({strikeParameters, updateOptions, submitOptions})=>(
         />
     </Col>
     <Col xs={24} md={8}>
-
         <Button className='side-button submit-button' type="primary" onClick={handleForm(submitOptions, strikeParameters)}>Update</Button>
-
     </Col>
 </Row>
 )

@@ -1,3 +1,4 @@
+//see https://github.com/phillyfan1138/CharacteristicFunctions/blob/master/ConversionHestonCF.pdf
 export const convertHestonToCustomAda=(c, b)=>c/Math.sqrt(b)
 export const convertHestonToCustomSig=b=>Math.sqrt(b)
 export const convertHestonToCustomV0=(v0, b)=>v0/b

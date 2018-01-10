@@ -20,8 +20,8 @@ const legendOption=[{
 }]
 const optionLabelFn=label=>d=>`Price ${d.y} at ${label} ${d.x}`
 const ivLabelFn=label=>d=>`Volatility ${d.y} at ${label} ${d.x}`
-const axisStyleOption={axisLabel: {padding: 30} }
-const axisStyleIV={axisLabel: {padding: 40} }
+const axisStyleOption={ axisLabel: { padding: 30} }
+const axisStyleIV={ axisLabel: { padding: 40} }
 const domainPadding=25
 export const OptionCurves=({call, put, title, xLabel, yLabel})=>(
     <VictoryChart 
