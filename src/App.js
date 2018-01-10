@@ -102,12 +102,10 @@ const App =()=>(
 			<AsyncHOC/>
 			<Content style={style}>
 				<div className='container'>
-					
-						<Switch>
-							<Route path={paramUrl} component={HoldCards}/>
-							<Redirect from={baseUrl} exact to={redirectUrl} />
-						</Switch>
-					
+					<Switch>
+						<Route path={paramUrl} component={HoldCards}/>
+						<Redirect from={baseUrl} exact to={redirectUrl} />
+					</Switch>
 				</div>
 			</Content>
 		</Layout>
