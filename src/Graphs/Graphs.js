@@ -74,7 +74,7 @@ OptionCurves.propTypes={
     yLabel:PropTypes.string.isRequired,
     title:PropTypes.string.isRequired
 }
-export const IVCurves=({call, xLabel, title})=>(
+export const IVCurves=({put, xLabel, title})=>(
     <VictoryChart 
         domainPadding={domainPadding}
         containerComponent={<VictoryVoronoiContainer labels={ivLabelFn(xLabel)}/>}
@@ -84,7 +84,7 @@ export const IVCurves=({call, xLabel, title})=>(
         />
         <VictoryLine
             interpolation="natural"
-            data={call}
+            data={put}
             x="atPoint"
             y="iv"
         />
@@ -99,7 +99,7 @@ export const IVCurves=({call, xLabel, title})=>(
     </VictoryChart>
 )
 IVCurves.propTypes={
-    call:PropTypes.arrayOf(PropTypes.shape({
+    put:PropTypes.arrayOf(PropTypes.shape({
         iv:PropTypes.number.isRequired,
         atPoint:PropTypes.number.isRequired
     })),

@@ -25,11 +25,11 @@ const generateAlgorithmOptionPrices=(keySkeleton, algorithm, Component, initStat
 }), {})
 
 const [fangOostName, carrMadanName, fstsName]=algorithms
-const [callName]=optionTypes
+const [, putName]=optionTypes
 const [priceName]=sensitivities
 
 const generateIVState=(algorithm, Component, initState)=>connect(
-    state=>({call:state[algorithm+callName+priceName], ...initState})
+    state=>({put:state[algorithm+putName+priceName], ...initState})
 )(Component)
 
 const fangOostInitState={
