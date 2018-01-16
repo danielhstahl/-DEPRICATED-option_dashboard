@@ -27,7 +27,6 @@ CustomDrop.propTypes={
     objKey:PropTypes.string.isRequired,
     parms:PropTypes.object.isRequired,
     options:PropTypes.arrayOf(PropTypes.number).isRequired,
-    //label:PropTypes.string.isRequired,
     onChange:PropTypes.func.isRequired,
     round:PropTypes.number.isRequired,
     toolTip:PropTypes.string.isRequired
