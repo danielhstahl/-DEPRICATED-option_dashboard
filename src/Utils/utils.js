@@ -20,6 +20,13 @@ export const createArray=(init, last, by=1)=>{
     return arr
 }
 
+const isNumeric=x=>!isNaN(x) && isFinite(x)
+
+export const createBounds=(min, max)=>val=>{
+    const x=parseFloat(val)
+    return isNumeric(x)&&x>min&&x<max
+}
+
 const f = (a, b) => [].concat(...a.map(d => b.map(e => [].concat(d, e))))
 
 export const cartesian = (a, b, ...c) => (b ? cartesian(f(a, b), ...c) : a)
@@ -29,6 +36,9 @@ export const excludePotentialArray=(maybeArr, maybeInArr)=>maybeArr?maybeArr.ind
 export const handleForm=(submitOptions, ...parameters)=>e=>{
     e.preventDefault()
     submitOptions(...parameters)
+}
+export const validateAll=parameters=>{
+    return Object.keys(parameters).some(val=>parameters[val])
 }
 
 export const removeFirstAndLastElement=arr=>arr.slice(1, -1)

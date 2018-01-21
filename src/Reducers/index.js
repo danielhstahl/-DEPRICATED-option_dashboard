@@ -1,7 +1,5 @@
-import {
-    customParameters,
-    hestonParameters
-} from './optionParameters'
+import optionParameters from './optionParameters'
+import formValidation from './formValidation'
 
 import {
     VaR, density, 
@@ -10,12 +8,13 @@ import {
     fsts
 } from './data'
 
+/**this custom combiner provides the entire state to each reducer */
 const customCombineReducers=obj=>(state={}, action)=>Object.keys(obj).reduce((aggr, curr)=>({...aggr, [curr]:obj[curr](state[curr], action, state)}), {})
 
 /**Note that each import for the algorithms contains nested properties which must be unnested*/
 export default customCombineReducers({
-    customParameters,
-    hestonParameters,
+    optionParameters,
+    formValidation,
     VaR, density, 
     ...fangoost,
     ...carrmadan,
