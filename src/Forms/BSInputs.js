@@ -6,11 +6,9 @@ import { getAllData } from '../Actions/lambda'
 import {
     sigmaBounds,
     flexObj,
-    gutter,
-    formItemLayoutLabel,
-    fullWidth
+    gutter
 } from './globalOptions'
-import { Row, Col, Button } from 'antd'
+import { Row, Col } from 'antd'
 import {
     updateCustom,
     updateAllCustom
@@ -19,12 +17,12 @@ import ShowJson from './ShowJson'
 import {
     convertBSToCustom
 } from './parameterConversion'
-
 const BSForm=({optionParameters, submitOptions, updateCustom, formValidation})=>[
     <Row gutter={gutter} key={0}>
         <Col {...flexObj}>
             <CustomFormItemInput 
                 objKey='sigma' 
+                validationResults={formValidation}
                 label="Volatility"
                 parms={optionParameters}
                 validator={sigmaBounds}
@@ -44,7 +42,7 @@ const BSForm=({optionParameters, submitOptions, updateCustom, formValidation})=>
     </Row>
 ]
 
-const mapStateToPropsBS=({optionParameters, formValidation})=>({optionParameters, formValidation})
+const mapStateToPropsBS=({optionParameters, optionValidation})=>({optionParameters, formValidation:optionValidation})
 const mapDispatchToPropsBS=dispatch=>({
     updateCustom:(key, value, validateStatus)=>{
         updateCustom(key, value, validateStatus, dispatch)

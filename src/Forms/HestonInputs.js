@@ -1,33 +1,31 @@
 import React from 'react'
-import { handleForm, validateAll } from '../Utils/utils'
+import { handleForm, validateAll, createBounds } from '../Utils/utils'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import { getAllData } from '../Actions/lambda'
 import { connect } from 'react-redux'
-import { updateCustom, updateAllCustom } from '../Actions/parameters'
-import { Row, Col, Button } from 'antd'
+import { updateAllCustom, updateHeston } from '../Actions/parameters'
+import { Row, Col } from 'antd'
 import ShowJson from './ShowJson'
 import {
-    rhoBounds, meanBounds, 
+    rhoBounds, 
     speedBounds,
-    adaBounds,
-    v0Bounds,
     flexObj,
-    gutter,
-    formItemLayoutLabel,
-    fullWidth
+    gutter
 } from './globalOptions'
 
 import {
-    convertHestonToCustom,
-    convertCustomToHeston
+    convertHestonToCustom
 } from './parameterConversion'
 
+const adaBounds=createBounds(0, 2)
+const meanBounds=createBounds(.001, 1)
+const v0Bounds=meanBounds
+
 const HestonForm=({
-    optionParameters, 
+    optionParameters, hestonParameters,
     submitOptions, updateHeston, formValidation
 })=>{
-    const hestonParameters=convertCustomToHeston(optionParameters)
-    const updateHestonCurry=(key, value, validation)=>updateHeston(key, value, validation, hestonParameters, optionParameters)
+    //const hestonParameters=convertCustomToHeston(optionParameters)
     return [
         <Row gutter={gutter} key={0}>
             <Col {...flexObj}>
@@ -36,8 +34,9 @@ const HestonForm=({
                     objKey='speed' 
                     parms={hestonParameters}
                     validator={speedBounds}
+                    validationResults={formValidation}
                     toolTip="Speed of mean reversion of variance process"
-                    onChange={updateHestonCurry}
+                    onChange={updateHeston}
                 />
             </Col>
             <Col {...flexObj}>
@@ -45,39 +44,43 @@ const HestonForm=({
                     objKey='meanVol' 
                     label="Average Vol"
                     validator={meanBounds}
+                    validationResults={formValidation}
                     parms={hestonParameters}
                     toolTip="Long run average of the variance process"
-                    onChange={updateHestonCurry}
+                    onChange={updateHeston}
                 />
             </Col>
             <Col {...flexObj}>
                 <CustomFormItemInput 
                     objKey='adaV' 
                     validator={adaBounds}
+                    validationResults={formValidation}
                     label="Vol of Vol"
                     parms={hestonParameters}
                     toolTip="This is the volatility of the variance process"
-                    onChange={updateHestonCurry}
+                    onChange={updateHeston}
                 />
             </Col>
             <Col {...flexObj}>
                 <CustomFormItemInput 
                     objKey='v0' 
-                    label="V0"
+                    label='V0'
                     parms={hestonParameters}
+                    validationResults={formValidation}
                     validator={v0Bounds}
                     toolTip="This is the current value of the variance process."
-                    onChange={updateHestonCurry}
+                    onChange={updateHeston}
                 />
             </Col>
             <Col {...flexObj}>
                 <CustomFormItemInput 
                     objKey='rho'
-                    label="Rho" 
+                    label='Rho'
                     validator={rhoBounds}
+                    validationResults={formValidation}
                     parms={hestonParameters}
                     toolTip="Correlation between asset and variance"
-                    onChange={updateHestonCurry}
+                    onChange={updateHeston}
                 />
             </Col>
             <Col {...flexObj} >
@@ -96,11 +99,10 @@ const HestonForm=({
     ]
 }
 
-const mapStateToPropsHeston=({optionParameters, formValidation})=>({optionParameters, formValidation})
+const mapStateToPropsHeston=({optionParameters, hestonValidation, hestonParameters})=>({optionParameters, formValidation:hestonValidation, hestonParameters})
 const mapDispatchToPropsHeston=dispatch=>({
-    updateHeston:(key, value, validateStatus, hestonParameters, optionParameters)=>{
-        const customValue=convertHestonToCustom(hestonParameters, optionParameters)[key]
-        updateCustom(key, customValue||value, validateStatus, dispatch)
+    updateHeston:(key, value, validateStatus)=>{
+        updateHeston(key, value, validateStatus, dispatch)
     },
     submitOptions:(hestonParameters, optionParameters)=>{
         const updatedCustom=convertHestonToCustom(hestonParameters, optionParameters)

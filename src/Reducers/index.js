@@ -1,5 +1,5 @@
-import optionParameters from './optionParameters'
-import formValidation from './formValidation'
+import {optionParameters, hestonParameters} from './optionParameters'
+import {hestonValidation, optionValidation} from './formValidation'
 
 import {
     VaR, density, 
@@ -14,7 +14,9 @@ const customCombineReducers=obj=>(state={}, action)=>Object.keys(obj).reduce((ag
 /**Note that each import for the algorithms contains nested properties which must be unnested*/
 export default customCombineReducers({
     optionParameters,
-    formValidation,
+    hestonParameters,
+    hestonValidation,
+    optionValidation,
     VaR, density, 
     ...fangoost,
     ...carrmadan,

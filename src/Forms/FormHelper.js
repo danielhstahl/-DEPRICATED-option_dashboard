@@ -3,10 +3,11 @@ import { Tooltip, Input, Form, Button, Select } from 'antd'
 import PropTypes from 'prop-types'
 import { fullWidth, formItemLayoutLabel } from './globalOptions'
 
-//const parseArrOrNumber=(arr, fn)=>Array.isArray(arr)?arr.map(val=>fn(val)):fn(arr)
-const onChangeHelper=(onChange, validator, objKey)=>value=>{
-    const isValid=validator?validator(value):true
-    onChange(objKey, value, isValid?'':'error') 
+const onChangeHelper=(onChange, validator, objKey)=>e=>{
+    const value=e.target.value
+    //console.log(value)
+    const isValid=validator?validator.fn(value):true
+    onChange(objKey, isValid?parseFloat(value):value, isValid?'':'error') 
 }
 
 const FormItem=Form.Item
@@ -45,7 +46,7 @@ export const CustomInput=({objKey, parms, onChange, toolTip, validator})=>(
 <Tooltip placement="top" title={toolTip}>
     <Input
         value={parms[objKey]}
-        onChange={onChangeHelper(onChange, validator, objKey, parms)}
+        onChange={onChangeHelper(onChange, validator, objKey)}
         style={fullWidth}
     />
 </Tooltip>
@@ -55,22 +56,28 @@ CustomInput.propTypes={
     objKey:PropTypes.string.isRequired,
     parms:PropTypes.object.isRequired,
     onChange:PropTypes.func.isRequired,
-    round:PropTypes.number.isRequired,
     toolTip:PropTypes.string.isRequired,
-    validator:PropTypes.func
+    validator:PropTypes.shape({
+        fn:PropTypes.func.isRequired,
+        help:PropTypes.string.isRequired
+    })
 }
 
 
-export const CustomFormItemInput=({objKey, parms, onChange, toolTip, label, validator})=>(
-    <FormItem {...formItemLayoutLabel} label={label} validateStatus={parms[objKey].validateStatus}>
+export const CustomFormItemInput=({objKey, parms, onChange, toolTip, label, validator, validationResults})=>(
+    <FormItem {...formItemLayoutLabel} label={label} validateStatus={validationResults[objKey]} help={validationResults[objKey]&&validator.help}>
         <CustomInput objKey={objKey} parms={parms} onChange={onChange} toolTip={toolTip} validator={validator}/>
     </FormItem>
 )
 
 CustomFormItemInput.propTypes={
     ...CustomInput.propTypes,
+    validationResults:PropTypes.object.isRequired,
     label:PropTypes.string.isRequired,
-    validator:PropTypes.func
+    validator:PropTypes.shape({
+        fn:PropTypes.func.isRequired,
+        help:PropTypes.string.isRequired
+    })
 }
 
 export const CustomUpdateButton=({disabled, onClick, ...rest})=>(

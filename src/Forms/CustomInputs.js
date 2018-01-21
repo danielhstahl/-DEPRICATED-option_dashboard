@@ -1,5 +1,5 @@
 import React from 'react'
-import { validateAll, handleForm } from '../Utils/utils'
+import { validateAll, handleForm, createBounds } from '../Utils/utils'
 import { connect } from 'react-redux'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import { getAllData } from '../Actions/lambda'
@@ -9,25 +9,20 @@ import ShowJson from './ShowJson'
 import {
     rhoBounds,
     speedBounds,
-    adaBounds,
     sigmaBounds,
-    meanBounds, 
-    v0Bounds,
     cBounds,
     gBounds,
     mBounds,
     yBounds,
     flexObj,
-    gutter,
-    formItemLayoutLabel,
-    fullWidth
+    gutter
 } from './globalOptions'
 
-import { Row, Col, Form, Button } from 'antd'
+import { Row, Col } from 'antd'
 
-const FormItem=Form.Item
-
-
+const adaBounds=createBounds(0, 2)
+const meanBounds=createBounds(.2, 1.8)
+const v0Bounds=meanBounds
 
 const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation})=>[
     <Row gutter={gutter} key={0}>
@@ -37,6 +32,7 @@ const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation
                 label="Volatility"
                 parms={optionParameters}
                 validator={sigmaBounds}
+                validationResults={formValidation}
                 toolTip="This is the volatility of the diffusion component of the (extended) CGMY process"
                 onChange={updateCustom}
             />
@@ -46,6 +42,7 @@ const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation
                 objKey='C' 
                 label='C'
                 parms={optionParameters}
+                validationResults={formValidation}
                 validator={cBounds}
                 toolTip="This is the C in CGMY"
                 onChange={updateCustom}
@@ -57,6 +54,7 @@ const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation
                 label='G'
                 parms={optionParameters}
                 validator={gBounds}
+                validationResults={formValidation}
                 toolTip="This is the G in CGMY"
                 onChange={updateCustom}
             />
@@ -66,6 +64,7 @@ const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation
                 objKey='M' 
                 label='M'
                 parms={optionParameters}
+                validationResults={formValidation}
                 validator={mBounds}
                 toolTip="This is the M in CGMY"
                 onChange={updateCustom}
@@ -76,6 +75,7 @@ const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation
                 objKey='Y' 
                 label='Y'
                 parms={optionParameters}
+                validationResults={formValidation}
                 validator={yBounds}
                 toolTip="This is the Y in CGMY"
                 onChange={updateCustom}
@@ -87,6 +87,7 @@ const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation
                 label='Speed'
                 parms={optionParameters}
                 validator={speedBounds}
+                validationResults={formValidation}
                 toolTip="Speed of mean reversion of time change"
                 onChange={updateCustom}
             />
@@ -96,6 +97,7 @@ const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation
                 objKey='adaV' 
                 validator={adaBounds}
                 label="Vol of Vol"
+                validationResults={formValidation}
                 parms={optionParameters}
                 toolTip="This is the volatility of the variance process"
                 onChange={updateCustom}
@@ -104,6 +106,7 @@ const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation
         <Col {...flexObj}>
             <CustomFormItemInput 
                 objKey='v0' 
+                validationResults={formValidation}
                 label="V0"
                 parms={optionParameters}
                 validator={v0Bounds}
@@ -115,6 +118,7 @@ const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation
             <CustomFormItemInput 
                 objKey='rho'
                 label="Rho" 
+                validationResults={formValidation}
                 validator={rhoBounds}
                 parms={optionParameters}
                 toolTip="Correlation between asset and variance"
@@ -132,7 +136,7 @@ const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation
         <ShowJson parameters={optionParameters}/>
     </Row>
 ]
-const mapStateToPropsCustom=({optionParameters, formValidation})=>({optionParameters, formValidation})
+const mapStateToPropsCustom=({optionParameters, optionValidation})=>({optionParameters, formValidation:optionValidation})
 const mapDispatchToPropsCustom =dispatch=>({
     updateCustom:(key, value, validateStatus)=>{
         updateCustom(key, value, validateStatus, dispatch)

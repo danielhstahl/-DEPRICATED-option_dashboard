@@ -22,10 +22,13 @@ export const createArray=(init, last, by=1)=>{
 
 const isNumeric=x=>!isNaN(x) && isFinite(x)
 
-export const createBounds=(min, max)=>val=>{
-    const x=parseFloat(val)
-    return isNumeric(x)&&x>min&&x<max
-}
+export const createBounds=(min, max)=>({
+    fn:val=>{
+        const x=parseFloat(val)
+        return isNumeric(x)&&x>=min&&x<=max
+    },
+    help: `Must be a number between ${min} and ${max}`
+})
 
 const f = (a, b) => [].concat(...a.map(d => b.map(e => [].concat(d, e))))
 

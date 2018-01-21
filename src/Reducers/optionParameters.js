@@ -15,14 +15,28 @@ const defaultState={
     k:[],
     quantile:.01
 }
+const hestonState={
+    ...defaultState, //wont use all of defaultState
+    v0:.04,
+    adaV:.2,
+    meanVol:.04
+}
 
 
-export default (state = defaultState, action) => {
+export const optionParameters=(state = defaultState, action) => {
     switch (action.type) {
         case 'UPDATE_OPTIONS':
             return {...state, [action.key]:action.value}
         case 'UPDATE_ALL_OPTIONS':
             return action.optionParameters
+        default:
+            return state
+    }
+}
+export const hestonParameters=(state = hestonState, action) => {
+    switch (action.type) {
+        case 'UPDATE_HESTON':
+            return {...state, [action.key]:action.value}
         default:
             return state
     }

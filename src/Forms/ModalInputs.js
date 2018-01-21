@@ -1,5 +1,5 @@
 import React from 'react'
-import { uBounds, rBounds, tBounds, sBounds, gutter, flexObj, formItemLayoutLabel } from './globalOptions'
+import { uBounds, rBounds, tBounds, sBounds, gutter, flexObj } from './globalOptions'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { CustomFormItemInput } from './FormHelper'
@@ -7,9 +7,8 @@ import { updateCustom } from '../Actions/parameters'
 import HestonForm from './HestonInputs'
 import CustomForm from './CustomInputs'
 import BSForm from './BSInputs'
-import { Row, Col, Modal, Menu, Form } from 'antd'
+import { Row, Col, Modal, Menu } from 'antd'
 import { Route, Link } from 'react-router-dom'
-const FormItem=Form.Item
 const getBaseUrl=path=>path.split("/:")[0]
 const generateUrl=(path, choice)=>`${getBaseUrl(path)}/${choice}`
 
@@ -31,7 +30,7 @@ const MenuTypes=({match})=>(
 </Menu>
 ) 
 
-const ModalInputs=({optionParameters, updateCustom, history, match})=>{
+const ModalInputs=({optionParameters, updateCustom, history, match, formValidation})=>{
     const closeModal=()=>history.push(getBaseUrl(match.path))
     return (
     <Modal 
@@ -49,6 +48,7 @@ const ModalInputs=({optionParameters, updateCustom, history, match})=>{
                     label="Discrete Steps" 
                     objKey='numU' 
                     parms={optionParameters}
+                    validationResults={formValidation}
                     validator={uBounds}
                     toolTip="This is the log2 number of discrete steps in the complex domain.  The higher the number, the more accurate the result; but the longer it will take."
                     onChange={updateCustom}
@@ -59,6 +59,7 @@ const ModalInputs=({optionParameters, updateCustom, history, match})=>{
                     label='Rate'
                     objKey='r' 
                     parms={optionParameters}
+                    validationResults={formValidation}
                     validator={rBounds}
                     toolTip="Risk free interest rate"
                     onChange={updateCustom}
@@ -69,6 +70,7 @@ const ModalInputs=({optionParameters, updateCustom, history, match})=>{
                     label='T'
                     objKey='T' 
                     parms={optionParameters}
+                    validationResults={formValidation}
                     validator={tBounds}
                     toolTip="Time till maturity"
                     onChange={updateCustom}
@@ -79,6 +81,7 @@ const ModalInputs=({optionParameters, updateCustom, history, match})=>{
                     label='S or K'
                     objKey='S0' 
                     parms={optionParameters}
+                    validationResults={formValidation}
                     validator={sBounds}
                     toolTip="For Carr-Madan and Fang-Oosterlee, which price over several strikes and single asset price, this is the asset price.  For FSTS, which prices over several asset prices and single strike, this is the strike"
                     onChange={updateCustom}
@@ -108,7 +111,7 @@ ModalInputs.propTypes={
        rho:PropTypes.number.isRequired
     })
 }
-const mapStateToProps=({optionParameters})=>({optionParameters})
+const mapStateToProps=({optionParameters, optionValidation})=>({optionParameters, formValidation:optionValidation})
 const mapDispatchToProps=dispatch=>({
     updateCustom:(key, value, validationStatus)=>{
         updateCustom(key, value, validationStatus, dispatch)

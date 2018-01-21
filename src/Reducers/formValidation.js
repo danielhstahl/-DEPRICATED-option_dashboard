@@ -16,9 +16,17 @@ const defaultFormValidationStatus={
     quantile:''
 }
 
-export default (state = defaultFormValidationStatus, action) => {
+export const optionValidation=(state = defaultFormValidationStatus, action) => {
     switch (action.type) {
-        case 'UPDATE_VALIDATION_STATUS':
+        case 'UPDATE_OPTION_VALIDATION':
+            return {...state, [action.key]:action.value}
+        default:
+            return state
+    }
+}
+export const hestonValidation=(state = defaultFormValidationStatus, action) => {
+    switch (action.type) {
+        case 'UPDATE_HESTON_VALIDATION':
             return {...state, [action.key]:action.value}
         default:
             return state

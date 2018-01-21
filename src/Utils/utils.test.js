@@ -46,12 +46,15 @@ it('correctly joins three arrays', ()=>{
 })
 
 it('correctly returns true for numeric and in bounds', ()=>{
-    expect(createBounds(0, 1)(.5)).toEqual(true)
+    expect(createBounds(0, 1).fn(.5)).toEqual(true)
     
 })
 it('correctly returns false for numeric and out of bounds', ()=>{
-    expect(createBounds(0, 1)(1.5)).toEqual(false)
+    expect(createBounds(0, 1).fn(1.5)).toEqual(false)
 })
 it('correctly returns false for non numeric', ()=>{
-    expect(createBounds(0, 1)('hello')).toEqual(false)
+    expect(createBounds(0, 1).fn('hello')).toEqual(false)
+})
+it('correctly returns false for non numeric with adjusted function', ()=>{
+    expect(createBounds(.5, 1).fn(.55)).toEqual(false)
 })
