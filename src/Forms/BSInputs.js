@@ -17,14 +17,14 @@ import ShowJson from './ShowJson'
 import {
     convertBSToCustom
 } from './parameterConversion'
-const BSForm=({optionParameters, submitOptions, updateCustom, formValidation})=>[
+const BSForm=({bsParameters, submitOptions, updateCustom, formValidation})=>[
     <Row gutter={gutter} key={0}>
         <Col {...flexObj}>
             <CustomFormItemInput 
                 objKey='sigma' 
                 validationResults={formValidation}
                 label="Volatility"
-                parms={optionParameters}
+                parms={bsParameters}
                 validator={sigmaBounds}
                 toolTip="This is the volatility of the diffusion component of the (extended) CGMY process"
                 onChange={updateCustom}
@@ -33,16 +33,16 @@ const BSForm=({optionParameters, submitOptions, updateCustom, formValidation})=>
         <Col {...flexObj}>
             <CustomUpdateButton
                 disabled={validateAll(formValidation)}
-                onClick={handleForm(submitOptions, optionParameters)}
+                onClick={handleForm(submitOptions, bsParameters)}
             />
         </Col>
     </Row>,
     <Row key={1}>
-        <ShowJson parameters={convertBSToCustom(optionParameters)}/>
+        <ShowJson parameters={convertBSToCustom(bsParameters)}/>
     </Row>
 ]
 
-const mapStateToPropsBS=({optionParameters, optionValidation})=>({optionParameters, formValidation:optionValidation})
+const mapStateToPropsBS=({bsParameters, bsValidation})=>({bsParameters, formValidation:bsValidation})
 const mapDispatchToPropsBS=dispatch=>({
     updateCustom:(key, value, validateStatus)=>{
         updateCustom(key, value, validateStatus, dispatch)

@@ -30,6 +30,10 @@ export const updateHeston=generateOptions(
     'UPDATE_HESTON', 
     'UPDATE_HESTON_VALIDATION'
 )
+export const updateBS=generateOptions(
+    'UPDATE_BS', 
+    'UPDATE_BS_VALIDATION'
+)
 
 
 

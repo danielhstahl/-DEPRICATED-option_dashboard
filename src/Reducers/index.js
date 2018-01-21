@@ -1,4 +1,4 @@
-import {optionParameters, hestonParameters} from './optionParameters'
+import {optionParameters, hestonParameters, bsParameters} from './optionParameters'
 import {hestonValidation, optionValidation} from './formValidation'
 
 import {
@@ -16,6 +16,7 @@ export default customCombineReducers({
     optionParameters,
     hestonParameters,
     hestonValidation,
+    bsParameters,
     optionValidation,
     VaR, density, 
     ...fangoost,

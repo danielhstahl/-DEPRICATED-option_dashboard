@@ -41,4 +41,12 @@ export const hestonParameters=(state = hestonState, action) => {
             return state
     }
 }
+export const bsParameters=(state = defaultState, action) => {
+    switch (action.type) {
+        case 'UPDATE_BS':
+            return {...state, [action.key]:action.value}
+        default:
+            return state
+    }
+}
 

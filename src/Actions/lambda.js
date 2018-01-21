@@ -35,6 +35,8 @@ export const getDensity=(parms, dispatch)=>{
     }))
 }
 
+//export const getCalibratedParameters=dispatch=>{}
+
 const generateFangOost=optionType=>(parms, dispatch)=>sensitivities.forEach(
     sensitivity=>getOptionUrl(optionType, sensitivity, fangOostName)(parms).then(response=>dispatch({
         type:createActionType(optionType, sensitivity, fangOostName),

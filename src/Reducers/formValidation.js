@@ -9,6 +9,7 @@ const defaultFormValidationStatus={
     M:'',
     Y:'',
     speed:'',
+    meanVol:'',
     v0:'',
     adaV:'',
     rho:'',
@@ -27,6 +28,14 @@ export const optionValidation=(state = defaultFormValidationStatus, action) => {
 export const hestonValidation=(state = defaultFormValidationStatus, action) => {
     switch (action.type) {
         case 'UPDATE_HESTON_VALIDATION':
+            return {...state, [action.key]:action.value}
+        default:
+            return state
+    }
+}
+export const bsValidation=(state = defaultFormValidationStatus, action) => {
+    switch (action.type) {
+        case 'UPDATE_BS_VALIDATION':
             return {...state, [action.key]:action.value}
         default:
             return state
