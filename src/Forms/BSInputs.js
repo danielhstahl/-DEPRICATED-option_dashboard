@@ -1,5 +1,5 @@
 import React from 'react'
-import { handleForm } from '../Utils/utils'
+import { handleForm, validateAll } from '../Utils/utils'
 import { connect } from 'react-redux'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import { getAllData } from '../Actions/lambda'
@@ -13,8 +13,7 @@ import {
 import { Row, Col, Button } from 'antd'
 import {
     updateCustom,
-    updateAllCustom,
-    updateValidation
+    updateAllCustom
 } from '../Actions/parameters'
 import ShowJson from './ShowJson'
 import {
@@ -41,15 +40,14 @@ const BSForm=({optionParameters, submitOptions, updateCustom, formValidation})=>
         </Col>
     </Row>,
     <Row key={1}>
-        <ShowJson parameters={convertBSToCustom(customParameters)}/>
+        <ShowJson parameters={convertBSToCustom(optionParameters)}/>
     </Row>
 ]
 
-const mapStateToPropsBS=({optionParameters, formValidation})=>({customParameters, formValidation})
+const mapStateToPropsBS=({optionParameters, formValidation})=>({optionParameters, formValidation})
 const mapDispatchToPropsBS=dispatch=>({
     updateCustom:(key, value, validateStatus)=>{
-        updateCustom(key, value, dispatch)
-        updateValidation(key, validateStatus, dispatch)
+        updateCustom(key, value, validateStatus, dispatch)
     },
     submitOptions:vals=>{
         const updatedCustom=convertBSToCustom(vals)

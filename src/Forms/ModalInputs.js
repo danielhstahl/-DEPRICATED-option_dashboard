@@ -1,8 +1,8 @@
 import React from 'react'
-import { uOptions, rOptions, tOptions, sOptions, gutter, flexObj, formItemLayoutLabel } from './globalOptions'
+import { uBounds, rBounds, tBounds, sBounds, gutter, flexObj, formItemLayoutLabel } from './globalOptions'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import CustomDrop from './FormHelper'
+import { CustomFormItemInput } from './FormHelper'
 import { updateCustom } from '../Actions/parameters'
 import HestonForm from './HestonInputs'
 import CustomForm from './CustomInputs'
@@ -31,7 +31,7 @@ const MenuTypes=({match})=>(
 </Menu>
 ) 
 
-const ModalInputs=({customParameters, updateCustom, history, match})=>{
+const ModalInputs=({optionParameters, updateCustom, history, match})=>{
     const closeModal=()=>history.push(getBaseUrl(match.path))
     return (
     <Modal 
@@ -45,52 +45,44 @@ const ModalInputs=({customParameters, updateCustom, history, match})=>{
         <MenuTypes match={match}/>
         <Row gutter={gutter}>
             <Col {...flexObj}>
-                <FormItem {...formItemLayoutLabel} label="Discrete Steps">
-                    <CustomDrop 
-                        objKey='numU' 
-                        parms={customParameters}
-                        options={uOptions}
-                        round={0}
-                        toolTip="This is the log2 number of discrete steps in the complex domain.  The higher the number, the more accurate the result; but the longer it will take."
-                        onChange={updateCustom}
-                    />
-                </FormItem>
+                <CustomFormItemInput 
+                    label="Discrete Steps" 
+                    objKey='numU' 
+                    parms={optionParameters}
+                    validator={uBounds}
+                    toolTip="This is the log2 number of discrete steps in the complex domain.  The higher the number, the more accurate the result; but the longer it will take."
+                    onChange={updateCustom}
+                />
             </Col>
             <Col {...flexObj}>
-                <FormItem {...formItemLayoutLabel} label="Rate">
-                    <CustomDrop 
-                        objKey='r' 
-                        parms={customParameters}
-                        round={3}
-                        options={rOptions}
-                        toolTip="Risk free interest rate"
-                        onChange={updateCustom}
-                    />
-                </FormItem>
+                <CustomFormItemInput 
+                    label='Rate'
+                    objKey='r' 
+                    parms={optionParameters}
+                    validator={rBounds}
+                    toolTip="Risk free interest rate"
+                    onChange={updateCustom}
+                />
             </Col>
             <Col {...flexObj}>
-                <FormItem {...formItemLayoutLabel} label="T">
-                    <CustomDrop 
-                        objKey='T' 
-                        round={2}
-                        parms={customParameters}
-                        options={tOptions}
-                        toolTip="Time till maturity"
-                        onChange={updateCustom}
-                    />
-                </FormItem>
+                <CustomFormItemInput
+                    label='T'
+                    objKey='T' 
+                    parms={optionParameters}
+                    validator={tBounds}
+                    toolTip="Time till maturity"
+                    onChange={updateCustom}
+                    />            
             </Col>
             <Col {...flexObj}>
-                <FormItem {...formItemLayoutLabel} label="S or K">
-                    <CustomDrop 
-                        objKey='S0' 
-                        round={0}
-                        parms={customParameters}
-                        options={sOptions}
-                        toolTip="For Carr-Madan and Fang-Oosterlee, which price over several strikes and single asset price, this is the asset price.  For FSTS, which prices over several asset prices and single strike, this is the strike"
-                        onChange={updateCustom}
-                    />
-                </FormItem>
+                <CustomFormItemInput 
+                    label='S or K'
+                    objKey='S0' 
+                    parms={optionParameters}
+                    validator={sBounds}
+                    toolTip="For Carr-Madan and Fang-Oosterlee, which price over several strikes and single asset price, this is the asset price.  For FSTS, which prices over several asset prices and single strike, this is the strike"
+                    onChange={updateCustom}
+                />
             </Col>
         </Row>
         <Route path={generateUrl(match.path, HestonName)} component={HestonForm}/>
@@ -100,7 +92,7 @@ const ModalInputs=({customParameters, updateCustom, history, match})=>{
     )
 }
 ModalInputs.propTypes={
-    customParameters:PropTypes.shape({
+    optionParameters:PropTypes.shape({
        numU:PropTypes.number.isRequired, 
        r:PropTypes.number.isRequired, 
        T:PropTypes.number.isRequired, 
@@ -116,8 +108,10 @@ ModalInputs.propTypes={
        rho:PropTypes.number.isRequired
     })
 }
-const mapStateToProps=({customParameters})=>({customParameters})
+const mapStateToProps=({optionParameters})=>({optionParameters})
 const mapDispatchToProps=dispatch=>({
-    updateCustom:(key, value)=>updateCustom(key, value, dispatch)
+    updateCustom:(key, value, validationStatus)=>{
+        updateCustom(key, value, validationStatus, dispatch)
+    }
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ModalInputs)

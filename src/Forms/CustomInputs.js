@@ -3,7 +3,7 @@ import { validateAll, handleForm } from '../Utils/utils'
 import { connect } from 'react-redux'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import { getAllData } from '../Actions/lambda'
-import { updateCustom, updateValidation } from '../Actions/parameters'
+import { updateCustom } from '../Actions/parameters'
 
 import ShowJson from './ShowJson'
 import {
@@ -136,7 +136,6 @@ const mapStateToPropsCustom=({optionParameters, formValidation})=>({optionParame
 const mapDispatchToPropsCustom =dispatch=>({
     updateCustom:(key, value, validateStatus)=>{
         updateCustom(key, value, validateStatus, dispatch)
-        updateValidation(key, validateStatus, dispatch)
     },
     submitOptions:vals=>getAllData(vals, dispatch)
 })

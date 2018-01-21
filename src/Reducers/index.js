@@ -8,8 +8,8 @@ import {
     fsts
 } from './data'
 
-/**this custom combiner provides the entire state to each reducer */
-const customCombineReducers=obj=>(state={}, action)=>Object.keys(obj).reduce((aggr, curr)=>({...aggr, [curr]:obj[curr](state[curr], action, state)}), {})
+/**this custom combiner provides the optionParameters to each reducer */
+const customCombineReducers=obj=>(state={}, action)=>Object.keys(obj).reduce((aggr, curr)=>({...aggr, [curr]:obj[curr](state[curr], action, state.optionParameters)}), {})
 
 /**Note that each import for the algorithms contains nested properties which must be unnested*/
 export default customCombineReducers({

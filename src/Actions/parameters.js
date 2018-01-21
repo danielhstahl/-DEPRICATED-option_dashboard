@@ -11,18 +11,24 @@ export const updateAllCustom=(optionParameters, dispatch)=>{
         optionParameters
     })
 }
+/*
 export const updateValidation=(key, value, dispatch)=>{
     dispatch({
         type:'UPDATE_VALIDATION_STATUS',
         key,
         value
     })
-}
-export const updateCustom=(key, value, dispatch)=>{
+}*/
+export const updateCustom=(key, value, validation, dispatch)=>{
     dispatch({
         type:'UPDATE_OPTIONS',
         key,
         value
+    })
+    dispatch({
+        type:'UPDATE_VALIDATION_STATUS',
+        key,
+        value:validation
     })
 }//generateOptions('UPDATE_OPTIONS')
 //export const updateHeston=generateOptions('UPDATE_HESTON')
