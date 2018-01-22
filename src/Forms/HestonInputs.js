@@ -3,9 +3,11 @@ import { handleForm, validateAll, createBounds } from '../Utils/utils'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import { getAllData } from '../Actions/lambda'
 import { connect } from 'react-redux'
-import { updateAllCustom, updateHeston } from '../Actions/parameters'
+import { updateHeston } from '../Actions/parameters'
 import { Row, Col } from 'antd'
 import ShowJson from './ShowJson'
+import { setModels } from '../Actions/setModel'
+import { modelChoices } from '../appSkeleton'
 import {
     rhoBounds, 
     speedBounds,
@@ -99,7 +101,9 @@ const HestonForm=({
     ]
 }
 
-const mapStateToPropsHeston=({optionParameters, hestonValidation, hestonParameters})=>({optionParameters, formValidation:hestonValidation, hestonParameters})
+const [heston, bs, custom]=modelChoices
+const mapStateToPropsHeston=state=>({optionParameters:state[custom.value], formValidation:state.hestonValidation, hestonParameters:state[heston.value]})
+
 const mapDispatchToPropsHeston=dispatch=>({
     updateHeston:(key, value, validateStatus)=>{
         updateHeston(key, value, validateStatus, dispatch)
@@ -107,7 +111,8 @@ const mapDispatchToPropsHeston=dispatch=>({
     submitOptions:(hestonParameters, optionParameters)=>{
         const updatedCustom=convertHestonToCustom(hestonParameters, optionParameters)
         getAllData(updatedCustom, dispatch)
-        updateAllCustom(updatedCustom, dispatch)
+        const [heston]=modelChoices
+        setModels[heston.value](dispatch)
     }
 })
 export default connect(

@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import { getAllData } from '../Actions/lambda'
 import { updateCustom } from '../Actions/parameters'
-
+import { setModels } from '../Actions/setModel'
+import { modelChoices } from '../appSkeleton'
 import ShowJson from './ShowJson'
 import {
     rhoBounds,
@@ -136,12 +137,19 @@ const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation
         <ShowJson parameters={optionParameters}/>
     </Row>
 ]
-const mapStateToPropsCustom=({optionParameters, optionValidation})=>({optionParameters, formValidation:optionValidation})
+const [, , custom]=modelChoices
+const mapStateToPropsCustom=state=>({optionParameters:state[custom.value], formValidation:state.optionValidation})
+
 const mapDispatchToPropsCustom =dispatch=>({
     updateCustom:(key, value, validateStatus)=>{
         updateCustom(key, value, validateStatus, dispatch)
+        
     },
-    submitOptions:vals=>getAllData(vals, dispatch)
+    submitOptions:vals=>{
+        getAllData(vals, dispatch)
+        
+        setModels[custom.value](dispatch)
+    }
 })
 
 export default connect(

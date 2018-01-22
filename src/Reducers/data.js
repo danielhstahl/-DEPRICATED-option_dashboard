@@ -5,7 +5,8 @@ import {
 import {
     keySkeleton,
     algorithms,
-    createActionType
+    createActionType,
+    modelChoices
 } from '../appSkeleton'
 import { getDomain } from '../Utils/cgmyUtils'
 
@@ -20,10 +21,11 @@ const actionFangOostFactory=actionType=>(state=[], action)=>{
     }
 }
 
-const actionDomainFactory=actionType=>(state=[], action, optionParameters)=>{
+const actionDomainFactory=actionType=>(state=[], action, totalState)=>{
+    
     switch(action.type){
         case actionType:
-            const {upper, lower}=getDomain(optionParameters)
+            const {upper, lower}=getDomain(totalState[totalState.selectedModel])
             return getMiddleByVal(action.data, lower, upper, 'atPoint')
         default:
             return state

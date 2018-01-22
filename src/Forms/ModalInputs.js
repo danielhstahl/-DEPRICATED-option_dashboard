@@ -9,22 +9,19 @@ import CustomForm from './CustomInputs'
 import BSForm from './BSInputs'
 import { Row, Col, Modal, Menu } from 'antd'
 import { Route, Link } from 'react-router-dom'
+import { modelChoices } from '../appSkeleton'
 const getBaseUrl=path=>path.split("/:")[0]
 const generateUrl=(path, choice)=>`${getBaseUrl(path)}/${choice}`
 
-export const inputChoices=[
-    'Heston',
-    'Black Scholes',
-    'Advanced',
-]
 
-const [HestonName, BSName, CustomName]=inputChoices
+
+const [HestonName, BSName, CustomName]=modelChoices
 
 const MenuTypes=({match})=>(
 <Menu theme="light" mode="horizontal" selectedKeys={[match.params.inputChoice]}>
-    {inputChoices.map(choice=>(
-        <Menu.Item key={choice}>
-            <Link to={generateUrl(match.path, choice)}>{choice}</Link>
+    {modelChoices.map(({value, label})=>(
+        <Menu.Item key={value}>
+            <Link to={generateUrl(match.path, value)}>{label}</Link>
         </Menu.Item>
     ))}
 </Menu>
@@ -88,9 +85,9 @@ const ModalInputs=({optionParameters, updateCustom, history, match, formValidati
                 />
             </Col>
         </Row>
-        <Route path={generateUrl(match.path, HestonName)} component={HestonForm}/>
-        <Route path={generateUrl(match.path, CustomName)} component={CustomForm}/>
-        <Route path={generateUrl(match.path, BSName)} component={BSForm}/>
+        <Route path={generateUrl(match.path, HestonName.value)} component={HestonForm}/>
+        <Route path={generateUrl(match.path, CustomName.value)} component={CustomForm}/>
+        <Route path={generateUrl(match.path, BSName.value)} component={BSForm}/>
     </Modal>
     )
 }

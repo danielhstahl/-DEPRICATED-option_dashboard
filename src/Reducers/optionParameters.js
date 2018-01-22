@@ -1,3 +1,4 @@
+import { modelChoices, createOptionType } from '../appSkeleton'
 const defaultState={
     numU:6,//gets raised to power of 2: 2^numU
     r:.03,
@@ -22,7 +23,17 @@ const hestonState={
     meanVol:.04
 }
 
+/**todo!  automatically generate model parameters */
 
+export const generateParameters=modelChoices.reduce(({value})=>(state=defaultState, action)=>{
+    switch (action.type){
+        case createOptionType(value):
+            return {...state, [value]:action.value}
+        default:
+            return state
+    }
+}, {})
+/*
 export const optionParameters=(state = defaultState, action) => {
     switch (action.type) {
         case 'UPDATE_OPTIONS':
@@ -49,4 +60,4 @@ export const bsParameters=(state = defaultState, action) => {
             return state
     }
 }
-
+*/
