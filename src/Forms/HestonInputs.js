@@ -101,8 +101,11 @@ const HestonForm=({
     ]
 }
 
-const [heston, bs, custom]=modelChoices
-const mapStateToPropsHeston=state=>({optionParameters:state[custom.value], formValidation:state.hestonValidation, hestonParameters:state[heston.value]})
+const [heston, , custom]=modelChoices
+const mapStateToPropsHeston=state=>{
+    console.log(state)
+    return ({optionParameters:state[custom.value], formValidation:state.hestonValidation, hestonParameters:state[heston.value]})
+}
 
 const mapDispatchToPropsHeston=dispatch=>({
     updateHeston:(key, value, validateStatus)=>{

@@ -25,7 +25,7 @@ const actionDomainFactory=actionType=>(state=[], action, totalState)=>{
     
     switch(action.type){
         case actionType:
-            const {upper, lower}=getDomain(totalState[totalState.selectedModel])
+            const {upper, lower}=getDomain(totalState[totalState.selectedModel.model])
             return getMiddleByVal(action.data, lower, upper, 'atPoint')
         default:
             return state
