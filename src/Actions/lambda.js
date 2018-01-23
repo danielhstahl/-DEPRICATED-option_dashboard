@@ -35,8 +35,6 @@ export const getDensity=(parms, dispatch)=>{
     }))
 }
 
-//export const getCalibratedParameters=dispatch=>{}
-
 const generateFangOost=optionType=>(parms, dispatch)=>sensitivities.forEach(
     sensitivity=>getOptionUrl(optionType, sensitivity, fangOostName)(parms).then(response=>dispatch({
         type:createActionType(optionType, sensitivity, fangOostName),
@@ -48,16 +46,8 @@ const generateFangOost=optionType=>(parms, dispatch)=>sensitivities.forEach(
 export const getFangOostCall=generateFangOost(callName)
 export const getFangOostPut=generateFangOost(putName)
 
-export const resetOptions=(dispatch)=>{
-    appSkeleton.filter(([optionType, sensitivity, algorithm])=>algorithm!==fangOostName).forEach(row=>{
-        dispatch({
-            type:createActionType(...row),
-            data:[]
-        })
-    })
-}
+
 export const getAllData=(parameters, dispatch)=>{
-    resetOptions(dispatch)
     appSkeleton.forEach(
         row=>getOptionUrl(...row)(parameters).then(response=>dispatch({
             type:createActionType(...row),

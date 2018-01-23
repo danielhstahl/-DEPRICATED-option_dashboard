@@ -4,9 +4,8 @@ import { connect } from 'react-redux'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import { getAllData } from '../Actions/lambda'
 import { updateCustom } from '../Actions/parameters'
-import { setModels } from '../Actions/setModel'
-import { modelChoices } from '../appSkeleton'
 import ShowJson from './ShowJson'
+import CommonInputs from './CommonInputs'
 import {
     rhoBounds,
     speedBounds,
@@ -27,6 +26,7 @@ const v0Bounds=meanBounds
 
 const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation})=>[
     <Row gutter={gutter} key={0}>
+        <CommonInputs parameters={optionParameters} validation={formValidation} update={updateCustom} />
         <Col {...flexObj}>
             <CustomFormItemInput 
                 objKey='sigma' 

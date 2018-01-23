@@ -3,8 +3,6 @@ import { handleForm, validateAll } from '../Utils/utils'
 import { connect } from 'react-redux'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import { getAllData } from '../Actions/lambda'
-import { setModels } from '../Actions/setModel'
-import { modelChoices } from '../appSkeleton'
 import {
     sigmaBounds,
     flexObj,
@@ -15,9 +13,10 @@ import {
     updateBS
 } from '../Actions/parameters'
 import ShowJson from './ShowJson'
-
+import CommonInputs from './CommonInputs'
 const BSForm=({bsParameters, submitOptions, updateBS, formValidation})=>[
     <Row gutter={gutter} key={0}>
+        <CommonInputs parameters={bsParameters} validation={formValidation} update={updateBS} />
         <Col {...flexObj}>
             <CustomFormItemInput 
                 objKey='sigma' 
@@ -46,10 +45,7 @@ const mapDispatchToPropsBS=dispatch=>({
         updateBS(key, value, validateStatus, dispatch)
     },
     submitOptions:parameters=>{
-        //const updatedCustom=convertBSToCustom(vals)
         getAllData(parameters, dispatch)
-        
-        //setModels[bs.value](dispatch)
     }
 })
 export default connect(

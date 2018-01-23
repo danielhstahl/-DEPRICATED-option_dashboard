@@ -5,8 +5,7 @@ import {
 import {
     keySkeleton,
     algorithms,
-    createActionType,
-    modelChoices
+    createActionType
 } from '../appSkeleton'
 import { getDomain } from '../Utils/cgmyUtils'
 

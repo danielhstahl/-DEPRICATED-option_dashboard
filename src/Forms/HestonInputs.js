@@ -6,14 +6,13 @@ import { connect } from 'react-redux'
 import { updateHeston } from '../Actions/parameters'
 import { Row, Col } from 'antd'
 import ShowJson from './ShowJson'
-import { setModels } from '../Actions/setModel'
-import { modelChoices } from '../appSkeleton'
 import {
     rhoBounds, 
     speedBounds,
     flexObj,
     gutter
 } from './globalOptions'
+import CommonInputs from './CommonInputs'
 
 import {
     convertHestonToCustom
@@ -28,6 +27,7 @@ const HestonForm=({
     updateHeston, formValidation
 })=>[
     <Row gutter={gutter} key={0}>
+        <CommonInputs parameters={hestonParameters} validation={formValidation} update={updateHeston} />
         <Col {...flexObj}>
             <CustomFormItemInput
                 label='Speed'
@@ -91,7 +91,6 @@ const HestonForm=({
                 )}
             />
         </Col>
-        
     </Row>,
     <Row key={1}>
         <ShowJson parameters={convertHestonToCustom(hestonParameters)}/>

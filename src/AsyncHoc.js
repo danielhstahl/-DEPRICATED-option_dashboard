@@ -3,19 +3,18 @@ import { connect } from 'react-redux'
 import {getAllData} from './Actions/lambda'
 class AsyncHoc extends Component{
     componentDidMount() {
-        this.props.onLoad(this.props.optionParams)
+        console.log(this.props)
+        this.props.onLoad(this.props.optionParameters)
     }
     render(){
         return null
     }
 }
 
-const mapStateToProps=state=>({
-    optionParams:state.optionParameters
-})
+const mapStateToProps=({optionParameters})=>({optionParameters})
 const mapDispatchToProps =dispatch=>({
-    onLoad:(optionParams)=>{
-        getAllData(optionParams, dispatch)
+    onLoad:(optionParameters)=>{
+        getAllData(optionParameters, dispatch)
     }
 })
 

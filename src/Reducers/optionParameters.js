@@ -26,7 +26,7 @@ const hestonState={
 
 const bsState={
     ...defaultState,
-    v0:0.0,
+    v0:1.0,
     C:0.0,
     adaV:0.0
 }
