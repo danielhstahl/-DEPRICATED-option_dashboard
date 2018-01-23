@@ -14,7 +14,7 @@ import {
 } from '../Actions/parameters'
 import ShowJson from './ShowJson'
 import CommonInputs from './CommonInputs'
-const BSForm=({bsParameters, submitOptions, updateBS, formValidation})=>[
+const BSForm=({bsParameters, submitOptions, updateBS, formValidation, type})=>[
     <Row gutter={gutter} key={0}>
         <CommonInputs parameters={bsParameters} validation={formValidation} update={updateBS} />
         <Col {...flexObj}>

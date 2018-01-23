@@ -66,6 +66,19 @@ const generateValidation=(paramName)=>(state=defaultFormValidationStatus, action
             return state
     }
 }
+
+const generateCalibration=paramName=>(state=[], action)=>{
+    switch(action.type){
+        case createCalibrationType(paramName):
+            return action.data
+        default:
+            return state
+    }
+}
+
+
+export const strikeCalibration=generateCalibration('strike')
+export const priceCalibration=generateCalibration('price')
 export const optionParameters=generateParameters('custom', defaultState)
 export const hestonParameters=generateParameters('heston', hestonState)
 export const bsParameters=generateParameters('bs', bsState)
@@ -73,31 +86,3 @@ export const optionValidation=generateValidation('custom')
 export const hestonValidation=generateValidation('heston')
 export const bsValidation=generateValidation('bs')
 
-/*
-export const optionParameters=(state = defaultState, action) => {
-    switch (action.type) {
-        case 'UPDATE_OPTIONS':
-            return {...state, [action.key]:action.value}
-        case 'UPDATE_ALL_OPTIONS':
-            return action.optionParameters
-        default:
-            return state
-    }
-}
-export const hestonParameters=(state = hestonState, action) => {
-    switch (action.type) {
-        case 'UPDATE_HESTON':
-            return {...state, [action.key]:action.value}
-        default:
-            return state
-    }
-}
-export const bsParameters=(state = defaultState, action) => {
-    switch (action.type) {
-        case 'UPDATE_BS':
-            return {...state, [action.key]:action.value}
-        default:
-            return state
-    }
-}
-*/

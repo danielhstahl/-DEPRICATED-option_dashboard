@@ -17,27 +17,16 @@ const defaultFormValidationStatus={
     quantile:''
 }
 
-export const optionValidation=(state = defaultFormValidationStatus, action) => {
+const generateValidation=actionType=>(state=defaultFormValidationStatus, action)=>{
     switch (action.type) {
-        case 'UPDATE_OPTION_VALIDATION':
+        case actionType:
             return {...state, [action.key]:action.value}
         default:
             return state
     }
 }
-export const hestonValidation=(state = defaultFormValidationStatus, action) => {
-    switch (action.type) {
-        case 'UPDATE_HESTON_VALIDATION':
-            return {...state, [action.key]:action.value}
-        default:
-            return state
-    }
-}
-export const bsValidation=(state = defaultFormValidationStatus, action) => {
-    switch (action.type) {
-        case 'UPDATE_BS_VALIDATION':
-            return {...state, [action.key]:action.value}
-        default:
-            return state
-    }
-}
+export const optionValidation=generateValidation('UPDATE_OPTION_VALIDATION')
+export const hestonValidation=generateValidation('UPDATE_HESTON_VALIDATION')
+export const bsValidation=generateValidation('UPDATE_BS_VALIDATION')
+export const priceValidation=generateValidation('UPDATE_PRICE_VALIDATION')
+export const strikeValidation=generateValidation('UPDATE_STRIKE_VALIDATION')

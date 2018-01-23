@@ -8,56 +8,100 @@ import ModalInputs from './Forms/ModalInputs'
 import QuantileInputs from './Forms/QuantileInputs'
 import StrikeInputs from './Forms/StrikeInputs'
 import CardPlot from './Cards/CardPlot'
-import { Row, Col, Layout, Card, Menu } from 'antd'
-import { BrowserRouter,Route, Link, Redirect, Switch } from 'react-router-dom'
+import { Row, Col, Dropdown, Layout, Card, Menu } from 'antd'
+import { HashRouter, Route, Link, Redirect, Switch } from 'react-router-dom'
 import { upperFirstLetter } from './Utils/utils'
-import { rootParamName } from './Routes/routeDefinitions'
+import { rootModel, rootSensitivity, modalInputsIndex, inputsUrl } from './Routes/routeDefinitions'
 const style = {
 	background: 'whitesmoke',
 	margin: 0,
 	minHeight: 280
 }
-const inputsUrl='inputs'
 
-const [HestonName]=modelChoices
-
-const Content=Layout.Content
-const paramUrl=`/:${rootParamName}`
-const baseUrl='/'
 const [priceName]=sensitivities
-const redirectUrl=`/${priceName}`
+const [, , CustomName]=modelChoices
+const Content=Layout.Content
+const paramUrl=`/:${rootModel}/:${rootSensitivity}`
+const baseUrl='/'
+const redirectUrl=`${CustomName.value}/${priceName}`
 const fangOostHelpUrl='/fangoost/help'
 const carrMadanHelpUrl='/carrmadan/help'
 const fstsHelpUrl='/fsts/help'
 
-const floatRight={ float:'right' }
+const floatRight={ float:'right',  }
 const colBreaks={ sm:24, md:12, xl:6 }
-const MenuSensitivities=({match})=> (
-	<Menu 
-		theme="light" 
-		mode="horizontal" 
-		selectedKeys={ [match.params[rootParamName]] }
-		style={{backgroundColor: 'whitesmoke'}}
-	>
-		{
-			sensitivities.map(sensitivity=>(
-				<Menu.Item key={sensitivity}>
-					<Link to={`/${sensitivity}`}> {upperFirstLetter(sensitivity)} </Link>
-				</Menu.Item>
-			))
-		}
-		<Menu.Item style={floatRight}>
-			<Link to={`/${match.params[rootParamName]}/${inputsUrl}/${HestonName.value}`}>Edit Inputs</Link>
-		</Menu.Item>
+const modelChoiceGenerator = handleMenuClick=>(
+	<Menu onClick={e=>handleMenuClick(e.key)}>
+	{modelChoices.map(({value, label})=>(
+		<Menu.Item key={value}>{label}</Menu.Item>
+	))}
 	</Menu>
 )
+const colorStyle={backgroundColor: 'whitesmoke'}
+const MenuSensitivities=({history, sensitivity, model})=>{
+	const goToInputModal=model=>{
+		history.push(`/${model}/${sensitivity}/${inputsUrl}/manual`)
+	}
+	return (
+		<Menu 
+			theme="light" 
+			mode="horizontal" 
+			selectedKeys={ [sensitivity] }
+			style={colorStyle}
+		>
+			{
+				sensitivities.map(sensitivity=>(
+					<Menu.Item key={sensitivity}>
+						<Link to={`/${model}/${sensitivity}`}> {upperFirstLetter(sensitivity)} </Link>
+					</Menu.Item>
+				))
+			}
+			<div>
+				<Dropdown.Button 
+					key={1}
+					style={floatRight}
+					onClick={()=>{
+						goToInputModal(model)
+					}}
+					overlay={modelChoiceGenerator(goToInputModal)}
+				>
+					{modelChoices.find(({value})=>model===value).label}: Inputs
+				</Dropdown.Button>
+			</div>
+		</Menu>
+	)	
+}
 
-const WrapModalInputs=({match})=>(
-	<Route path={`/${match.params[rootParamName]}/${inputsUrl}/:inputChoice`} component={ModalInputs}/>
-)
-const HoldCards=props=>[
-	<WrapModalInputs {...props} key={0}/>,
-	<MenuSensitivities {...props} key={1}/>,
+const WrapModalInputs=({model, sensitivity})=>{
+	const baseUrl=`/${model}/${sensitivity}`
+	return (
+	<Route 
+		path={`${baseUrl}/${inputsUrl}/:${modalInputsIndex}`} 
+		render={({match, history})=>(
+			<ModalInputs 
+				model={model}
+				baseUrl={baseUrl}
+				match={match}
+				history={history}
+			/> 
+		)}
+	/>
+	)
+}
+const HoldCards=({match, ...rest})=>{
+	const rootModelLink=match.params[rootModel]
+	const rootSensitivityLink=match.params[rootSensitivity]
+	return [
+	<WrapModalInputs 
+		sensitivity={rootSensitivityLink}
+		model={rootModelLink}
+		key={0}
+	/>,
+	<MenuSensitivities 
+		sensitivity={rootSensitivityLink}
+		model={rootModelLink}
+		{...rest} key={1}
+	/>,
 	<Row gutter={16} type="flex" justify="space-between" key={2}>
 		<Col {...colBreaks} >
 			<CardPlot
@@ -65,7 +109,8 @@ const HoldCards=props=>[
 				title="Carr-Madan" 
 				HelpComponent={CarrMadanHelp}
 				url={carrMadanHelpUrl}
-				{...props}
+				match={match}
+				{...rest}
 			/>
 		</Col>
 		<Col {...colBreaks} >
@@ -74,7 +119,8 @@ const HoldCards=props=>[
 				title="Fourier Space Time Step" 
 				HelpComponent={FSTSHelp}
 				url={fstsHelpUrl}
-				{...props}
+				match={match}
+				{...rest}
 			/>
 		</Col>
 		<Col {...colBreaks} >
@@ -83,7 +129,8 @@ const HoldCards=props=>[
 				title="Fang-Oosterlee" 
 				HelpComponent={FangOostHelp}
 				url={fangOostHelpUrl}
-				{...props}
+				match={match}
+				{...rest}
 				CardFooter = {StrikeInputs}
 			/>
 		</Col>
@@ -93,10 +140,11 @@ const HoldCards=props=>[
 			</Card>
 		</Col>
 	</Row>
-]
+	]
+}
 
 const App =()=>(
-	<BrowserRouter basename={process.env.PUBLIC_URL}>
+	<HashRouter basename={process.env.PUBLIC_URL}>
 		<Layout>
 			<AsyncHOC/>
 			<Content style={style}>
@@ -108,7 +156,7 @@ const App =()=>(
 				</div>
 			</Content>
 		</Layout>
-	</BrowserRouter>
+	</HashRouter>
 )
 
 export default App

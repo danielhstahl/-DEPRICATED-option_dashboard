@@ -62,15 +62,34 @@ CustomInput.propTypes={
         help:PropTypes.string.isRequired
     })
 }
+export const CustomTextArea=({objKey, parms, onChange, toolTip, validator})=>(
+<Tooltip placement="top" title={toolTip}>
+    <Input.TextArea
+        autosize
+        value={parms[objKey]}
+        onChange={onChangeHelper(onChange, validator, objKey)}
+        style={fullWidth}
+    />
+</Tooltip>
+)
+CustomTextArea.propTypes={
+    objKey:PropTypes.string.isRequired,
+    parms:PropTypes.object.isRequired,
+    onChange:PropTypes.func.isRequired,
+    toolTip:PropTypes.string.isRequired,
+    validator:PropTypes.shape({
+        fn:PropTypes.func.isRequired,
+        help:PropTypes.string.isRequired
+    })
+}
 
-
-export const CustomFormItemInput=({objKey, parms, onChange, toolTip, label, validator, validationResults})=>(
+const CustomFormItemGeneric=CustInput=>({objKey, parms, onChange, toolTip, label, validator, validationResults})=>(
     <FormItem {...formItemLayoutLabel} label={label} validateStatus={validationResults[objKey]} help={validationResults[objKey]&&validator.help}>
-        <CustomInput objKey={objKey} parms={parms} onChange={onChange} toolTip={toolTip} validator={validator}/>
+        <CustInput objKey={objKey} parms={parms} onChange={onChange} toolTip={toolTip} validator={validator}/>
     </FormItem>
 )
 
-CustomFormItemInput.propTypes={
+CustomFormItemGeneric.propTypes={
     ...CustomInput.propTypes,
     validationResults:PropTypes.object.isRequired,
     label:PropTypes.string.isRequired,
@@ -79,6 +98,9 @@ CustomFormItemInput.propTypes={
         help:PropTypes.string.isRequired
     })
 }
+
+export const CustomFormItemInput=CustomFormItemGeneric(CustomInput)
+export const CustomFormItemTextArea=CustomFormItemGeneric(CustomTextArea)
 
 export const CustomUpdateButton=({disabled, onClick, ...rest})=>(
     <FormItem {...formItemLayoutLabel} colon={false} label=" ">

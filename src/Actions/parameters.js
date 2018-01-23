@@ -17,9 +17,12 @@ const generateOptions=paramName=>(key, value, validation, dispatch)=>{
 }
 
 
+
 export const updateCustom=generateOptions('custom')
 export const updateHeston=generateOptions('heston')
 export const updateBS=generateOptions('bs')
+export const updateStrike=generateOptions('strike')
+export const updatePrice=generateOptions('price')
 
 
 
