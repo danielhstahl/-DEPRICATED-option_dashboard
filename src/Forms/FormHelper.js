@@ -5,9 +5,8 @@ import { fullWidth, formItemLayoutLabel } from './globalOptions'
 
 const onChangeHelper=(onChange, validator, objKey)=>e=>{
     const value=e.target.value
-    //console.log(value)
     const isValid=validator?validator.fn(value):true
-    onChange(objKey, isValid?parseFloat(value):value, isValid?'':'error') 
+    onChange(objKey, isValid?isValid:value, isValid?'':'error') 
 }
 
 const FormItem=Form.Item
@@ -102,7 +101,7 @@ CustomFormItemGeneric.propTypes={
 export const CustomFormItemInput=CustomFormItemGeneric(CustomInput)
 export const CustomFormItemTextArea=CustomFormItemGeneric(CustomTextArea)
 
-export const CustomUpdateButton=({disabled, onClick, ...rest})=>(
+export const CustomUpdateButton=({disabled, onClick, text, ...rest})=>(
     <FormItem {...formItemLayoutLabel} colon={false} label=" ">
         <Button 
             style={fullWidth}
@@ -111,7 +110,7 @@ export const CustomUpdateButton=({disabled, onClick, ...rest})=>(
             disabled={disabled}
             onClick={onClick}
             {...rest}
-        >Update</Button>
+        >{text||"Update"}</Button>
     </FormItem>
 )
 CustomUpdateButton.propTypes={

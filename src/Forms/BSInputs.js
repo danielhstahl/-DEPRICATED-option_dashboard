@@ -3,6 +3,7 @@ import { handleForm, validateAll } from '../Utils/utils'
 import { connect } from 'react-redux'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import { getAllData } from '../Actions/lambda'
+import InputCalibrator, {switchComponent} from './InputCalibrator'
 import {
     sigmaBounds,
     flexObj,
@@ -14,38 +15,59 @@ import {
 } from '../Actions/parameters'
 import ShowJson from './ShowJson'
 import CommonInputs from './CommonInputs'
+
+const Manual=({formValidation, bsParameters, updateBS, submitOptions})=>[
+    <Col {...flexObj} key={0}>
+        <CustomFormItemInput 
+            objKey='sigma' 
+            validationResults={formValidation}
+            label="Volatility"
+            parms={bsParameters}
+            validator={sigmaBounds}
+            toolTip="This is the volatility of the diffusion component of the (extended) CGMY process"
+            onChange={updateBS}
+        />
+    </Col>,
+    <Col {...flexObj} key={1}>
+        <CustomUpdateButton
+            disabled={validateAll(bsParameters)}
+            onClick={handleForm(submitOptions, bsParameters)}
+        />  
+    </Col>
+]
+
+/**TODO!  make two different "submitOptions" functions (one for calibrate and one for generating results) */
+
 const BSForm=({bsParameters, submitOptions, updateBS, formValidation, type})=>[
     <Row gutter={gutter} key={0}>
         <CommonInputs parameters={bsParameters} validation={formValidation} update={updateBS} />
-        <Col {...flexObj}>
-            <CustomFormItemInput 
-                objKey='sigma' 
-                validationResults={formValidation}
-                label="Volatility"
-                parms={bsParameters}
-                validator={sigmaBounds}
-                toolTip="This is the volatility of the diffusion component of the (extended) CGMY process"
-                onChange={updateBS}
-            />
-        </Col>
-        <Col {...flexObj}>
-            <CustomUpdateButton
-                disabled={validateAll(formValidation)}
-                onClick={handleForm(submitOptions, bsParameters)}
-            />
-        </Col>
+        {switchComponent(type==='manual', 
+        <Manual 
+            formValidation={formValidation} 
+            bsParameters={bsParameters} 
+            updateBS={updateBS} 
+            submitOptions={submitOptions}
+        />, 
+        <InputCalibrator 
+            parameters={bsParameters} 
+            validation={formValidation}
+            submitOptions={submitOptions}
+        />)}
     </Row>,
     <Row key={1}>
         <ShowJson parameters={bsParameters}/>
     </Row>
 ]
-const mapStateToPropsBS=({bsParameters, bsValidation})=>({bsParameters, formValidation:bsValidation})
+const mapStateToPropsBS=({bsParameters, bsValidation})=>({
+    bsParameters, 
+    formValidation:bsValidation
+})
 const mapDispatchToPropsBS=dispatch=>({
-    updateBS:(key, value, validateStatus)=>{
-        updateBS(key, value, validateStatus, dispatch)
-    },
     submitOptions:parameters=>{
         getAllData(parameters, dispatch)
+    },
+    updateBS:(key, value, validateStatus)=>{
+        updateBS(key, value, validateStatus, dispatch)
     }
 })
 export default connect(

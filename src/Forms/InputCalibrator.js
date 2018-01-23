@@ -1,6 +1,10 @@
+import React from 'react'
 import { CustomFormItemTextArea, CustomUpdateButton } from './FormHelper'
 import { flexObj } from './globalOptions'
-
+import { connect } from 'react-redux'
+import { handleForm, validateAll } from '../Utils/utils'
+import { updateCalibration } from '../Actions/parameters'
+import { Col } from 'antd'
 const checkValidJson=(jsonString)=>{
     try {
         var o = JSON.parse(jsonString);
@@ -21,35 +25,49 @@ const validator={
     fn:commaString=>checkValidJson(`[${commaString}]`),
     help:'Requires comma seperated values like "2, 3, 4"'
 }
-export default InputCalibrator=({calibrationParameters, calibrationValidation, otherValidation, otherParameters, update})=>(
-<Col xs={24}>
+export const switchComponent=(condition, Component1, Component2)=>{
+    return condition?Component1:Component2
+}
+const InputCalibrator=({calibrateParameters, calibrateValidation, validation, parameters, submitOptions, updateCalibration})=>[
+<Col xs={24} key={1}>
     <CustomFormItemTextArea 
         objKey='strikes' 
-        validationResults={calibrationValidation}
+        validationResults={calibrateValidation}
         label="Strikes"
-        parms={calibrationParameters}
+        parms={calibrateParameters}
         validator={validator}
         toolTip="Comma separated array of strikes"
-        onChange={update}
+        onChange={updateCalibration}
     />
-</Col>
-<Col xs={24}>
+</Col>,
+<Col xs={24} key={2}>
     <CustomFormItemTextArea 
         objKey='prices' 
-        validationResults={calibrationValidation}
+        validationResults={calibrateValidation}
         label="Prices"
-        parms={calibrationParameters}
+        parms={calibrateParameters}
         validator={validator}
         toolTip="Comma separated array of prices"
-        onChange={update}
+        onChange={updateCalibration}
     />
-</Col>
-<Col xs={12}>
+</Col>,
+<Col {...flexObj} key={3}>
     <CustomUpdateButton
-        disabled={validateAll({...otherValidation, ...calibrateValidation})}
-        onClick={handleForm(submitOptions, {...calibrationParameters, ...otherParameters})}
-    />
+        disabled={validateAll({...calibrateValidation, ...validation})}
+        onClick={handleForm(submitOptions, {...parameters, ...calibrateParameters})}
+        text="Calibrate"
+    />  
 </Col>
-)
+]
 
-const mapStateToProps=({calibrationParameters, calibrationValidation})=>({calibrationParameters, calibrationValidation})
+const mapStateToProps=({calibrateParameters, calibrateValidation})=>({calibrateParameters, calibrateValidation})
+
+const mapDispatchToProps=dispatch=>({
+    updateCalibration:(key, value, validateStatus)=>{
+        updateCalibration(key, value, validateStatus, dispatch)
+    }
+})
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(InputCalibrator)

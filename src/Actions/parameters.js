@@ -1,4 +1,4 @@
-import {createValidationType, createOptionType} from '../appSkeleton'
+import { createValidationType, createOptionType } from '../appSkeleton'
 
 const generateValidation=paramName=>(key, value, dispatch)=>{
     dispatch({
@@ -7,7 +7,7 @@ const generateValidation=paramName=>(key, value, dispatch)=>{
         value
     })
 }
-const generateOptions=paramName=>(key, value, validation, dispatch)=>{
+const generateOptions=(paramName)=>(key, value, validation, dispatch)=>{
     dispatch({
         type:createOptionType(paramName),
         key,
@@ -21,8 +21,6 @@ const generateOptions=paramName=>(key, value, validation, dispatch)=>{
 export const updateCustom=generateOptions('custom')
 export const updateHeston=generateOptions('heston')
 export const updateBS=generateOptions('bs')
-export const updateStrike=generateOptions('strike')
-export const updatePrice=generateOptions('price')
-
+export const updateCalibration=generateOptions('calibrate')
 
 

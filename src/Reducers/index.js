@@ -1,6 +1,15 @@
 import { combineReducers } from 'redux'
-import {optionParameters, hestonParameters, bsParameters} from './optionParameters'
-import {hestonValidation, optionValidation, bsValidation} from './formValidation'
+import {
+    optionParameters, 
+    hestonParameters, 
+    bsParameters, 
+    calibrateParameters,
+    optionValidation,
+    hestonValidation,
+    bsValidation,
+    calibrateValidation
+ } from './optionParameters'
+///import {hestonValidation, optionValidation, bsValidation, priceValidation, strikeValidation} from './formValidation'
 import {selectedModel} from './selectedModel'
 import {
     VaR, density, 
@@ -17,6 +26,8 @@ export default combineReducers({
     optionParameters,
     hestonParameters,
     hestonValidation,
+    calibrateValidation,
+    calibrateParameters,
     bsParameters,
     bsValidation,
     selectedModel,

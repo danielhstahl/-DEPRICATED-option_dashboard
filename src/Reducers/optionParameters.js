@@ -1,4 +1,4 @@
-import {createValidationType, createOptionType} from '../appSkeleton'
+import {createValidationType, createOptionType } from '../appSkeleton'
 const defaultState={
     numU:6,//gets raised to power of 2: 2^numU
     r:.03,
@@ -67,22 +67,13 @@ const generateValidation=(paramName)=>(state=defaultFormValidationStatus, action
     }
 }
 
-const generateCalibration=paramName=>(state=[], action)=>{
-    switch(action.type){
-        case createCalibrationType(paramName):
-            return action.data
-        default:
-            return state
-    }
-}
 
-
-export const strikeCalibration=generateCalibration('strike')
-export const priceCalibration=generateCalibration('price')
 export const optionParameters=generateParameters('custom', defaultState)
 export const hestonParameters=generateParameters('heston', hestonState)
 export const bsParameters=generateParameters('bs', bsState)
+export const calibrateParameters=generateParameters('calibrate', {...defaultFormValidationStatus, strikes:[], prices:[]})
 export const optionValidation=generateValidation('custom')
 export const hestonValidation=generateValidation('heston')
 export const bsValidation=generateValidation('bs')
+export const calibrateValidation=generateValidation('calibrate')
 
