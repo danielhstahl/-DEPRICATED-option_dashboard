@@ -1,160 +1,152 @@
 import React from 'react'
-import { createArray, handleForm } from '../Utils/utils'
+import { validateAll, handleForm, createBounds } from '../Utils/utils'
 import { connect } from 'react-redux'
-import CustomDrop from './FormHelper'
+import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import { getAllData } from '../Actions/lambda'
 import { updateCustom } from '../Actions/parameters'
-
 import ShowJson from './ShowJson'
+import CommonInputs from './CommonInputs'
 import {
-    rhoOptions,
-    speedOptions,
-    adaOptions,
-    sigmaOptions,
+    rhoBounds,
+    speedBounds,
+    sigmaBounds,
+    cBounds,
+    gBounds,
+    mBounds,
+    yBounds,
     flexObj,
-    gutter,
-    formItemLayoutLabel,
-    fullWidth
+    gutter
 } from './globalOptions'
 
-import { Row, Col, Form, Button } from 'antd'
+import { Row, Col } from 'antd'
 
-const FormItem=Form.Item
+const adaBounds=createBounds(0, 2)
+const meanBounds=createBounds(.2, 1.8)
+const v0Bounds=meanBounds
 
-const COptions=createArray(0, 2, .1)
-const GMOptions=createArray(.2, 10, .1)
-const YOptions=createArray(.2, 1.8, .2)
-const v0Options=createArray(.7, 1.3, .05)
-
-const CustomForm=({customParameters, submitOptions, updateCustom})=>[
+const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation})=>[
     <Row gutter={gutter} key={0}>
+        <CommonInputs parameters={optionParameters} validation={formValidation} update={updateCustom} />
         <Col {...flexObj}>
-            <FormItem {...formItemLayoutLabel} label="Volatility">
-                <CustomDrop 
-                    objKey='sigma' 
-                    round={2}
-                    parms={customParameters}
-                    options={sigmaOptions}
-                    toolTip="This is the volatility of the diffusion component of the (extended) CGMY process"
-                    onChange={updateCustom}
-                />
-            </FormItem>
+            <CustomFormItemInput 
+                objKey='sigma' 
+                label="Volatility"
+                parms={optionParameters}
+                validator={sigmaBounds}
+                validationResults={formValidation}
+                toolTip="This is the volatility of the diffusion component of the (extended) CGMY process"
+                onChange={updateCustom}
+            />
         </Col>
         <Col {...flexObj}>
-            <FormItem {...formItemLayoutLabel} label="C">
-                <CustomDrop 
-                    objKey='C' 
-                    round={1}
-                    parms={customParameters}
-                    options={COptions}
-                    toolTip="This is the C in CGMY"
-                    onChange={updateCustom}
-                />
-            </FormItem>
+            <CustomFormItemInput 
+                objKey='C' 
+                label='C'
+                parms={optionParameters}
+                validationResults={formValidation}
+                validator={cBounds}
+                toolTip="This is the C in CGMY"
+                onChange={updateCustom}
+            />
         </Col>
         <Col {...flexObj}>
-            <FormItem {...formItemLayoutLabel} label="G">
-                <CustomDrop 
-                    objKey='G'
-                    round={1} 
-                    parms={customParameters}
-                    options={GMOptions}
-                    toolTip="This is the G in CGMY"
-                    onChange={updateCustom}
-                />
-            </FormItem>
+            <CustomFormItemInput 
+                objKey='G'
+                label='G'
+                parms={optionParameters}
+                validator={gBounds}
+                validationResults={formValidation}
+                toolTip="This is the G in CGMY"
+                onChange={updateCustom}
+            />
         </Col>
         <Col {...flexObj}>
-            <FormItem {...formItemLayoutLabel} label="M">
-                <CustomDrop 
-                    objKey='M' 
-                    round={1}
-                    parms={customParameters}
-                    options={GMOptions}
-                    toolTip="This is the M in CGMY"
-                    onChange={updateCustom}
-                />
-            </FormItem>
+            <CustomFormItemInput 
+                objKey='M' 
+                label='M'
+                parms={optionParameters}
+                validationResults={formValidation}
+                validator={mBounds}
+                toolTip="This is the M in CGMY"
+                onChange={updateCustom}
+            />
         </Col>
         <Col {...flexObj}>
-            <FormItem {...formItemLayoutLabel} label="Y">
-                <CustomDrop 
-                    objKey='Y' 
-                    round={1}
-                    parms={customParameters}
-                    options={YOptions}
-                    toolTip="This is the Y in CGMY"
-                    onChange={updateCustom}
-                />
-            </FormItem>
+            <CustomFormItemInput 
+                objKey='Y' 
+                label='Y'
+                parms={optionParameters}
+                validationResults={formValidation}
+                validator={yBounds}
+                toolTip="This is the Y in CGMY"
+                onChange={updateCustom}
+            />
         </Col>
         <Col {...flexObj}>
-            <FormItem {...formItemLayoutLabel} label="Speed">
-                <CustomDrop 
-                    objKey='speed' 
-                    round={1}
-                    parms={customParameters}
-                    options={speedOptions}
-                    toolTip="Speed of mean reversion of time change"
-                    onChange={updateCustom}
-                />
-            </FormItem>
+            <CustomFormItemInput 
+                objKey='speed' 
+                label='Speed'
+                parms={optionParameters}
+                validator={speedBounds}
+                validationResults={formValidation}
+                toolTip="Speed of mean reversion of time change"
+                onChange={updateCustom}
+            />
         </Col>
         <Col {...flexObj}>
-            <FormItem {...formItemLayoutLabel} label="Vol of Vol">
-                <CustomDrop 
-                    objKey='adaV' 
-                    round={2}
-                    parms={customParameters}
-                    options={adaOptions}
-                    toolTip="This is the volatility of the time change"
-                    onChange={updateCustom}
-                />
-            </FormItem>
+            <CustomFormItemInput 
+                objKey='adaV' 
+                validator={adaBounds}
+                label="Vol of Vol"
+                validationResults={formValidation}
+                parms={optionParameters}
+                toolTip="This is the volatility of the variance process"
+                onChange={updateCustom}
+            />
         </Col>
         <Col {...flexObj}>
-            <FormItem {...formItemLayoutLabel} label="V0">
-                <CustomDrop 
-                    objKey='v0' 
-                    round={2}
-                    parms={customParameters}
-                    options={v0Options}
-                    toolTip="This is the initial value of the time change process.  The long run mean is one"
-                    onChange={updateCustom}
-                />
-            </FormItem>
+            <CustomFormItemInput 
+                objKey='v0' 
+                validationResults={formValidation}
+                label="V0"
+                parms={optionParameters}
+                validator={v0Bounds}
+                toolTip="This is the current value of the variance process."
+                onChange={updateCustom}
+            />
         </Col>
         <Col {...flexObj}>
-            <FormItem {...formItemLayoutLabel} label="Rho">
-                <CustomDrop 
-                    objKey='rho' 
-                    round={2}
-                    parms={customParameters}
-                    options={rhoOptions}
-                    toolTip="Correlation between diffusion and time change"
-                    onChange={updateCustom}
-                />
-            </FormItem>
+            <CustomFormItemInput 
+                objKey='rho'
+                label="Rho" 
+                validationResults={formValidation}
+                validator={rhoBounds}
+                parms={optionParameters}
+                toolTip="Correlation between asset and variance"
+                onChange={updateCustom}
+            />
         </Col>
         <Col {...flexObj}>
-            <FormItem {...formItemLayoutLabel} colon={false} label=" ">
-                <Button 
-                    style={fullWidth}
-                    className='side-button submit-button' 
-                    type="primary" 
-                    onClick={handleForm(submitOptions, customParameters)}
-                >Update</Button>
-            </FormItem>
+            <CustomUpdateButton
+                disabled={validateAll(formValidation)}
+                onClick={handleForm(submitOptions, optionParameters)}
+            />
         </Col>
     </Row>,
     <Row key={1}>
-        <ShowJson parameters={customParameters}/>
+        <ShowJson parameters={optionParameters}/>
     </Row>
 ]
-const mapStateToPropsCustom=({customParameters})=>({customParameters})
+
+const mapStateToPropsCustom=({optionParameters, optionValidation})=>({optionParameters, formValidation:optionValidation})
+
 const mapDispatchToPropsCustom =dispatch=>({
-    updateCustom:(key, value)=>updateCustom(key, value, dispatch),
-    submitOptions:vals=>getAllData(vals, dispatch)
+    updateCustom:(key, value, validateStatus)=>{
+        updateCustom(key, value, validateStatus, dispatch)
+    },
+    submitOptions:parameters=>{
+        getAllData(parameters, dispatch)
+    }
 })
 
 export default connect(

@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import { sensitivities } from './appSkeleton'
+import { sensitivities, modelChoices } from './appSkeleton'
 import { FangOost, CarrMadan, FSTS, FangOostHelp, FSTSHelp, CarrMadanHelp } from './Graphs/Algorithms'
 import { Density } from './Graphs/Density'
 import AsyncHOC from './AsyncHoc'
@@ -10,7 +10,6 @@ import StrikeInputs from './Forms/StrikeInputs'
 import CardPlot from './Cards/CardPlot'
 import { Row, Col, Layout, Card, Menu } from 'antd'
 import { BrowserRouter,Route, Link, Redirect, Switch } from 'react-router-dom'
-import { inputChoices } from './Forms/ModalInputs'
 import { upperFirstLetter } from './Utils/utils'
 import { rootParamName } from './Routes/routeDefinitions'
 const style = {
@@ -20,7 +19,7 @@ const style = {
 }
 const inputsUrl='inputs'
 
-const [HestonName]=inputChoices
+const [HestonName]=modelChoices
 
 const Content=Layout.Content
 const paramUrl=`/:${rootParamName}`
@@ -48,7 +47,7 @@ const MenuSensitivities=({match})=> (
 			))
 		}
 		<Menu.Item style={floatRight}>
-			<Link to={`/${match.params[rootParamName]}/${inputsUrl}/${HestonName}`}>Edit Inputs</Link>
+			<Link to={`/${match.params[rootParamName]}/${inputsUrl}/${HestonName.value}`}>Edit Inputs</Link>
 		</Menu.Item>
 	</Menu>
 )

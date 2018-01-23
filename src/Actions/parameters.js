@@ -1,17 +1,25 @@
-const generateOptions=type=>(key, value, dispatch)=>{
+import {createValidationType, createOptionType} from '../appSkeleton'
+
+const generateValidation=paramName=>(key, value, dispatch)=>{
     dispatch({
-        type,
+        type:createValidationType(paramName),
         key,
         value
     })
 }
-export const updateAllCustom=(customParameters, dispatch)=>{
+const generateOptions=paramName=>(key, value, validation, dispatch)=>{
     dispatch({
-        type:'UPDATE_ALL_OPTIONS',
-        customParameters
+        type:createOptionType(paramName),
+        key,
+        value
     })
+    generateValidation(paramName)(key, validation, dispatch)
 }
-export const updateCustom=generateOptions('UPDATE_OPTIONS')
-export const updateHeston=generateOptions('UPDATE_HESTON')
+
+
+export const updateCustom=generateOptions('custom')
+export const updateHeston=generateOptions('heston')
+export const updateBS=generateOptions('bs')
+
 
 

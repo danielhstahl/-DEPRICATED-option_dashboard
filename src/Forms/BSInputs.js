@@ -1,67 +1,51 @@
 import React from 'react'
-import { handleForm } from '../Utils/utils'
+import { handleForm, validateAll } from '../Utils/utils'
 import { connect } from 'react-redux'
-import CustomDrop from './FormHelper'
+import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import { getAllData } from '../Actions/lambda'
 import {
-    sigmaOptions,
+    sigmaBounds,
     flexObj,
-    gutter,
-    formItemLayoutLabel,
-    fullWidth
+    gutter
 } from './globalOptions'
-import { Row, Col, Form, Button } from 'antd'
+import { Row, Col } from 'antd'
 import {
-    updateCustom,
-    updateAllCustom
+    updateBS
 } from '../Actions/parameters'
 import ShowJson from './ShowJson'
-import {
-    convertBSToCustom
-} from './parameterConversion'
-
-const FormItem=Form.Item
-
-const BSForm=({customParameters, submitOptions, updateCustom})=>[
+import CommonInputs from './CommonInputs'
+const BSForm=({bsParameters, submitOptions, updateBS, formValidation})=>[
     <Row gutter={gutter} key={0}>
+        <CommonInputs parameters={bsParameters} validation={formValidation} update={updateBS} />
         <Col {...flexObj}>
-            <FormItem {...formItemLayoutLabel} label="Volatility">
-                <CustomDrop 
-                    objKey='sigma' 
-                    round={2}
-                    parms={customParameters}
-                    options={sigmaOptions}
-                    toolTip="Volatility of diffusion"
-                    onChange={updateCustom}
-                />
-            </FormItem>
+            <CustomFormItemInput 
+                objKey='sigma' 
+                validationResults={formValidation}
+                label="Volatility"
+                parms={bsParameters}
+                validator={sigmaBounds}
+                toolTip="This is the volatility of the diffusion component of the (extended) CGMY process"
+                onChange={updateBS}
+            />
         </Col>
         <Col {...flexObj}>
-            <FormItem {...formItemLayoutLabel} colon={false} label=" ">
-                <Button 
-                    style={fullWidth}
-                    className='side-button submit-button' 
-                    type="primary" 
-                    onClick={handleForm(submitOptions, customParameters)}
-                >Update</Button>
-            </FormItem>
+            <CustomUpdateButton
+                disabled={validateAll(formValidation)}
+                onClick={handleForm(submitOptions, bsParameters)}
+            />
         </Col>
-        
     </Row>,
     <Row key={1}>
-        <ShowJson parameters={convertBSToCustom(customParameters)}/>
+        <ShowJson parameters={bsParameters}/>
     </Row>
 ]
-
-const mapStateToPropsBS=({customParameters})=>({customParameters})
+const mapStateToPropsBS=({bsParameters, bsValidation})=>({bsParameters, formValidation:bsValidation})
 const mapDispatchToPropsBS=dispatch=>({
-    updateCustom:(key, value)=>{
-        updateCustom(key, value, dispatch)
+    updateBS:(key, value, validateStatus)=>{
+        updateBS(key, value, validateStatus, dispatch)
     },
-    submitOptions:vals=>{
-        const updatedCustom=convertBSToCustom(vals)
-        getAllData(updatedCustom, dispatch)
-        updateAllCustom(updatedCustom, dispatch)
+    submitOptions:parameters=>{
+        getAllData(parameters, dispatch)
     }
 })
 export default connect(

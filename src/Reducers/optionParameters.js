@@ -1,3 +1,4 @@
+import {createValidationType, createOptionType} from '../appSkeleton'
 const defaultState={
     numU:6,//gets raised to power of 2: 2^numU
     r:.03,
@@ -16,23 +17,74 @@ const defaultState={
     quantile:.01
 }
 const hestonState={
-    ...defaultState, //wont use all of defaultState
+    ...defaultState, 
+    C:0.0,
     v0:.04,
     adaV:.2,
     meanVol:.04
 }
-export const customParameters = (state = defaultState, action) => {
-    switch (action.type) {
-        case 'UPDATE_OPTIONS':
+
+const bsState={
+    ...defaultState,
+    v0:1.0,
+    C:0.0,
+    adaV:0.0
+}
+const defaultFormValidationStatus={
+    numU:'',
+    r:'',
+    T:'',
+    S0:'',
+    sigma:'',
+    C:'',
+    G:'',
+    M:'',
+    Y:'',
+    speed:'',
+    meanVol:'',
+    v0:'',
+    adaV:'',
+    rho:'',
+    k:'',
+    quantile:''
+}
+
+
+const generateParameters=(paramName, defaultState)=>(state=defaultState, action)=>{
+    switch (action.type){
+        case createOptionType(paramName):
             return {...state, [action.key]:action.value}
-        case 'UPDATE_ALL_OPTIONS':
-            return action.customParameters
         default:
             return state
     }
 }
+const generateValidation=(paramName)=>(state=defaultFormValidationStatus, action)=>{
+    switch (action.type){
+        case createValidationType(paramName):
+            return {...state, [action.key]:action.value}
+        default:
+            return state
+    }
+}
+export const optionParameters=generateParameters('custom', defaultState)
+export const hestonParameters=generateParameters('heston', hestonState)
+export const bsParameters=generateParameters('bs', bsState)
+export const optionValidation=generateValidation('custom')
+export const hestonValidation=generateValidation('heston')
+export const bsValidation=generateValidation('bs')
 
-export const hestonParameters = (state = hestonState, action) => {
+/*
+export const optionParameters=(state = defaultState, action) => {
+    switch (action.type) {
+        case 'UPDATE_OPTIONS':
+            return {...state, [action.key]:action.value}
+        case 'UPDATE_ALL_OPTIONS':
+            return action.optionParameters
+        default:
+            return state
+    }
+}
+export const hestonParameters=(state = hestonState, action) => {
     switch (action.type) {
         case 'UPDATE_HESTON':
             return {...state, [action.key]:action.value}
@@ -40,4 +92,12 @@ export const hestonParameters = (state = hestonState, action) => {
             return state
     }
 }
-
+export const bsParameters=(state = defaultState, action) => {
+    switch (action.type) {
+        case 'UPDATE_BS':
+            return {...state, [action.key]:action.value}
+        default:
+            return state
+    }
+}
+*/

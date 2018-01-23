@@ -1,6 +1,6 @@
 import React from 'react'
 import { createArray, handleForm } from '../Utils/utils'
-import CustomDrop from './FormHelper'
+import { CustomDrop } from './FormHelper'
 import { updateCustom } from '../Actions/parameters'
 import { getVaRData } from '../Actions/lambda'
 import { connect } from 'react-redux'
@@ -43,7 +43,7 @@ QuantileInputs.propTypes={
 }
 
 const mapStateToProps=state=>({
-    quantileParameters:state.customParameters
+    quantileParameters:state.optionParameters
 })
 
 const mapDispatchToProps =dispatch=>({

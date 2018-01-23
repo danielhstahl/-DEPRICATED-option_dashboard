@@ -3,7 +3,8 @@ import {
     createArray,
     handleForm,
     removeFirstAndLastElement,
-    cartesian
+    cartesian,
+    createBounds
 } from './utils'
 
 it('correctly creates array with non-exact parameter', ()=>{
@@ -42,4 +43,15 @@ it('correctly joins three arrays', ()=>{
     const arr3=[5, 6]
     const expected=[[1, 3, 5], [1, 3, 6], [1, 4, 5], [1, 4, 6], [2, 3, 5], [2, 3, 6], [2, 4, 5], [2, 4, 6]]
     expect(cartesian(arr1, arr2, arr3)).toEqual(expected)
+})
+
+it('correctly returns true for numeric and in bounds', ()=>{
+    expect(createBounds(0, 1).fn(.5)).toEqual(true)
+    
+})
+it('correctly returns false for numeric and out of bounds', ()=>{
+    expect(createBounds(0, 1).fn(1.5)).toEqual(false)
+})
+it('correctly returns false for non numeric', ()=>{
+    expect(createBounds(0, 1).fn('hello')).toEqual(false)
 })

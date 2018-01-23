@@ -46,22 +46,15 @@ const generateFangOost=optionType=>(parms, dispatch)=>sensitivities.forEach(
 export const getFangOostCall=generateFangOost(callName)
 export const getFangOostPut=generateFangOost(putName)
 
-export const resetOptions=(dispatch)=>{
-    appSkeleton.filter(([optionType, sensitivity, algorithm])=>algorithm!==fangOostName).forEach(row=>{
-        dispatch({
-            type:createActionType(...row),
-            data:[]
-        })
-    })
-}
-export const getAllData=(parms, dispatch)=>{
-    resetOptions(dispatch)
+
+export const getAllData=(parameters, dispatch)=>{
     appSkeleton.forEach(
-        row=>getOptionUrl(...row)(parms).then(response=>dispatch({
+        row=>getOptionUrl(...row)(parameters).then(response=>dispatch({
             type:createActionType(...row),
-            data:response
+            data:response, 
+            parameters
         }))
     )
-    getVaRData(parms, dispatch)
-    getDensity(parms, dispatch)
+    getVaRData(parameters, dispatch)
+    getDensity(parameters, dispatch)
 }

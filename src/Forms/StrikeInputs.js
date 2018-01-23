@@ -4,7 +4,7 @@ import { updateCustom } from '../Actions/parameters'
 import { getFangOostCall, getFangOostPut } from '../Actions/lambda'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import CustomDrop from './FormHelper'
+import { CustomDrop } from './FormHelper'
 import { Button, Row, Col } from 'antd'
 import {
     gutter,
@@ -43,7 +43,7 @@ StrikeInputs.propTypes={
 }
 
 const mapStateToProps=state=>({
-    strikeParameters:state.customParameters
+    strikeParameters:state.optionParameters
 })
 const mapDispatchToProps =dispatch=>({
     updateOptions:(key, value)=>updateCustom(key, value, dispatch),
