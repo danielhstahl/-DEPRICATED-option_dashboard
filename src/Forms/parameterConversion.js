@@ -8,11 +8,10 @@ export const convertCustomToHestonC=(ada, sig)=>ada*sig
 export const convertCustomToHestonV0=(v0, sig)=>sig*sig*v0
 
 
-export const convertHestonToCustom=(hestonParams, customParams)=>{
+export const convertHestonToCustom=hestonParams=>{
     const {adaV, meanVol, v0}=hestonParams
     return {
-        ...customParams,
-        C:0,
+        ...hestonParams,
         adaV:convertHestonToCustomAda(adaV, meanVol),
         sigma:convertHestonToCustomSig(meanVol),
         v0:convertHestonToCustomV0(v0, meanVol)
@@ -28,10 +27,10 @@ export const convertCustomToHeston=customParams=>{
         v0:convertCustomToHestonV0(v0, sigma)
     }
 }
-
+/*
 export const convertBSToCustom=customParams=>({
     ...customParams,
     C:0.0,
     v0:1.0,
     adaV:0.0
-})
+})*/

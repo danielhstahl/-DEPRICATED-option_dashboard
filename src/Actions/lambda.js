@@ -56,14 +56,15 @@ export const resetOptions=(dispatch)=>{
         })
     })
 }
-export const getAllData=(parms, dispatch)=>{
+export const getAllData=(parameters, dispatch)=>{
     resetOptions(dispatch)
     appSkeleton.forEach(
-        row=>getOptionUrl(...row)(parms).then(response=>dispatch({
+        row=>getOptionUrl(...row)(parameters).then(response=>dispatch({
             type:createActionType(...row),
-            data:response
+            data:response, 
+            parameters
         }))
     )
-    getVaRData(parms, dispatch)
-    getDensity(parms, dispatch)
+    getVaRData(parameters, dispatch)
+    getDensity(parameters, dispatch)
 }

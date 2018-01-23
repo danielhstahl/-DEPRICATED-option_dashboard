@@ -1,18 +1,12 @@
-import { modelChoices, createModelType } from '../appSkeleton'
-const [HestonName, BSName, CustomName]=modelChoices
 const defaultState={
-    model:HestonName
+    model:0
 }
 
-
 export const selectedModel=(state=defaultState, action)=>{
-    const model=modelChoices.find(({value})=>{
-        return action.type===createModelType(value)
-    })
-    if(model){
-        return {...state, model}
-    }
-    else{
-        return state
+    switch(action.type){
+        case 'UPDATE_MODEL_TAB':
+            return action.value
+        default:
+            return state
     }
 }

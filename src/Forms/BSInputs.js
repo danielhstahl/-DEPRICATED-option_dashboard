@@ -3,7 +3,6 @@ import { handleForm, validateAll } from '../Utils/utils'
 import { connect } from 'react-redux'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import { getAllData } from '../Actions/lambda'
-import { setBS } from '../Actions/setModel'
 import { setModels } from '../Actions/setModel'
 import { modelChoices } from '../appSkeleton'
 import {
@@ -16,9 +15,7 @@ import {
     updateBS
 } from '../Actions/parameters'
 import ShowJson from './ShowJson'
-import {
-    convertBSToCustom
-} from './parameterConversion'
+
 const BSForm=({bsParameters, submitOptions, updateBS, formValidation})=>[
     <Row gutter={gutter} key={0}>
         <Col {...flexObj}>
@@ -40,20 +37,19 @@ const BSForm=({bsParameters, submitOptions, updateBS, formValidation})=>[
         </Col>
     </Row>,
     <Row key={1}>
-        <ShowJson parameters={convertBSToCustom(bsParameters)}/>
+        <ShowJson parameters={bsParameters}/>
     </Row>
 ]
-const [, bs]=modelChoices
-const mapStateToPropsBS=state=>({bsParameters:state[bs.value], formValidation:state.bsValidation})
+const mapStateToPropsBS=({bsParameters, bsValidation})=>({bsParameters, formValidation:bsValidation})
 const mapDispatchToPropsBS=dispatch=>({
     updateBS:(key, value, validateStatus)=>{
         updateBS(key, value, validateStatus, dispatch)
     },
-    submitOptions:vals=>{
-        const updatedCustom=convertBSToCustom(vals)
-        getAllData(updatedCustom, dispatch)
+    submitOptions:parameters=>{
+        //const updatedCustom=convertBSToCustom(vals)
+        getAllData(parameters, dispatch)
         
-        setModels[bs.value](dispatch)
+        //setModels[bs.value](dispatch)
     }
 })
 export default connect(

@@ -1,4 +1,4 @@
-import { modelChoices, createOptionType } from '../appSkeleton'
+import {createValidationType, createOptionType} from '../appSkeleton'
 const defaultState={
     numU:6,//gets raised to power of 2: 2^numU
     r:.03,
@@ -17,22 +17,62 @@ const defaultState={
     quantile:.01
 }
 const hestonState={
-    ...defaultState, //wont use all of defaultState
+    ...defaultState, 
+    C:0.0,
     v0:.04,
     adaV:.2,
     meanVol:.04
 }
 
-/**todo!  automatically generate model parameters */
+const bsState={
+    ...defaultState,
+    v0:0.0,
+    C:0.0,
+    adaV:0.0
+}
+const defaultFormValidationStatus={
+    numU:'',
+    r:'',
+    T:'',
+    S0:'',
+    sigma:'',
+    C:'',
+    G:'',
+    M:'',
+    Y:'',
+    speed:'',
+    meanVol:'',
+    v0:'',
+    adaV:'',
+    rho:'',
+    k:'',
+    quantile:''
+}
 
-export const generateParameters=modelChoices.reduce(({value})=>(state=defaultState, action)=>{
+
+const generateParameters=(paramName, defaultState)=>(state=defaultState, action)=>{
     switch (action.type){
-        case createOptionType(value):
-            return {...state, [value]:action.value}
+        case createOptionType(paramName):
+            return {...state, [action.key]:action.value}
         default:
             return state
     }
-}, {})
+}
+const generateValidation=(paramName)=>(state=defaultFormValidationStatus, action)=>{
+    switch (action.type){
+        case createValidationType(paramName):
+            return {...state, [action.key]:action.value}
+        default:
+            return state
+    }
+}
+export const optionParameters=generateParameters('custom', defaultState)
+export const hestonParameters=generateParameters('heston', hestonState)
+export const bsParameters=generateParameters('bs', bsState)
+export const optionValidation=generateValidation('custom')
+export const hestonValidation=generateValidation('heston')
+export const bsValidation=generateValidation('bs')
+
 /*
 export const optionParameters=(state = defaultState, action) => {
     switch (action.type) {

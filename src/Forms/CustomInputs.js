@@ -137,18 +137,15 @@ const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation
         <ShowJson parameters={optionParameters}/>
     </Row>
 ]
-const [, , custom]=modelChoices
-const mapStateToPropsCustom=state=>({optionParameters:state[custom.value], formValidation:state.optionValidation})
+
+const mapStateToPropsCustom=({optionParameters, optionValidation})=>({optionParameters, formValidation:optionValidation})
 
 const mapDispatchToPropsCustom =dispatch=>({
     updateCustom:(key, value, validateStatus)=>{
         updateCustom(key, value, validateStatus, dispatch)
-        
     },
-    submitOptions:vals=>{
-        getAllData(vals, dispatch)
-        
-        setModels[custom.value](dispatch)
+    submitOptions:parameters=>{
+        getAllData(parameters, dispatch)
     }
 })
 

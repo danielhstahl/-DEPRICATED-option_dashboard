@@ -21,11 +21,10 @@ const actionFangOostFactory=actionType=>(state=[], action)=>{
     }
 }
 
-const actionDomainFactory=actionType=>(state=[], action, totalState)=>{
-    
+const actionDomainFactory=actionType=>(state=[], action)=>{
     switch(action.type){
         case actionType:
-            const {upper, lower}=getDomain(totalState[totalState.selectedModel.model])
+            const {upper, lower}=getDomain(action.parameters)
             return getMiddleByVal(action.data, lower, upper, 'atPoint')
         default:
             return state
