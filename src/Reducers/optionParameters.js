@@ -1,4 +1,4 @@
-import {createValidationType, createOptionType, createOptionReplaceAll } from '../appSkeleton'
+import {createValidationType, createOptionType, createOptionReplaceAll, notifyCalibrationJob } from '../appSkeleton'
 const defaultState={
     numU:6,//gets raised to power of 2: 2^numU
     r:.03,
@@ -55,7 +55,7 @@ const generateParameters=(paramName, defaultState)=>(state=defaultState, action)
         case createOptionType(paramName):
             return {...state, [action.key]:action.value}
         case createOptionReplaceAll(paramName):
-            return action.data
+            return {...state, ...action.data}
         default:
             return state
     }
@@ -69,7 +69,18 @@ const generateValidation=(paramName)=>(state=defaultFormValidationStatus, action
     }
 }
 
+const generateNotify=paramName=>(state=false, action)=>{
+    switch(action.type){
+        case notifyCalibrationJob(paramName):
+            return action.value
+        default:
+            return state
+    }
+}
 
+export const hestonNotify=generateNotify('heston')
+export const optionNotify=generateNotify('full')
+export const bsNotify=generateNotify('bs')
 
 export const optionParameters=generateParameters('full', defaultState)
 export const hestonParameters=generateParameters('heston', hestonState)

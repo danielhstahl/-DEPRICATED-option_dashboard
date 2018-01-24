@@ -7,7 +7,10 @@ import {
     optionValidation,
     hestonValidation,
     bsValidation,
-    calibrateValidation
+    calibrateValidation,
+    hestonNotify,
+    optionNotify,
+    bsNotify
  } from './optionParameters'
 ///import {hestonValidation, optionValidation, bsValidation, priceValidation, strikeValidation} from './formValidation'
 import {selectedModel} from './selectedModel'
@@ -32,6 +35,9 @@ export default combineReducers({
     bsValidation,
     selectedModel,
     optionValidation,
+    hestonNotify,
+    optionNotify,
+    bsNotify,
     VaR, density, 
     ...fangoost,
     ...carrmadan,

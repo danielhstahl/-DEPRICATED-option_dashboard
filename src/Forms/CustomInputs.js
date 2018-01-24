@@ -27,7 +27,7 @@ const v0Bounds=meanBounds
 
 
 
-const Manual=({formValidation, bsParameters, updateBS, submitOptions})=>[
+const Manual=({formValidation, optionParameters, updateCustom, submitOptions})=>[
     <Col {...flexObj} key={0}>
         <CustomFormItemInput 
             objKey='sigma' 
@@ -126,31 +126,32 @@ const Manual=({formValidation, bsParameters, updateBS, submitOptions})=>[
             toolTip="Correlation between asset and variance"
             onChange={updateCustom}
         />
+    </Col>,
+    <Col {...flexObj} key={9}>
+        <CustomUpdateButton
+            disabled={validateAll(formValidation)}
+            onClick={handleForm(submitOptions, optionParameters)}
+        />
     </Col>
 ]
 
 
-const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation})=>[
+const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation, submitCalibration, type, optionNotify})=>[
     <Row gutter={gutter} key={0}>
         <CommonInputs parameters={optionParameters} validation={formValidation} update={updateCustom} />
         {switchComponent(type==='manual', 
         <Manual 
             formValidation={formValidation} 
-            bsParameters={bsParameters} 
-            updateBS={updateBS} 
+            optionParameters={optionParameters} 
+            updateCustom={updateCustom} 
             submitOptions={submitOptions}
         />, 
         <InputCalibrator 
             parameters={optionParameters} 
             validation={formValidation}
             submitOptions={submitCalibration}
+            isInProgress={optionNotify}
         />)}
-        <Col {...flexObj}>
-            <CustomUpdateButton
-                disabled={validateAll(formValidation)}
-                onClick={handleForm(submitOptions, optionParameters)}
-            />
-        </Col>
     </Row>,
     <Row key={1}>
         <ShowJson parameters={optionParameters}/>
@@ -158,7 +159,7 @@ const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation
 ]
 const fullCalibration=getCalibration('full')
 
-const mapStateToPropsCustom=({optionParameters, optionValidation})=>({optionParameters, formValidation:optionValidation})
+const mapStateToPropsCustom=({optionParameters, optionValidation, optionNotify})=>({optionParameters, formValidation:optionValidation, optionNotify})
 
 const mapDispatchToPropsCustom =dispatch=>({
     updateCustom:(key, value, validateStatus)=>{

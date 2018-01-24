@@ -36,7 +36,7 @@ const Manual=({formValidation, bsParameters, updateBS, submitOptions})=>[
     </Col>
 ]
 
-const BSForm=({bsParameters, submitOptions, submitCalibration, updateBS, formValidation, type})=>[
+const BSForm=({bsParameters, submitOptions, submitCalibration, updateBS, formValidation, type, bsNotify})=>[
     <Row gutter={gutter} key={0}>
         <CommonInputs parameters={bsParameters} validation={formValidation} update={updateBS} />
         {switchComponent(type==='manual', 
@@ -50,15 +50,17 @@ const BSForm=({bsParameters, submitOptions, submitCalibration, updateBS, formVal
             parameters={bsParameters} 
             validation={formValidation}
             submitOptions={submitCalibration}
+            isInProgress={bsNotify}
         />)}
     </Row>,
     <Row key={1}>
         <ShowJson parameters={bsParameters}/>
     </Row>
 ]
-const mapStateToPropsBS=({bsParameters, bsValidation})=>({
+const mapStateToPropsBS=({bsParameters, bsValidation, bsNotify})=>({
     bsParameters, 
-    formValidation:bsValidation
+    formValidation:bsValidation,
+    bsNotify
 })
 const bsCalibration=getCalibration('bs')
 const mapDispatchToPropsBS=dispatch=>({

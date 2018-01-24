@@ -28,7 +28,7 @@ const validator={
 export const switchComponent=(condition, Component1, Component2)=>{
     return condition?Component1:Component2
 }
-const InputCalibrator=({calibrateParameters, calibrateValidation, validation, parameters, submitOptions, updateCalibration})=>[
+const InputCalibrator=({calibrateParameters, calibrateValidation, validation, parameters, submitOptions, updateCalibration, isInProgress})=>[
 <Col xs={24} key={1}>
     <CustomFormItemTextArea 
         objKey='strikes' 
@@ -56,6 +56,7 @@ const InputCalibrator=({calibrateParameters, calibrateValidation, validation, pa
         disabled={validateAll({...calibrateValidation, ...validation})}
         onClick={handleForm(submitOptions, {...parameters, ...calibrateParameters})}
         text="Calibrate"
+        loading={isInProgress}
     />  
 </Col>
 ]

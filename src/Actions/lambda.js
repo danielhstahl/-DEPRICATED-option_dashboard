@@ -2,7 +2,9 @@ import appSkeleton, {
     sensitivities,  
     createActionType,
     optionTypes,
-    algorithms
+    algorithms,
+    createOptionReplaceAll,
+    notifyCalibrationJob
 } from '../appSkeleton'
 const baseUrl= 'https://ni6jd9f0z4.execute-api.us-east-1.amazonaws.com/dev/'
 
@@ -37,10 +39,20 @@ export const getDensity=(parms, dispatch)=>{
 
 export const getCalibration=type=>(parms, dispatch)=>{
     //type is "full", "heston", "bs"
-    getOptionUrl('call', 'calibration', type)(parms).then(response=>dispatch({
-        type:createOptionReplaceAll(type),
-        data:response
-    }))
+    dispatch({
+        type:notifyCalibrationJob(type),
+        value:true
+    })
+    getOptionUrl('call', 'calibration', type)(parms).then(response=>{
+        dispatch({
+            type:createOptionReplaceAll(type),
+            data:response,
+        })
+        dispatch({
+            type:notifyCalibrationJob(type),
+            value:false
+        })
+    })
 }
 
 const generateFangOost=optionType=>(parms, dispatch)=>sensitivities.forEach(
