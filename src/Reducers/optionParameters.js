@@ -1,4 +1,4 @@
-import {createValidationType, createOptionType } from '../appSkeleton'
+import {createValidationType, createOptionType, createOptionReplaceAll } from '../appSkeleton'
 const defaultState={
     numU:6,//gets raised to power of 2: 2^numU
     r:.03,
@@ -54,6 +54,8 @@ const generateParameters=(paramName, defaultState)=>(state=defaultState, action)
     switch (action.type){
         case createOptionType(paramName):
             return {...state, [action.key]:action.value}
+        case createOptionReplaceAll(paramName):
+            return action.data
         default:
             return state
     }
@@ -68,11 +70,12 @@ const generateValidation=(paramName)=>(state=defaultFormValidationStatus, action
 }
 
 
-export const optionParameters=generateParameters('custom', defaultState)
+
+export const optionParameters=generateParameters('full', defaultState)
 export const hestonParameters=generateParameters('heston', hestonState)
 export const bsParameters=generateParameters('bs', bsState)
 export const calibrateParameters=generateParameters('calibrate', {...defaultFormValidationStatus, strikes:[], prices:[]})
-export const optionValidation=generateValidation('custom')
+export const optionValidation=generateValidation('full')
 export const hestonValidation=generateValidation('heston')
 export const bsValidation=generateValidation('bs')
 export const calibrateValidation=generateValidation('calibrate')

@@ -37,6 +37,9 @@ export const excludeFrom={
 export const createActionType=(optionType, sensitivity, algorithm)=>{
     return `UPDATE_${optionType.toUpperCase()}_${sensitivity.toUpperCase()}_${algorithm.toUpperCase()}`
 }
+export const createOptionReplaceAll=modelType=>{
+    return `UPDATE_${modelType.toUpperCase()}_PARAMETER_ALL`
+}
 
 export const createOptionType=modelType=>{
     return `UPDATE_${modelType.toUpperCase()}_PARAMETER`

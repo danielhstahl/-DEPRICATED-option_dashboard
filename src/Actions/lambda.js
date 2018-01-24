@@ -35,6 +35,14 @@ export const getDensity=(parms, dispatch)=>{
     }))
 }
 
+export const getCalibration=type=>(parms, dispatch)=>{
+    //type is "full", "heston", "bs"
+    getOptionUrl('call', 'calibration', type)(parms).then(response=>dispatch({
+        type:createOptionReplaceAll(type),
+        data:response
+    }))
+}
+
 const generateFangOost=optionType=>(parms, dispatch)=>sensitivities.forEach(
     sensitivity=>getOptionUrl(optionType, sensitivity, fangOostName)(parms).then(response=>dispatch({
         type:createActionType(optionType, sensitivity, fangOostName),

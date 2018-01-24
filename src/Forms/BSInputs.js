@@ -2,7 +2,7 @@ import React from 'react'
 import { handleForm, validateAll } from '../Utils/utils'
 import { connect } from 'react-redux'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
-import { getAllData } from '../Actions/lambda'
+import { getAllData, getCalibration } from '../Actions/lambda'
 import InputCalibrator, {switchComponent} from './InputCalibrator'
 import {
     sigmaBounds,
@@ -36,9 +36,7 @@ const Manual=({formValidation, bsParameters, updateBS, submitOptions})=>[
     </Col>
 ]
 
-/**TODO!  make two different "submitOptions" functions (one for calibrate and one for generating results) */
-
-const BSForm=({bsParameters, submitOptions, updateBS, formValidation, type})=>[
+const BSForm=({bsParameters, submitOptions, submitCalibration, updateBS, formValidation, type})=>[
     <Row gutter={gutter} key={0}>
         <CommonInputs parameters={bsParameters} validation={formValidation} update={updateBS} />
         {switchComponent(type==='manual', 
@@ -51,7 +49,7 @@ const BSForm=({bsParameters, submitOptions, updateBS, formValidation, type})=>[
         <InputCalibrator 
             parameters={bsParameters} 
             validation={formValidation}
-            submitOptions={submitOptions}
+            submitOptions={submitCalibration}
         />)}
     </Row>,
     <Row key={1}>
@@ -62,9 +60,13 @@ const mapStateToPropsBS=({bsParameters, bsValidation})=>({
     bsParameters, 
     formValidation:bsValidation
 })
+const bsCalibration=getCalibration('bs')
 const mapDispatchToPropsBS=dispatch=>({
     submitOptions:parameters=>{
         getAllData(parameters, dispatch)
+    },
+    submitCalibration:parameters=>{
+        bsCalibration(parameters, dispatch)
     },
     updateBS:(key, value, validateStatus)=>{
         updateBS(key, value, validateStatus, dispatch)
