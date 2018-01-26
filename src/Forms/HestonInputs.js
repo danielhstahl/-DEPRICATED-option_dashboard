@@ -16,7 +16,8 @@ import {
 import CommonInputs from './CommonInputs'
 
 import {
-    convertHestonToCustom
+    convertHestonToCustom,
+    convertCustomToHeston
 } from './parameterConversion'
 
 const adaBounds=createBounds(0, 2)
@@ -117,7 +118,7 @@ const HestonForm=({
     </Row>
 ]
 
-const hestonCalibration=getCalibration('heston')
+const hestonCalibration=getCalibration('heston', convertCustomToHeston)
 
 const mapStateToPropsHeston=({hestonParameters, hestonValidation, hestonNotify})=>({hestonParameters, formValidation:hestonValidation, hestonNotify})
 

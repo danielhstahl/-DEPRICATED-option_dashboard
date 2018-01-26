@@ -40,7 +40,7 @@ export const getDensity=(parms, dispatch)=>{
     }))
 }
 
-export const getCalibration=type=>(parms, dispatch)=>{
+export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=>{
     console.log(parms)
     //type is "full", "heston", "bs"
     dispatch({
@@ -50,7 +50,7 @@ export const getCalibration=type=>(parms, dispatch)=>{
     getOptionUrl('call', 'calibration', type)(parms).then(response=>{
         dispatch({
             type:createOptionReplaceAll(type),
-            data:response,
+            data:optionalChangeParameters?optionalChangeParameters(response):response,
         })
         dispatch({
             type:notifyCalibrationJob(type),

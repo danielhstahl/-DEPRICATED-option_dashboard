@@ -27,10 +27,3 @@ export const convertCustomToHeston=customParams=>{
         v0:convertCustomToHestonV0(v0, sigma)
     }
 }
-/*
-export const convertBSToCustom=customParams=>({
-    ...customParams,
-    C:0.0,
-    v0:1.0,
-    adaV:0.0
-})*/
