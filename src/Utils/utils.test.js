@@ -46,7 +46,7 @@ it('correctly joins three arrays', ()=>{
 })
 
 it('correctly returns true for numeric and in bounds', ()=>{
-    expect(createBounds(0, 1).fn(.5)).toEqual(true)
+    expect(createBounds(0, 1).fn(.5)).toEqual(.5)
     
 })
 it('correctly returns false for numeric and out of bounds', ()=>{
