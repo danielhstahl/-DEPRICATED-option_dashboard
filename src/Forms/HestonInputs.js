@@ -109,6 +109,7 @@ const HestonForm=({
             validation={formValidation}
             submitOptions={submitCalibration}
             isInProgress={hestonNotify}
+            onChange={updateHeston}
         />)}
     </Row>,
     <Row key={1}>

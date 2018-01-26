@@ -51,6 +51,7 @@ const BSForm=({bsParameters, submitOptions, submitCalibration, updateBS, formVal
             validation={formValidation}
             submitOptions={submitCalibration}
             isInProgress={bsNotify}
+            onChange={updateBS}
         />)}
     </Row>,
     <Row key={1}>

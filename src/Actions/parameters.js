@@ -21,6 +21,6 @@ const generateOptions=(paramName)=>(key, value, validation, dispatch)=>{
 export const updateCustom=generateOptions('full')
 export const updateHeston=generateOptions('heston')
 export const updateBS=generateOptions('bs')
-export const updateCalibration=generateOptions('calibrate')
+//export const updateCalibration=generateOptions('calibrate')
 
 

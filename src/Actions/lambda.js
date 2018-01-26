@@ -15,7 +15,10 @@ const createBody=params=>({
 
 const [callName, putName]=optionTypes
 const [fangOostName]=algorithms
-export const getOptionUrl=(optionType, sensitivity, algorithm)=>params=>fetch(`${baseUrl}${optionType}/${sensitivity}/${algorithm}`, createBody(params)).then(response=>response.json())
+export const getOptionUrl=(optionType, sensitivity, algorithm)=>params=>fetch(`${baseUrl}${optionType}/${sensitivity}/${algorithm}`, createBody(params)).then(response=>{
+    console.log(response)
+    return response.json()
+})
 
 export const getUnderlyingUrl=(base, section)=>params=>fetch(`${baseUrl}${base}/${section}`, createBody(params)).then(response=>response.json())
 
@@ -38,6 +41,7 @@ export const getDensity=(parms, dispatch)=>{
 }
 
 export const getCalibration=type=>(parms, dispatch)=>{
+    console.log(parms)
     //type is "full", "heston", "bs"
     dispatch({
         type:notifyCalibrationJob(type),

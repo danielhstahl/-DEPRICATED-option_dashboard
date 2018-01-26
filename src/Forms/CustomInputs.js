@@ -151,6 +151,7 @@ const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation
             validation={formValidation}
             submitOptions={submitCalibration}
             isInProgress={optionNotify}
+            onChange={updateCustom}
         />)}
     </Row>,
     <Row key={1}>
