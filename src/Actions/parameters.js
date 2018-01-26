@@ -16,8 +16,6 @@ const generateOptions=(paramName)=>(key, value, validation, dispatch)=>{
     generateValidation(paramName)(key, validation, dispatch)
 }
 
-
-
 export const updateCustom=generateOptions('full')
 export const updateHeston=generateOptions('heston')
 export const updateBS=generateOptions('bs')
