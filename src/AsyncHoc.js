@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import {getAllData} from './Actions/lambda'
 class AsyncHoc extends Component{
     componentDidMount() {
-        console.log(this.props)
         this.props.onLoad(this.props.optionParameters)
     }
     render(){

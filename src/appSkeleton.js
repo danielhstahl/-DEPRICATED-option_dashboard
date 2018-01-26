@@ -37,11 +37,9 @@ export const excludeFrom={
 export const createActionType=(optionType, sensitivity, algorithm)=>{
     return `UPDATE_${optionType.toUpperCase()}_${sensitivity.toUpperCase()}_${algorithm.toUpperCase()}`
 }
-
-/*
-export const createModelType=modelType=>{
-    return `SET_${modelType.toUpperCase()}_MODEL`
-}*/
+export const createOptionReplaceAll=modelType=>{
+    return `UPDATE_${modelType.toUpperCase()}_PARAMETER_ALL`
+}
 
 export const createOptionType=modelType=>{
     return `UPDATE_${modelType.toUpperCase()}_PARAMETER`
@@ -49,6 +47,10 @@ export const createOptionType=modelType=>{
 export const createValidationType=modelType=>{
     return `UPDATE_${modelType.toUpperCase()}_VALIDATION`
 }
+export const notifyCalibrationJob=modelType=>{
+    return `NOTIFY_${modelType.toUpperCase()}_JOB`
+}
+
 
 const appSkeleton=cartesian(optionTypes, sensitivities, algorithms).filter(([optionType, sensitivity, algorithm])=>excludePotentialArray(excludeFrom[algorithm], sensitivity))
 

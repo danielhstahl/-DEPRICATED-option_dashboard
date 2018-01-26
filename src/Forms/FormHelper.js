@@ -5,9 +5,8 @@ import { fullWidth, formItemLayoutLabel } from './globalOptions'
 
 const onChangeHelper=(onChange, validator, objKey)=>e=>{
     const value=e.target.value
-    //console.log(value)
     const isValid=validator?validator.fn(value):true
-    onChange(objKey, isValid?parseFloat(value):value, isValid?'':'error') 
+    onChange(objKey, isValid?isValid:value, isValid?'':'error') 
 }
 
 const FormItem=Form.Item
@@ -62,15 +61,34 @@ CustomInput.propTypes={
         help:PropTypes.string.isRequired
     })
 }
+export const CustomTextArea=({objKey, parms, onChange, toolTip, validator})=>(
+<Tooltip placement="top" title={toolTip}>
+    <Input.TextArea
+        autosize
+        value={parms[objKey]}
+        onChange={onChangeHelper(onChange, validator, objKey)}
+        style={fullWidth}
+    />
+</Tooltip>
+)
+CustomTextArea.propTypes={
+    objKey:PropTypes.string.isRequired,
+    parms:PropTypes.object.isRequired,
+    onChange:PropTypes.func.isRequired,
+    toolTip:PropTypes.string.isRequired,
+    validator:PropTypes.shape({
+        fn:PropTypes.func.isRequired,
+        help:PropTypes.string.isRequired
+    })
+}
 
-
-export const CustomFormItemInput=({objKey, parms, onChange, toolTip, label, validator, validationResults})=>(
+const CustomFormItemGeneric=CustInput=>({objKey, parms, onChange, toolTip, label, validator, validationResults})=>(
     <FormItem {...formItemLayoutLabel} label={label} validateStatus={validationResults[objKey]} help={validationResults[objKey]&&validator.help}>
-        <CustomInput objKey={objKey} parms={parms} onChange={onChange} toolTip={toolTip} validator={validator}/>
+        <CustInput objKey={objKey} parms={parms} onChange={onChange} toolTip={toolTip} validator={validator}/>
     </FormItem>
 )
 
-CustomFormItemInput.propTypes={
+CustomFormItemGeneric.propTypes={
     ...CustomInput.propTypes,
     validationResults:PropTypes.object.isRequired,
     label:PropTypes.string.isRequired,
@@ -80,7 +98,10 @@ CustomFormItemInput.propTypes={
     })
 }
 
-export const CustomUpdateButton=({disabled, onClick, ...rest})=>(
+export const CustomFormItemInput=CustomFormItemGeneric(CustomInput)
+export const CustomFormItemTextArea=CustomFormItemGeneric(CustomTextArea)
+
+export const CustomUpdateButton=({disabled, onClick, text, ...rest})=>(
     <FormItem {...formItemLayoutLabel} colon={false} label=" ">
         <Button 
             style={fullWidth}
@@ -89,7 +110,7 @@ export const CustomUpdateButton=({disabled, onClick, ...rest})=>(
             disabled={disabled}
             onClick={onClick}
             {...rest}
-        >Update</Button>
+        >{text||"Update"}</Button>
     </FormItem>
 )
 CustomUpdateButton.propTypes={
