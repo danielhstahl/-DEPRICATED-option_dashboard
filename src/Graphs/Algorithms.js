@@ -8,25 +8,32 @@ import {
 } from '../appSkeleton'
 import { Modal } from 'antd'
 import { getUniqueArray } from 'array_utils'
-
-const sensitivityIndex=0
-const generateAlgorithmOptionPrices=(keySkeleton, algorithm, Component, initState)=>getUniqueArray(
-    keySkeleton[algorithm], 
-    sensitivityIndex
-).reduce((aggr, [sensitivity])=>({
-    ...aggr,
-    [sensitivity]:connect(
-        state=>optionTypes.reduce((aggrState, optionType)=>({
-            ...aggrState,
-            [optionType]:state[algorithm+optionType+sensitivity],
-            yLabel:upperFirstLetter(sensitivity)
-        }), initState)
-    )(Component)
-}), {})
-
 const [fangOostName, carrMadanName, fstsName]=algorithms
 const [, putName]=optionTypes
 const [priceName]=sensitivities
+const sensitivityIndex=0
+const hasAtLeastIndex=(index, arr)=>arr.length>index?arr[index]:null
+const getMarketDataFromStrikeAndPrice=(strikes, prices)=>strikes.map((strike, index)=>({strike, price:hasAtLeastIndex(index, prices)}))
+const generateMarketData=(index, state)=>sensitivityIndex===index?getMarketDataFromStrikeAndPrice(state.calibrateParameters.k, state.calibrateParameters.prices):null
+
+const generateAlgorithmOptionPrices=(keySkeleton, algorithm, Component, initState)=>getUniqueArray(
+    keySkeleton[algorithm], 
+    sensitivityIndex
+).reduce((aggr, [sensitivity], index)=>({
+    ...aggr,
+    [sensitivity]:connect(
+        state=>({
+            ...optionTypes.reduce((aggrState, optionType)=>({
+                ...aggrState,
+                [optionType]:state[algorithm+optionType+sensitivity],
+                yLabel:upperFirstLetter(sensitivity)
+            }), initState),
+            marketData:algorithm===fstsName?null:generateMarketData(index, state)
+        })
+    )(Component)
+}), {})
+
+
 
 const generateIVState=(algorithm, Component, initState)=>connect(
     state=>({put:state[algorithm+putName+priceName], ...initState})

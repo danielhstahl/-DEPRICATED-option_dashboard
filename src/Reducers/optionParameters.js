@@ -13,8 +13,6 @@ const defaultState={
     v0:1.05,
     adaV:.2,
     rho:-.5,
-    k:[],
-    prices:[],
     quantile:.01
 }
 const hestonState={
@@ -30,6 +28,10 @@ const bsState={
     v0:1.0,
     C:0.0,
     adaV:0.0
+}
+const calibrateState={
+    prices:[],
+    k:[]
 }
 const defaultFormValidationStatus={
     numU:'',
@@ -47,6 +49,7 @@ const defaultFormValidationStatus={
     adaV:'',
     rho:'',
     k:'',
+    prices:'',
     quantile:''
 }
 
@@ -86,6 +89,8 @@ export const bsNotify=generateNotify('bs')
 export const optionParameters=generateParameters('full', defaultState)
 export const hestonParameters=generateParameters('heston', hestonState)
 export const bsParameters=generateParameters('bs', bsState)
+export const calibrateParameters=generateParameters('calibrate', calibrateState)
 export const optionValidation=generateValidation('full')
 export const hestonValidation=generateValidation('heston')
 export const bsValidation=generateValidation('bs')
+export const calibrateValidation=generateValidation('calibrate')

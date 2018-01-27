@@ -27,7 +27,7 @@ const v0Bounds=meanBounds
 
 
 
-const Manual=({formValidation, optionParameters, updateCustom, submitOptions})=>[
+const Manual=({formValidation, optionParameters, updateCustom, submitOptions, calibrateParameters})=>[
     <Col {...flexObj} key={0}>
         <CustomFormItemInput 
             objKey='sigma' 
@@ -130,13 +130,13 @@ const Manual=({formValidation, optionParameters, updateCustom, submitOptions})=>
     <Col {...flexObj} key={9}>
         <CustomUpdateButton
             disabled={validateAll(formValidation)}
-            onClick={handleForm(submitOptions, optionParameters)}
+            onClick={handleForm(submitOptions, {...optionParameters, ...calibrateParameters})}
         />
     </Col>
 ]
 
 
-const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation, submitCalibration, type, optionNotify})=>[
+const CustomForm=({optionParameters, calibrateParameters, submitOptions, updateCustom, formValidation, submitCalibration, type, optionNotify})=>[
     <Row gutter={gutter} key={0}>
         <CommonInputs parameters={optionParameters} validation={formValidation} update={updateCustom} />
         {switchComponent(type==='manual', 
@@ -145,13 +145,13 @@ const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation
             optionParameters={optionParameters} 
             updateCustom={updateCustom} 
             submitOptions={submitOptions}
+            calibrateParameters={calibrateParameters}
         />, 
         <InputCalibrator 
             parameters={optionParameters} 
             validation={formValidation}
             submitOptions={submitCalibration}
             isInProgress={optionNotify}
-            onChange={updateCustom}
         />)}
     </Row>,
     <Row key={1}>
@@ -160,7 +160,7 @@ const CustomForm=({optionParameters, submitOptions, updateCustom, formValidation
 ]
 const fullCalibration=getCalibration('full')
 
-const mapStateToPropsCustom=({optionParameters, optionValidation, optionNotify})=>({optionParameters, formValidation:optionValidation, optionNotify})
+const mapStateToPropsCustom=({optionParameters, optionValidation, optionNotify, calibrateParameters})=>({optionParameters, formValidation:optionValidation, optionNotify, calibrateParameters})
 
 const mapDispatchToPropsCustom =dispatch=>({
     updateCustom:(key, value, validateStatus)=>{

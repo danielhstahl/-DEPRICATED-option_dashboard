@@ -25,7 +25,7 @@ const meanBounds=createBounds(.001, 1)
 const v0Bounds=meanBounds
 
 
-const Manual=({formValidation, hestonParameters, updateHeston, submitOptions})=>[
+const Manual=({formValidation, calibrateParameters, hestonParameters, updateHeston, submitOptions})=>[
 <Col {...flexObj} key={0}>
     <CustomFormItemInput
         label='Speed'
@@ -85,7 +85,7 @@ const Manual=({formValidation, hestonParameters, updateHeston, submitOptions})=>
     <CustomUpdateButton
         disabled={validateAll(formValidation)}
         onClick={handleForm(
-            submitOptions, hestonParameters
+            submitOptions, {...hestonParameters, ...calibrateParameters}
         )}
     />
 </Col>
@@ -94,7 +94,7 @@ const Manual=({formValidation, hestonParameters, updateHeston, submitOptions})=>
 const HestonForm=({
     hestonParameters, submitOptions, type,
     updateHeston, formValidation, submitCalibration,
-    hestonNotify
+    hestonNotify, calibrateParameters
 })=>[
     <Row gutter={gutter} key={0}>
         <CommonInputs parameters={hestonParameters} validation={formValidation} update={updateHeston} />
@@ -104,13 +104,13 @@ const HestonForm=({
             hestonParameters={hestonParameters} 
             updateHeston={updateHeston} 
             submitOptions={submitOptions}
+            calibrateParameters={calibrateParameters}
         />, 
         <InputCalibrator 
             parameters={hestonParameters} 
             validation={formValidation}
             submitOptions={submitCalibration}
             isInProgress={hestonNotify}
-            onChange={updateHeston}
         />)}
     </Row>,
     <Row key={1}>
@@ -120,7 +120,7 @@ const HestonForm=({
 
 const hestonCalibration=getCalibration('heston', convertCustomToHeston)
 
-const mapStateToPropsHeston=({hestonParameters, hestonValidation, hestonNotify})=>({hestonParameters, formValidation:hestonValidation, hestonNotify})
+const mapStateToPropsHeston=({hestonParameters, calibrateParameters, hestonValidation, hestonNotify})=>({hestonParameters, formValidation:hestonValidation, hestonNotify, calibrateParameters})
 
 const mapDispatchToPropsHeston=dispatch=>({
     updateHeston:(key, value, validateStatus)=>{
