@@ -3,17 +3,15 @@ import {
     optionParameters, 
     hestonParameters, 
     bsParameters, 
-    //calibrateParameters,
+    calibrateParameters,
     optionValidation,
     hestonValidation,
     bsValidation,
-    //calibrateValidation,
+    calibrateValidation,
     hestonNotify,
     optionNotify,
     bsNotify
  } from './optionParameters'
-///import {hestonValidation, optionValidation, bsValidation, priceValidation, strikeValidation} from './formValidation'
-import {selectedModel} from './selectedModel'
 import {
     VaR, density, 
     fangoost,
@@ -21,19 +19,16 @@ import {
     fsts
 } from './data'
 
-/**this custom combiner provides the optionParameters to each reducer */
-//const customCombineReducers=obj=>(state={}, action)=>Object.keys(obj).reduce((aggr, curr)=>({...aggr, [curr]:obj[curr](state[curr], action, state)}), {})
 
 /**Note that each import for the algorithms contains nested properties which must be unnested*/
 export default combineReducers({
     optionParameters,
     hestonParameters,
     hestonValidation,
-    //calibrateValidation,
-    //calibrateParameters,
+    calibrateValidation,
+    calibrateParameters,
     bsParameters,
     bsValidation,
-    selectedModel,
     optionValidation,
     hestonNotify,
     optionNotify,

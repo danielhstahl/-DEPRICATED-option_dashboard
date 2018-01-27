@@ -5,6 +5,7 @@ import {
     VictoryChart,
     VictoryAxis,
     VictoryLabel,
+    VictoryScatter,
     VictoryLegend,
     VictoryVoronoiContainer
 } from 'victory'
@@ -23,7 +24,7 @@ const ivLabelFn=label=>d=>`Volatility ${d.y} at ${label} ${d.x}`
 const axisStyleOption={ axisLabel: { padding: 30} }
 const axisStyleIV={ axisLabel: { padding: 40} }
 const domainPadding=25
-export const OptionCurves=({call, put, title, xLabel, yLabel})=>(
+export const OptionCurves=({call, put, title, xLabel, yLabel, marketData})=>(
     <VictoryChart 
         domainPadding={domainPadding} 
         containerComponent={<VictoryVoronoiContainer labels={optionLabelFn(xLabel)}/>}
@@ -37,6 +38,7 @@ export const OptionCurves=({call, put, title, xLabel, yLabel})=>(
         <VictoryLabel x={120} y={50}
             text={title}
         />
+        {marketData?<VictoryScatter data={marketData} x="strike" y="price"/>:null}
         <VictoryLine
             style={callStyle}
             interpolation="natural"

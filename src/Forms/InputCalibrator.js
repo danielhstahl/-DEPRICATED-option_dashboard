@@ -1,7 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { CustomFormItemTextArea, CustomUpdateButton } from './FormHelper'
 import { flexObj } from './globalOptions'
 import { handleForm, validateAll } from '../Utils/utils'
+import { updateCalibration } from '../Actions/parameters'
 import { Col } from 'antd'
 const checkValidJson=(jsonString)=>{
     try {
@@ -26,48 +28,47 @@ const validator={
 export const switchComponent=(condition, Component1, Component2)=>{
     return condition?Component1:Component2
 }
-const InputCalibrator=({validation, parameters, submitOptions, onChange, isInProgress})=>[
+const InputCalibrator=({calibrateValidation, calibrateParameters, parameters, validation, submitOptions, updateCalibration, isInProgress})=>[
 <Col xs={24} key={1}>
     <CustomFormItemTextArea 
         objKey='k' 
-        validationResults={validation}
+        validationResults={calibrateValidation}
         label="Strikes"
-        parms={parameters}
+        parms={calibrateParameters}
         validator={validator}
         toolTip="Comma separated array of strikes"
-        onChange={onChange}
+        onChange={updateCalibration}
     />
 </Col>,
 <Col xs={24} key={2}>
     <CustomFormItemTextArea 
         objKey='prices' 
-        validationResults={validation}
+        validationResults={calibrateValidation}
         label="Prices"
-        parms={parameters}
+        parms={calibrateParameters}
         validator={validator}
         toolTip="Comma separated array of prices"
-        onChange={onChange}
+        onChange={updateCalibration}
     />
 </Col>,
 <Col {...flexObj} key={3}>
     <CustomUpdateButton
-        disabled={validateAll(validation)}
-        onClick={handleForm(submitOptions, parameters)}
+        disabled={validateAll({...validation, ...calibrateValidation})}
+        onClick={handleForm(submitOptions, {...parameters, ...calibrateParameters})}
         text="Calibrate"
         loading={isInProgress}
     />  
 </Col>
 ]
 
-//const mapStateToProps=({calibrateParameters, calibrateValidation})=>({calibrateParameters, calibrateValidation})
+const mapStateToProps=({calibrateParameters, calibrateValidation})=>({calibrateParameters, calibrateValidation})
 
-/*const mapDispatchToProps=dispatch=>({
+const mapDispatchToProps=dispatch=>({
     updateCalibration:(key, value, validateStatus)=>{
         updateCalibration(key, value, validateStatus, dispatch)
     }
-})*/
-export default InputCalibrator
-/*export default connect(
+})
+export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(InputCalibrator)*/
+)(InputCalibrator)

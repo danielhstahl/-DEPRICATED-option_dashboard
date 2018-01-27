@@ -6,7 +6,6 @@ import { Density } from './Graphs/Density'
 import AsyncHOC from './AsyncHoc'
 import ModalInputs from './Forms/ModalInputs'
 import QuantileInputs from './Forms/QuantileInputs'
-import StrikeInputs from './Forms/StrikeInputs'
 import CardPlot from './Cards/CardPlot'
 import { Row, Col, Dropdown, Layout, Card, Menu } from 'antd'
 import { HashRouter, Route, Link, Redirect, Switch } from 'react-router-dom'
@@ -131,7 +130,7 @@ const HoldCards=({match, ...rest})=>{
 				url={fangOostHelpUrl}
 				match={match}
 				{...rest}
-				CardFooter = {StrikeInputs}
+				//CardFooter = {StrikeInputs}
 			/>
 		</Col>
 		<Col {...colBreaks} >

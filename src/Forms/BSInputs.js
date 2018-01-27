@@ -16,7 +16,7 @@ import {
 import ShowJson from './ShowJson'
 import CommonInputs from './CommonInputs'
 
-const Manual=({formValidation, bsParameters, updateBS, submitOptions})=>[
+const Manual=({formValidation, bsParameters, updateBS, submitOptions, calibrateParameters})=>[
     <Col {...flexObj} key={0}>
         <CustomFormItemInput 
             objKey='sigma' 
@@ -30,13 +30,13 @@ const Manual=({formValidation, bsParameters, updateBS, submitOptions})=>[
     </Col>,
     <Col {...flexObj} key={1}>
         <CustomUpdateButton
-            disabled={validateAll(bsParameters)}
-            onClick={handleForm(submitOptions, bsParameters)}
+            disabled={validateAll(formValidation)}
+            onClick={handleForm(submitOptions, {...bsParameters, ...calibrateParameters})}
         />  
     </Col>
 ]
 
-const BSForm=({bsParameters, submitOptions, submitCalibration, updateBS, formValidation, type, bsNotify})=>[
+const BSForm=({bsParameters, submitOptions, calibrateParameters, submitCalibration, updateBS, formValidation, type, bsNotify})=>[
     <Row gutter={gutter} key={0}>
         <CommonInputs parameters={bsParameters} validation={formValidation} update={updateBS} />
         {switchComponent(type==='manual', 
@@ -45,23 +45,24 @@ const BSForm=({bsParameters, submitOptions, submitCalibration, updateBS, formVal
             bsParameters={bsParameters} 
             updateBS={updateBS} 
             submitOptions={submitOptions}
+            calibrateParameters={calibrateParameters}
         />, 
         <InputCalibrator 
             parameters={bsParameters} 
             validation={formValidation}
             submitOptions={submitCalibration}
             isInProgress={bsNotify}
-            onChange={updateBS}
         />)}
     </Row>,
     <Row key={1}>
         <ShowJson parameters={bsParameters}/>
     </Row>
 ]
-const mapStateToPropsBS=({bsParameters, bsValidation, bsNotify})=>({
+const mapStateToPropsBS=({bsParameters, bsValidation, bsNotify, calibrateParameters})=>({
     bsParameters, 
     formValidation:bsValidation,
-    bsNotify
+    bsNotify, 
+    calibrateParameters
 })
 const bsCalibration=getCalibration('bs')
 const mapDispatchToPropsBS=dispatch=>({
