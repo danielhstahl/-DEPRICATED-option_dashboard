@@ -13,8 +13,8 @@ const [, putName]=optionTypes
 const [priceName]=sensitivities
 const sensitivityIndex=0
 export const hasAtLeastIndex=(index, arr)=>arr.length>index?arr[index]:null
-export const getMarketDataFromStrikeAndPrice=(strikes, prices)=>strikes.map((strike, index)=>({strike, price:hasAtLeastIndex(index, prices)}))
-export const generateMarketData=(sensitivity, state)=>priceName===sensitivity?getMarketDataFromStrikeAndPrice(state.calibrateParameters.k, state.calibrateParameters.prices):null
+export const getMarketDataFromStrikeAndPrice=(strikes, prices)=>strikes.length>0?strikes.map((strike, index)=>({strike, price:hasAtLeastIndex(index, prices)})):null
+export const generateMarketData=(sensitivity, {k, prices})=>priceName===sensitivity?getMarketDataFromStrikeAndPrice(k, prices):null
 
 export const generateAlgorithmOptionPrices=(keySkeleton, algorithm)=>(connect, Component, initState)=>getUniqueArray(
     keySkeleton[algorithm], 
@@ -28,7 +28,7 @@ export const generateAlgorithmOptionPrices=(keySkeleton, algorithm)=>(connect, C
                 [optionType]:state[algorithm+optionType+sensitivity],
                 yLabel:upperFirstLetter(sensitivity)
             }), initState),
-            marketData:algorithm===fstsName?null:generateMarketData(sensitivity, state)
+            marketData:algorithm===fstsName?null:generateMarketData(sensitivity, state.calibrateParameters)
         })
     )(Component)
 }), {})
@@ -58,7 +58,7 @@ export const FangOost={
 }
 
 export const CarrMadan={
-    ...generateAlgorithmOptionPrices(keySkeleton, fangOostName)(connect, OptionCurves, carrMadanInitState),
+    ...generateAlgorithmOptionPrices(keySkeleton, carrMadanName)(connect, OptionCurves, carrMadanInitState),
     IV:generateIVState(carrMadanName, IVCurves, carrMadanInitState)
 }
 

@@ -34,9 +34,12 @@ describe('getMarketDataFromStrikeAndPrice', ()=>{
         const expected=[{strike:4, price:5}]
         expect(getMarketDataFromStrikeAndPrice([4], [5])).toEqual(expected)
     })
-    it('returns empty array when no strikes', ()=>{
-        const expected=[]
-        expect(getMarketDataFromStrikeAndPrice([], [5])).toEqual(expected)
+    it('returns array of strikes and prices when prices has more', ()=>{
+        const expected=[{strike:4, price:5}]
+        expect(getMarketDataFromStrikeAndPrice([4], [5, 6])).toEqual(expected)
+    })
+    it('returns null when no strikes', ()=>{
+        expect(getMarketDataFromStrikeAndPrice([], [5])).toEqual(null)
     })
 })
 describe('generateMarketData', ()=>{
@@ -45,12 +48,12 @@ describe('generateMarketData', ()=>{
     })
     it('returns market data if index is  0', ()=>{
         const expected=[{strike:4, price:5}]
-        expect(generateMarketData('price', {
-            calibrateParameters:{
+        expect(generateMarketData('price', 
+            {
                 k:[4],
                 prices:[5]
             }
-        })).toEqual(expected)
+        )).toEqual(expected)
     })
 })
 describe('generateAlgorithmOptionPrices', ()=>{
