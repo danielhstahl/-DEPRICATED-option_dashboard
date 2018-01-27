@@ -12,11 +12,11 @@ const [fangOostName, carrMadanName, fstsName]=algorithms
 const [, putName]=optionTypes
 const [priceName]=sensitivities
 const sensitivityIndex=0
-const hasAtLeastIndex=(index, arr)=>arr.length>index?arr[index]:null
-const getMarketDataFromStrikeAndPrice=(strikes, prices)=>strikes.map((strike, index)=>({strike, price:hasAtLeastIndex(index, prices)}))
-const generateMarketData=(index, state)=>sensitivityIndex===index?getMarketDataFromStrikeAndPrice(state.calibrateParameters.k, state.calibrateParameters.prices):null
+export const hasAtLeastIndex=(index, arr)=>arr.length>index?arr[index]:null
+export const getMarketDataFromStrikeAndPrice=(strikes, prices)=>strikes.length>0?strikes.map((strike, index)=>({strike, price:hasAtLeastIndex(index, prices)})):null
+export const generateMarketData=(sensitivity, {k, prices})=>priceName===sensitivity?getMarketDataFromStrikeAndPrice(k, prices):null
 
-const generateAlgorithmOptionPrices=(keySkeleton, algorithm, Component, initState)=>getUniqueArray(
+export const generateAlgorithmOptionPrices=(keySkeleton, algorithm)=>(connect, Component, initState)=>getUniqueArray(
     keySkeleton[algorithm], 
     sensitivityIndex
 ).reduce((aggr, [sensitivity], index)=>({
@@ -28,7 +28,7 @@ const generateAlgorithmOptionPrices=(keySkeleton, algorithm, Component, initStat
                 [optionType]:state[algorithm+optionType+sensitivity],
                 yLabel:upperFirstLetter(sensitivity)
             }), initState),
-            marketData:algorithm===fstsName?null:generateMarketData(index, state)
+            marketData:algorithm===fstsName?null:generateMarketData(sensitivity, state.calibrateParameters)
         })
     )(Component)
 }), {})
@@ -53,17 +53,17 @@ const fstsInitState={
 }
 
 export const FangOost={
-    ...generateAlgorithmOptionPrices(keySkeleton, fangOostName, OptionCurves, fangOostInitState),
+    ...generateAlgorithmOptionPrices(keySkeleton, fangOostName)(connect, OptionCurves, fangOostInitState),
     IV:generateIVState(fangOostName, IVCurves, fangOostInitState)
 }
 
 export const CarrMadan={
-    ...generateAlgorithmOptionPrices(keySkeleton, carrMadanName, OptionCurves, carrMadanInitState),
+    ...generateAlgorithmOptionPrices(keySkeleton, carrMadanName)(connect, OptionCurves, carrMadanInitState),
     IV:generateIVState(carrMadanName, IVCurves, carrMadanInitState)
 }
 
 export const FSTS={
-    ...generateAlgorithmOptionPrices(keySkeleton, fstsName, OptionCurves, fstsInitState),
+    ...generateAlgorithmOptionPrices(keySkeleton, fstsName)(connect, OptionCurves, fstsInitState),
     IV:generateIVState(fstsName, IVCurves, fstsInitState)
 }
 

@@ -39,6 +39,8 @@ const generateAlgorithmState=(keySkeleton, algorithm, factory)=>{
     }, {})
 }
 
+
+
 export const fangoost=generateAlgorithmState(keySkeleton, fangoostName, actionFangOostFactory)
 export const carrmadan=generateAlgorithmState(keySkeleton, carrMadanName, actionDomainFactory)
 export const fsts=generateAlgorithmState(keySkeleton, fstsName, actionDomainFactory)
