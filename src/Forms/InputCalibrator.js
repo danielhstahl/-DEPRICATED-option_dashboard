@@ -2,28 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { CustomFormItemTextArea, CustomUpdateButton } from './FormHelper'
 import { flexObj } from './globalOptions'
-import { handleForm, validateAll } from '../Utils/utils'
+import { handleForm, validateAll, rangeValidator } from '../Utils/utils'
 import { updateCalibration } from '../Actions/parameters'
 import { Col } from 'antd'
-const checkValidJson=(jsonString)=>{
-    try {
-        var o = JSON.parse(jsonString);
-
-        // Handle non-exception-throwing cases:
-        // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
-        // but... JSON.parse(null) returns null, and typeof null === "object", 
-        // so we must check for that, too. Thankfully, null is falsey, so this suffices:
-        if (o && typeof o === "object") {
-            return o
-        }
-    }
-    catch (e) { }
-    return false
-}
 
 const validator={
-    fn:commaString=>checkValidJson(`[${commaString}]`),
-    help:'Requires comma seperated values like "2, 3, 4"'
+    fn:rangeValidator(0, 1000000),
+    help:'Requires positive, comma separated numbers like "2, 3, 4"'
 }
 export const switchComponent=(condition, Component1, Component2)=>{
     return condition?Component1:Component2
