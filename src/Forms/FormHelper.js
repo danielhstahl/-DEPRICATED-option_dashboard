@@ -1,12 +1,16 @@
 import React from 'react'
-import { Tooltip, Input, Form, Button, Select } from 'antd'
+import { Tooltip, Input, Form, Button, Select, InputNumber } from 'antd'
 import PropTypes from 'prop-types'
 import { fullWidth, formItemLayoutLabel } from './globalOptions'
-
-const onChangeHelper=(onChange, validator, objKey)=>e=>{
-    const value=e.target.value
+import { isNotComplete } from '../Utils/utils'
+const onChangeNumberHelper=(onChange, validator, objKey)=>value=>{
     const isValid=validator?validator.fn(value):true
-    onChange(objKey, isValid?isValid:value, isValid?'':'error') 
+    onChange(objKey, value, isValid?'':'error') 
+}
+const onChangeTextAreaHelper=(onChange, validator, objKey)=>e=>{
+    const value=e.target.value
+    const result=value.split(',').map(val=>isNotComplete(val)?val:validator.fn(val)||val)
+    onChange(objKey, result, result.find(v=>!validator.fn(v))?'error':'') 
 }
 
 const FormItem=Form.Item
@@ -43,9 +47,9 @@ CustomDrop.propTypes={
 
 export const CustomInput=({objKey, parms, onChange, toolTip, validator})=>(
 <Tooltip placement="top" title={toolTip}>
-    <Input
+    <InputNumber
         value={parms[objKey]}
-        onChange={onChangeHelper(onChange, validator, objKey)}
+        onChange={onChangeNumberHelper(onChange, validator, objKey)}
         style={fullWidth}
     />
 </Tooltip>
@@ -66,7 +70,7 @@ export const CustomTextArea=({objKey, parms, onChange, toolTip, validator})=>(
     <Input.TextArea
         autosize
         value={parms[objKey]}
-        onChange={onChangeHelper(onChange, validator, objKey)}
+        onChange={onChangeTextAreaHelper(onChange, validator, objKey)}
         style={fullWidth}
     />
 </Tooltip>

@@ -143,7 +143,7 @@ const HoldCards=({match, ...rest})=>{
 }
 
 const App =()=>(
-	<HashRouter basename={process.env.PUBLIC_URL}>
+	<HashRouter basename='/'>
 		<Layout>
 			<AsyncHOC/>
 			<Content style={style}>
