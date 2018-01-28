@@ -1,5 +1,5 @@
 import { createValidationType, createOptionType } from '../appSkeleton'
-
+import { modelMap } from '../modelSkeleton'
 const generateValidation=paramName=>(key, value, dispatch)=>{
     dispatch({
         type:createValidationType(paramName),
@@ -16,8 +16,10 @@ const generateOptions=(paramName)=>(key, value, validation, dispatch)=>{
     generateValidation(paramName)(key, validation, dispatch)
 }
 
-export const updateCustom=generateOptions('full')
-export const updateHeston=generateOptions('heston')
-export const updateBS=generateOptions('bs')
-export const updateCalibration=generateOptions('calibrate')
+export default modelMap.reduce((aggr, curr)=>{
+    ['update'+curr.name]:generateOptions(curr.name)
+}, {
+    updateCalibration:generateOptions('calibrate')
+})
+
 

@@ -56,10 +56,11 @@ export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=
     })
 }
 
-const generateFangOost=optionType=>(parms, dispatch)=>sensitivities.forEach(
-    sensitivity=>getOptionUrl(optionType, sensitivity, fangOostName)(parms).then(response=>dispatch({
+const generateFangOost=optionType=>(parameters, dispatch)=>sensitivities.forEach(
+    sensitivity=>getOptionUrl(optionType, sensitivity, fangOostName)(parameters).then(response=>dispatch({
         type:createActionType(optionType, sensitivity, fangOostName),
-        data:response
+        data:response,
+        parameters
     }))
 )
 

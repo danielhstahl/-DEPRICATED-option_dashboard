@@ -109,6 +109,7 @@ const HoldCards=({match, ...rest})=>{
 				HelpComponent={CarrMadanHelp}
 				url={carrMadanHelpUrl}
 				match={match}
+				model={rootModelLink}
 				{...rest}
 			/>
 		</Col>
@@ -120,6 +121,7 @@ const HoldCards=({match, ...rest})=>{
 				url={fstsHelpUrl}
 				match={match}
 				{...rest}
+				model={rootModelLink}
 			/>
 		</Col>
 		<Col {...colBreaks} >
@@ -129,6 +131,7 @@ const HoldCards=({match, ...rest})=>{
 				HelpComponent={FangOostHelp}
 				url={fangOostHelpUrl}
 				match={match}
+				model={rootModelLink}
 				{...rest}
 				//CardFooter = {StrikeInputs}
 			/>
