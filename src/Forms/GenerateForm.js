@@ -1,13 +1,13 @@
 import React from 'react'
-import { handleForm, validateAll, createBounds } from '../Utils/utils'
+import { handleForm, validateAll, createBounds, generateSubmitOptions } from '../Utils/utils'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
-import { getAllData, getCalibration } from '../Actions/lambda'
+import { getCalibration } from '../Actions/lambda'
 import { connect } from 'react-redux'
 import { parameters, notify, validation } from '../Actions/actionDefinitions'
-import InputCalibrator, {switchComponent} from './InputCalibrator'
+import InputCalibrator, { switchComponent } from './InputCalibrator'
 import updateParameters from '../Actions/parameters'
 import { Row, Col } from 'antd'
-import {modelMap} from '../modelSkeleton'
+import { modelMap } from '../modelSkeleton'
 import ShowJson from './ShowJson'
 import {
     flexObj,
@@ -16,7 +16,7 @@ import {
 import CommonInputs from './CommonInputs'
 
 
-const Manual=({validation, calibrateParameters, parameters, updateParameters, submitOptions, formItems})=>[...formItems.map(({key, validator, label, toolTip}, index)=>(
+const Manual=({validation, calibrateParameters, parameters, update, submitOptions, formItems})=>[...formItems.map(({key, validator, label, toolTip}, index)=>(
         <Col {...flexObj} key={index}>
             <CustomFormItemInput
                 label={label}
@@ -25,7 +25,7 @@ const Manual=({validation, calibrateParameters, parameters, updateParameters, su
                 validator={validator}
                 validationResults={validation}
                 toolTip={toolTip}
-                onChange={updateParameters}
+                onChange={update}
             />
         </Col>
     )), 
@@ -49,7 +49,12 @@ const ModelForm=({
     submitCalibration, submitOptions, getActualJson
 })=>[
     <Row gutter={gutter} key={0}>
-        <CommonInputs parameters={parameters} validation={validation} update={updateParameters} formItems={staticItems}/>
+        <CommonInputs 
+            parameters={parameters} 
+            validation={validation} 
+            update={updateParameters} 
+            formItems={staticItems}
+        />
         {switchComponent(type==='manual', 
         <Manual 
             formItems={variableItems}
@@ -86,7 +91,6 @@ export default modelMap.reduce((aggr, curr)=>{
     const variableItems=getValidator(filterParam('variable'))
     const staticItems=getValidator(filterParam('static'))
     const constantItems=filterParam('constant')
-
     const mapStateToProps=state=>({
         parameters:state[curr.name+parameters],
         validation:state[curr.name+validation],
@@ -105,10 +109,7 @@ export default modelMap.reduce((aggr, curr)=>{
         submitCalibration:parameters=>{
             modelCal(parameters, dispatch)
         },
-        submitOptions:(modelParameters)=>{
-            const updatedAdvanced=curr[curr.name+'ToAdvanced'](modelParameters)
-            getAllData(updatedAdvanced, dispatch)
-        }
+        submitOptions:generateSubmitOptions(dispatch, curr)
     })
     
     return {

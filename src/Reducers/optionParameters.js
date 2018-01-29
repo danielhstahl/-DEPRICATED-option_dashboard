@@ -63,7 +63,7 @@ export default modelMap.reduce((aggr, curr)=>{
         ...aggr,
         [curr.name+notify]:generateNotify(curr.name),
         [curr.name+parameters]:generateParameters(curr.name, extractDefaultValues(curr.parameters)),
-        [curr.name+validation]:generateParameters(curr.name),
+        [curr.name+validation]:generateValidation(curr.name),
     }
 }, {
     calibrateParameters:generateParameters('calibrate', calibrateState),

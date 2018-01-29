@@ -63,16 +63,16 @@ export const model={
       "uBound": 2,
       "label": "Volatility",
       "toolTip": "This is the volatility of the diffusion component of the (extended) CGMY process",
-      "feature": "variable"
+      "feature": "constant"
     },
     {
-      "defVal": 1,
+      "defVal": 0,
       "lBound": 0,
       "uBound": 2,
       "key": "C",
       "label": "C",
       "toolTip": "This is the C in CGMY",
-      "feature": "variable"
+      "feature": "constant"
     },
     {
       "defVal": 1.4,
@@ -81,7 +81,7 @@ export const model={
       "key": "G",
       "label": "G",
       "toolTip": "This is the G in CGMY",
-      "feature": "variable"
+      "feature": "constant"
     },
     {
       "defVal": 2.5,
@@ -90,7 +90,7 @@ export const model={
       "uBound": 20,
       "label": "M",
       "toolTip": "This is the M in CGMY",
-      "feature": "variable"
+      "feature": "constant"
     },
     {
       "defVal": 0.6,
@@ -99,7 +99,7 @@ export const model={
       "uBound": 1.99,
       "label": "Y",
       "toolTip": "This is the Y in CGMY",
-      "feature": "variable"
+      "feature": "constant"
     },
     {
       "defVal": 0.4,
@@ -111,12 +111,21 @@ export const model={
       "feature": "variable"
     },
     {
-      "defVal": 0.95,
+      "defVal": 0.04,
       "key": "v0",
-      "lBound": 0.2,
+      "lBound": 0.01,
       "label": "V0",
       "toolTip": "This is the current value of the variance process",
-      "uBound": 1.8,
+      "uBound": 1,
+      "feature": "variable"
+    },
+    {
+      "defVal": 0.04,
+      "key": "meanVol",
+      "lBound": 0.01,
+      "label": "Average Vol",
+      "toolTip": "This is the average value of the variance process",
+      "uBound": 1,
       "feature": "variable"
     },
     {

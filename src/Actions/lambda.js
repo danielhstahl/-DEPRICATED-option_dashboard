@@ -1,7 +1,6 @@
 import appSkeleton, {
-    sensitivities,  
+   // sensitivities,  
     createActionType,
-    optionTypes,
     algorithms,
     createOptionReplaceAll,
     notifyCalibrationJob
@@ -12,9 +11,6 @@ const createBody=params=>({
     method:'post',
     body:JSON.stringify(params)
 })
-
-const [callName, putName]=optionTypes
-const [fangOostName]=algorithms
 export const getOptionUrl=(optionType, sensitivity, algorithm)=>params=>fetch(`${baseUrl}${optionType}/${sensitivity}/${algorithm}`, createBody(params)).then(response=>response.json())
 
 export const getUnderlyingUrl=(base, section)=>params=>fetch(`${baseUrl}${base}/${section}`, createBody(params)).then(response=>response.json())
@@ -38,7 +34,6 @@ export const getDensity=(parms, dispatch)=>{
 }
 
 export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=>{
-    //console.log(parms)
     //type is "full", "heston", "bs"
     dispatch({
         type:notifyCalibrationJob(type),
@@ -55,19 +50,19 @@ export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=
         })
     })
 }
-
+/*
 const generateFangOost=optionType=>(parameters, dispatch)=>sensitivities.forEach(
     sensitivity=>getOptionUrl(optionType, sensitivity, fangOostName)(parameters).then(response=>dispatch({
         type:createActionType(optionType, sensitivity, fangOostName),
         data:response,
         parameters
     }))
-)
+)*/
 
-
+/*
 export const getFangOostCall=generateFangOost(callName)
 export const getFangOostPut=generateFangOost(putName)
-
+*/
 
 export const getAllData=(parameters, dispatch)=>{
     appSkeleton.forEach(

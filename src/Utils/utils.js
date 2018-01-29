@@ -1,3 +1,5 @@
+import { getAllData } from '../Actions/lambda'
+
 export const keepMiddleElements=(arr, perc1, perc2)=>{
     const n=arr.length
     const m1=Math.floor(perc1*n)
@@ -53,3 +55,9 @@ export const validateAll=parameters=>{
 export const removeFirstAndLastElement=arr=>arr.slice(1, -1)
 
 export const upperFirstLetter=string=>string[0].toUpperCase() + string.substring(1)
+
+
+export const generateSubmitOptions=(dispatch, modelAttributes)=>modelParameters=>{
+    const updatedAdvanced=modelAttributes[modelAttributes.name+'ToAdvanced'](modelParameters)
+    getAllData(updatedAdvanced, dispatch)
+}

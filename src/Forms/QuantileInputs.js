@@ -1,7 +1,7 @@
 import React from 'react'
 import { createArray, handleForm } from '../Utils/utils'
 import { CustomDrop } from './FormHelper'
-import { updateCustom } from '../Actions/parameters'
+import updateParameters from '../Actions/parameters'
 import { getVaRData } from '../Actions/lambda'
 import { connect } from 'react-redux'
 import { Button, Row, Col} from 'antd'
@@ -47,7 +47,7 @@ const mapStateToProps=state=>({
 })
 
 const mapDispatchToProps =dispatch=>({
-    updateOptions:(key, value)=>updateCustom(key, value, dispatch),
+    updateOptions:(key, value)=>updateParameters(key, value, dispatch),
     submitOptions:vals=>getVaRData(vals, dispatch)
 })
 

@@ -2,7 +2,7 @@ import React from 'react'
 import './App.css'
 import { sensitivities } from './appSkeleton'
 
-import { modelChoices } from './modelSkeleton'
+import { modelChoices, modelMap } from './modelSkeleton'
 
 import { FangOost, CarrMadan, FSTS, FangOostHelp, FSTSHelp, CarrMadanHelp } from './Graphs/Algorithms'
 import { Density } from './Graphs/Density'
@@ -35,8 +35,8 @@ const floatRight={ float:'right',  }
 const colBreaks={ sm:24, md:12, xl:6 }
 const modelChoiceGenerator = handleMenuClick=>(
 	<Menu onClick={e=>handleMenuClick(e.key)}>
-	{modelChoices.map(({value, label})=>(
-		<Menu.Item key={value}>{label}</Menu.Item>
+	{modelMap.map(({name, label})=>(
+		<Menu.Item key={name}>{label}</Menu.Item>
 	))}
 	</Menu>
 )
@@ -68,7 +68,7 @@ const MenuSensitivities=({history, sensitivity, model})=>{
 					}}
 					overlay={modelChoiceGenerator(goToInputModal)}
 				>
-					{modelChoices.find(({value})=>model===value).label}: Inputs
+					{modelMap.find(({name})=>model===name).label}: Inputs
 				</Dropdown.Button>
 			</div>
 		</Menu>

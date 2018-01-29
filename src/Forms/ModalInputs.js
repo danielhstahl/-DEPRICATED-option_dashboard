@@ -3,17 +3,16 @@ import { modalInputsIndex } from '../Routes/routeDefinitions'
 import GenerateForm from './GenerateForm'
 import { Modal, Menu } from 'antd'
 import { Link } from 'react-router-dom'
-import { modelChoices } from '../modelSkeleton'
 const getBaseUrl=path=>path.split("/:")[0]
 
 const MenuTypes=({match, baseUrl})=>{
     const baseAndPathUrl=getBaseUrl(match.path)
     return (
     <Menu theme="light" mode="horizontal" selectedKeys={[match.params[modalInputsIndex]]}>
-        <Menu.Item key={"manual"}>
+        <Menu.Item key="manual">
             <Link to={`${baseAndPathUrl}/manual`}>Manual</Link>
         </Menu.Item>
-        <Menu.Item key={"calibration"}>
+        <Menu.Item key="calibration">
             <Link to={`${baseAndPathUrl}/calibration`}>Calibration</Link>
         </Menu.Item>
     </Menu>
