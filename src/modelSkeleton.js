@@ -1,4 +1,4 @@
-import {model as heston} from ./Models/heston.js
+import {model as heston} from './Models/heston.js'
 export const modelChoices=['heston']
 export const modelMap=[heston]
 export const defaultKey='defVal'//corresponds with default key in the Models folder

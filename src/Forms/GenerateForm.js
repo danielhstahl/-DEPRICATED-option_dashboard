@@ -3,138 +3,118 @@ import { handleForm, validateAll, createBounds } from '../Utils/utils'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import { getAllData, getCalibration } from '../Actions/lambda'
 import { connect } from 'react-redux'
+import { parameters, notify, validation } from '../Actions/actionDefinitions'
 import InputCalibrator, {switchComponent} from './InputCalibrator'
 import updateParameters from '../Actions/parameters'
 import { Row, Col } from 'antd'
+import {modelMap} from '../modelSkeleton'
 import ShowJson from './ShowJson'
 import {
-    rhoBounds, 
-    speedBounds,
     flexObj,
     gutter
 } from './globalOptions'
 import CommonInputs from './CommonInputs'
 
-import {
-    convertHestonToCustom,
-    convertCustomToHeston
-} from './parameterConversion'
 
-const adaBounds=createBounds(0, 2)
-const meanBounds=createBounds(.001, 1)
-const v0Bounds=meanBounds
-
-
-const Manual=({formValidation, calibrateParameters, hestonParameters, updateHeston, submitOptions})=>[
-<Col {...flexObj} key={0}>
-    <CustomFormItemInput
-        label='Speed'
-        objKey='speed' 
-        parms={hestonParameters}
-        validator={speedBounds}
-        validationResults={formValidation}
-        toolTip="Speed of mean reversion of variance process"
-        onChange={updateHeston}
-    />
-</Col>,
-<Col {...flexObj} key={1}>
-    <CustomFormItemInput 
-        objKey='meanVol' 
-        label="Average Vol"
-        validator={meanBounds}
-        validationResults={formValidation}
-        parms={hestonParameters}
-        toolTip="Long run average of the variance process"
-        onChange={updateHeston}
-    />
-</Col>,
-<Col {...flexObj} key={2}>
-    <CustomFormItemInput 
-        objKey='adaV' 
-        validator={adaBounds}
-        validationResults={formValidation}
-        label="Vol of Vol"
-        parms={hestonParameters}
-        toolTip="This is the volatility of the variance process"
-        onChange={updateHeston}
-    />
-</Col>,
-<Col {...flexObj} key={3}>
-    <CustomFormItemInput 
-        objKey='v0' 
-        label='V0'
-        parms={hestonParameters}
-        validationResults={formValidation}
-        validator={v0Bounds}
-        toolTip="This is the current value of the variance process."
-        onChange={updateHeston}
-    />
-</Col>,
-<Col {...flexObj} key={4}>
-    <CustomFormItemInput 
-        objKey='rho'
-        label='Rho'
-        validator={rhoBounds}
-        validationResults={formValidation}
-        parms={hestonParameters}
-        toolTip="Correlation between asset and variance"
-        onChange={updateHeston}
-    />
-</Col>,
-<Col {...flexObj} key={5}>
-    <CustomUpdateButton
-        disabled={validateAll(formValidation)}
-        onClick={handleForm(
-            submitOptions, {...hestonParameters, ...calibrateParameters}
-        )}
-    />
-</Col>
+const Manual=({validation, calibrateParameters, parameters, updateParameters, submitOptions, formItems})=>[...formItems.map(({key, validator, label, toolTip}, index)=>(
+        <Col {...flexObj} key={index}>
+            <CustomFormItemInput
+                label={label}
+                objKey={key}
+                parms={parameters}
+                validator={validator}
+                validationResults={validation}
+                toolTip={toolTip}
+                onChange={updateParameters}
+            />
+        </Col>
+    )), 
+    <Col {...flexObj} key={formItems.length}>
+        <CustomUpdateButton
+            disabled={validateAll(validation)}
+            onClick={handleForm(
+                submitOptions, {...parameters, ...calibrateParameters}
+            )}
+        />
+    </Col>
 ]
 
-const HestonForm=({
-    hestonParameters, submitOptions, type,
-    updateHeston, formValidation, submitCalibration,
-    hestonNotify, calibrateParameters
+const ModelForm=({
+    type, parameters, validation, 
+    notify, calibrateParameters,
+    staticItems,
+    variableItems, 
+    constantItems, 
+    updateParameters, 
+    submitCalibration, submitOptions, getActualJson
 })=>[
     <Row gutter={gutter} key={0}>
-        <CommonInputs parameters={hestonParameters} validation={formValidation} update={updateHeston} />
+        <CommonInputs parameters={parameters} validation={validation} update={updateParameters} formItems={staticItems}/>
         {switchComponent(type==='manual', 
         <Manual 
-            formValidation={formValidation} 
-            hestonParameters={hestonParameters} 
-            updateHeston={updateHeston} 
+            formItems={variableItems}
+            validation={validation} 
+            parameters={parameters} 
+            update={updateParameters} 
             submitOptions={submitOptions}
             calibrateParameters={calibrateParameters}
         />, 
         <InputCalibrator 
-            parameters={hestonParameters} 
-            validation={formValidation}
+            variableItems={variableItems}
+            constantItems={[...constantItems, ...staticItems]}
+            parameters={parameters} 
+            validation={validation}
             submitOptions={submitCalibration}
-            isInProgress={hestonNotify}
+            isInProgress={notify}
         />)}
     </Row>,
     <Row key={1}>
-        <ShowJson parameters={convertHestonToCustom(hestonParameters)}/>
+        <ShowJson parameters={getActualJson(parameters)}/>
     </Row>
 ]
+const getValidator=arr=>arr.map(({key, uBound, lBound, ...rest})=>({
+    key,
+    ...rest,
+    validator:createBounds(lBound, uBound)
+}))
 
-const hestonCalibration=getCalibration('heston', convertCustomToHeston)
+const getFeature=arr=>chosenFeature=>arr.filter(({feature})=>feature===chosenFeature)
 
-const mapStateToPropsHeston=({hestonParameters, calibrateParameters, hestonValidation, hestonNotify})=>({hestonParameters, formValidation:hestonValidation, hestonNotify, calibrateParameters})
+export default modelMap.reduce((aggr, curr)=>{
+    const modelCal=getCalibration(curr.name, curr['advancedTo'+curr.name])
+    const filterParam=getFeature(curr.parameters)
+    const variableItems=getValidator(filterParam('variable'))
+    const staticItems=getValidator(filterParam('static'))
+    const constantItems=filterParam('constant')
 
-const mapDispatchToPropsHeston=dispatch=>({
-    updateHeston:(key, value, validateStatus)=>{
-        updateHeston(key, value, validateStatus, dispatch)
-    },
-    submitCalibration:parameters=>{
-        hestonCalibration(parameters, dispatch)
-    },
-    submitOptions:(hestonParameters)=>{
-        const updatedCustom=convertHestonToCustom(hestonParameters)
-        getAllData(updatedCustom, dispatch)
+    const mapStateToProps=state=>({
+        parameters:state[curr.name+parameters],
+        validation:state[curr.name+validation],
+        notify:state[curr.name+notify],
+        calibrateParameters:state.calibrateParameters, 
+        staticItems,
+        variableItems, 
+        constantItems,
+        getActualJson:curr[curr.name+'ToAdvanced']
+    })
+    
+    const mapDispatchToProps=dispatch=>({
+        updateParameters:(key, value, validateStatus)=>{
+            updateParameters['update'+curr.name](key, value, validateStatus, dispatch)
+        },
+        submitCalibration:parameters=>{
+            modelCal(parameters, dispatch)
+        },
+        submitOptions:(modelParameters)=>{
+            const updatedAdvanced=curr[curr.name+'ToAdvanced'](modelParameters)
+            getAllData(updatedAdvanced, dispatch)
+        }
+    })
+    
+    return {
+        ...aggr, [curr.name]:connect(
+            mapStateToProps,
+            mapDispatchToProps
+        )(ModelForm)
     }
-})
-export default connect(
-    mapStateToPropsHeston, 
-    mapDispatchToPropsHeston
-)(HestonForm)
+}, {})

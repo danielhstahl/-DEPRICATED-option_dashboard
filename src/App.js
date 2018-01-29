@@ -1,11 +1,14 @@
 import React from 'react'
 import './App.css'
-import { sensitivities, modelChoices } from './appSkeleton'
+import { sensitivities } from './appSkeleton'
+
+import { modelChoices } from './modelSkeleton'
+
 import { FangOost, CarrMadan, FSTS, FangOostHelp, FSTSHelp, CarrMadanHelp } from './Graphs/Algorithms'
 import { Density } from './Graphs/Density'
 import AsyncHOC from './AsyncHoc'
 import ModalInputs from './Forms/ModalInputs'
-import QuantileInputs from './Forms/QuantileInputs'
+//import QuantileInputs from './Forms/QuantileInputs'
 import CardPlot from './Cards/CardPlot'
 import { Row, Col, Dropdown, Layout, Card, Menu } from 'antd'
 import { HashRouter, Route, Link, Redirect, Switch } from 'react-router-dom'
@@ -18,11 +21,12 @@ const style = {
 }
 
 const [priceName]=sensitivities
-const [, , CustomName]=modelChoices
+//const [, , CustomName]=modelChoices
+const [FirstModel]=modelChoices
 const Content=Layout.Content
 const paramUrl=`/:${rootModel}/:${rootSensitivity}`
 const baseUrl='/'
-const redirectUrl=`${CustomName.value}/${priceName}`
+const redirectUrl=`${FirstModel}/${priceName}`
 const fangOostHelpUrl='/fangoost/help'
 const carrMadanHelpUrl='/carrmadan/help'
 const fstsHelpUrl='/fsts/help'
@@ -138,7 +142,7 @@ const HoldCards=({match, ...rest})=>{
 		</Col>
 		<Col {...colBreaks} >
 			<Card title="Density" bordered={false} >
-				<Density /> <div className='cardFooter'> <QuantileInputs /> </div>
+				<Density />
 			</Card>
 		</Col>
 	</Row>

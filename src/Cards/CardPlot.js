@@ -56,6 +56,8 @@ CardPlot.propTypes={
     title:PropTypes.string.isRequired
 }
 
-const mapStateToProps=({customParameters})=>({...customParameters})
+const mapStateToProps=(state, {model})=>({
+	...state[model]
+})
 
 export default connect(mapStateToProps)(CardPlot)

@@ -56,14 +56,14 @@ const generateNotify=paramName=>(state=false, action)=>{
     }
 }
 
-const extractDefaultValues=parameters=>Object.entries(parameters).reduce((aggr, curr)=>({...aggr, [curr[0]]:curr[1][defaultKey]}), {})
+const extractDefaultValues=parameters=>parameters.reduce((aggr, curr)=>({...aggr, [curr.key]:curr[defaultKey]}), {})
 
 export default modelMap.reduce((aggr, curr)=>{
     return {
         ...aggr,
-        [curr.name+notify]:generateNotify(curr),
-        [curr.name+parameters]:generateParameters(curr, extractDefaultValues(constantParameters)),
-        [curr.name+validation]:generateParameters(curr),
+        [curr.name+notify]:generateNotify(curr.name),
+        [curr.name+parameters]:generateParameters(curr.name, extractDefaultValues(curr.parameters)),
+        [curr.name+validation]:generateParameters(curr.name),
     }
 }, {
     calibrateParameters:generateParameters('calibrate', calibrateState),

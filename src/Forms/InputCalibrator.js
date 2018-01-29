@@ -3,8 +3,10 @@ import { connect } from 'react-redux'
 import { CustomFormItemTextArea, CustomUpdateButton } from './FormHelper'
 import { flexObj } from './globalOptions'
 import { handleForm, validateAll, rangeValidator } from '../Utils/utils'
-import { updateCalibration } from '../Actions/parameters'
+import parameters from '../Actions/parameters'
 import { Col } from 'antd'
+import {modelMap} from '../modelSkeleton'
+
 
 const validator={
     fn:rangeValidator(0, 1000000),
@@ -13,7 +15,31 @@ const validator={
 export const switchComponent=(condition, Component1, Component2)=>{
     return condition?Component1:Component2
 }
-const InputCalibrator=({calibrateValidation, calibrateParameters, parameters, validation, submitOptions, updateCalibration, isInProgress})=>[
+/*
+const splitIntoConstantAndVariable=parameters=>{
+    Object.entries(parameters).reduce((aggr, [
+        key,
+        {constant, ...rest}
+    ])=>{
+        if(constant){
+            return {
+                constant:{
+                    [key]:
+                }
+            }
+        }
+        
+    }, {
+        constant:{},
+        variable:{}
+    })
+}*/
+
+const InputCalibrator=({
+    calibrateValidation, calibrateParameters, 
+    parameters, validation, submitOptions, 
+    updateCalibration, isInProgress
+})=>[
 <Col xs={24} key={1}>
     <CustomFormItemTextArea 
         objKey='k' 
@@ -50,7 +76,7 @@ const mapStateToProps=({calibrateParameters, calibrateValidation})=>({calibrateP
 
 const mapDispatchToProps=dispatch=>({
     updateCalibration:(key, value, validateStatus)=>{
-        updateCalibration(key, value, validateStatus, dispatch)
+        parameters.updateCalibration(key, value, validateStatus, dispatch)
     }
 })
 export default connect(

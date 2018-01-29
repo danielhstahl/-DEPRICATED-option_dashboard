@@ -3,7 +3,7 @@ const directoryOfModelSkeleton='./src/modelSkeleton.js'
 const fs=require('fs')
 const getModelName=file=>file.split('.')[0]
 fs.readdir(directoryOfModels, (err, files) => {
-    const imports=files.map(file=>`import {model as ${getModelName(file)}} from ./Models/${file}`).join('\n')
+    const imports=files.map(file=>`import {model as ${getModelName(file)}} from './Models/${file}'`).join('\n')
     const modelNames=files.map(file=>getModelName(file)).join("','")
     const txtToWrite=`${imports}
 export const modelChoices=['${modelNames}']

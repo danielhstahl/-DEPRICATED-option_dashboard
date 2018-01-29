@@ -1,14 +1,10 @@
 import React from 'react'
 import { modalInputsIndex } from '../Routes/routeDefinitions'
-import HestonForm from './HestonInputs'
-import CustomForm from './CustomInputs'
-import BSForm from './BSInputs'
+import GenerateForm from './GenerateForm'
 import { Modal, Menu } from 'antd'
 import { Link } from 'react-router-dom'
-import { modelChoices } from '../appSkeleton'
+import { modelChoices } from '../modelSkeleton'
 const getBaseUrl=path=>path.split("/:")[0]
-
-const [HestonName, BSName, CustomName]=modelChoices
 
 const MenuTypes=({match, baseUrl})=>{
     const baseAndPathUrl=getBaseUrl(match.path)
@@ -23,21 +19,10 @@ const MenuTypes=({match, baseUrl})=>{
     </Menu>
     ) 
 }
-const switchComponent=(model, type)=>{
-    switch(model){
-        case HestonName.value:
-            return <HestonForm type={type}/>
-        case BSName.value:
-            return <BSForm type={type}/>
-        case CustomName.value:
-            return <CustomForm type={type}/>
-        default:
-            return <div>Should have a model!</div>
-    }
-}
 
 const ModalInputs=({history, match, model, baseUrl})=>{
     const closeModal=()=>history.push(baseUrl)
+    const ModelComponent=GenerateForm[model]
     return (
     <Modal 
         title="Attributes" 
@@ -48,7 +33,7 @@ const ModalInputs=({history, match, model, baseUrl})=>{
         footer={null}
     >
         <MenuTypes match={match} baseUrl={baseUrl}/>
-        {switchComponent(model, match.params[modalInputsIndex])}
+        <ModelComponent type={match.params[modalInputsIndex]}/>
     </Modal>
     )
 }
