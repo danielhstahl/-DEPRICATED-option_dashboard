@@ -4,6 +4,8 @@ import { Card, Alert } from 'antd'
 import { rootSensitivity, rootModel } from '../Routes/routeDefinitions'
 import { Route, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { parameters } from '../Actions/actionDefinitions'
+
 import {
     sensitivities
 } from '../appSkeleton'
@@ -57,7 +59,7 @@ CardPlot.propTypes={
 }
 
 const mapStateToProps=(state, {model})=>({
-	...state[model]
+	...state[model+parameters]
 })
 
 export default connect(mapStateToProps)(CardPlot)
