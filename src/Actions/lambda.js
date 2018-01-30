@@ -1,7 +1,5 @@
 import appSkeleton, {
-   // sensitivities,  
     createActionType,
-    algorithms,
     createOptionReplaceAll,
     notifyCalibrationJob
 } from '../appSkeleton'
@@ -50,19 +48,6 @@ export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=
         })
     })
 }
-/*
-const generateFangOost=optionType=>(parameters, dispatch)=>sensitivities.forEach(
-    sensitivity=>getOptionUrl(optionType, sensitivity, fangOostName)(parameters).then(response=>dispatch({
-        type:createActionType(optionType, sensitivity, fangOostName),
-        data:response,
-        parameters
-    }))
-)*/
-
-/*
-export const getFangOostCall=generateFangOost(callName)
-export const getFangOostPut=generateFangOost(putName)
-*/
 
 export const getAllData=(parameters, dispatch)=>{
     appSkeleton.forEach(

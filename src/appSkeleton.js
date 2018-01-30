@@ -10,23 +10,6 @@ export const optionTypes=[
     'put'
 ]
 
-/*
-export const modelChoices=[
-    {
-        label:'Heston',
-        value:'heston'
-    },
-    {
-        label:'Black Scholes',
-        value:'bs'
-    },
-    {
-        label:'Advanced',
-        value:'advanced'
-    }
-]*/
-
-
 export const algorithms=[
     'fangoost',
     'carrmadan',

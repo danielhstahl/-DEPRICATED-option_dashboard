@@ -15,8 +15,8 @@ const generateOptions=(paramName)=>(key, value, validation, dispatch)=>{
     })
     generateValidation(paramName)(key, validation, dispatch)
 }
-
 export default modelMap.reduce((aggr, curr)=>({
+    ...aggr, 
     ['update'+curr.name]:generateOptions(curr.name)
 }), {
     updateCalibration:generateOptions('calibrate')

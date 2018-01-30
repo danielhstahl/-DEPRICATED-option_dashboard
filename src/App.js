@@ -2,7 +2,7 @@ import React from 'react'
 import './App.css'
 import { sensitivities } from './appSkeleton'
 
-import { modelChoices, modelMap } from './modelSkeleton'
+import { modelMap } from './modelSkeleton'
 
 import { FangOost, CarrMadan, FSTS, FangOostHelp, FSTSHelp, CarrMadanHelp } from './Graphs/Algorithms'
 import { Density } from './Graphs/Density'
@@ -21,12 +21,11 @@ const style = {
 }
 
 const [priceName]=sensitivities
-//const [, , CustomName]=modelChoices
-const [FirstModel]=modelChoices
+const [FirstModel]=modelMap
 const Content=Layout.Content
 const paramUrl=`/:${rootModel}/:${rootSensitivity}`
 const baseUrl='/'
-const redirectUrl=`${FirstModel}/${priceName}`
+const redirectUrl=`${FirstModel.name}/${priceName}`
 const fangOostHelpUrl='/fangoost/help'
 const carrMadanHelpUrl='/carrmadan/help'
 const fstsHelpUrl='/fsts/help'
