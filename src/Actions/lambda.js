@@ -1,7 +1,7 @@
 import appSkeleton, {
     createActionType,
-    createOptionReplaceAll,
-    notifyCalibrationJob
+    //createOptionReplaceAll,
+    //notifyCalibrationJob
 } from '../appSkeleton'
 const baseUrl= 'https://ni6jd9f0z4.execute-api.us-east-1.amazonaws.com/dev/'
 
@@ -31,13 +31,13 @@ export const getDensity=(parms, dispatch)=>{
     }))
 }
 
-export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=>{
+export const getCalibration=(optionalChangeParameters)=>(parms, dispatch)=>{
     //type is "full", "heston", "bs"
     dispatch({
-        type:notifyCalibrationJob(type),
+        type:notifyCalibrationJob(),
         value:true
     })
-    getOptionUrl('call', 'calibration', type)(parms).then(response=>{
+    getUnderlyingUrl('call', 'calibration')(parms).then(response=>{
         dispatch({
             type:createOptionReplaceAll(type),
             data:optionalChangeParameters?optionalChangeParameters(response):response,

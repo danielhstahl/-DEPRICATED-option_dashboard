@@ -15,28 +15,11 @@ const validator={
 export const switchComponent=(condition, Component1, Component2)=>{
     return condition?Component1:Component2
 }
-/*
-const splitIntoConstantAndVariable=parameters=>{
-    Object.entries(parameters).reduce((aggr, [
-        key,
-        {constant, ...rest}
-    ])=>{
-        if(constant){
-            return {
-                constant:{
-                    [key]:
-                }
-            }
-        }
-        
-    }, {
-        constant:{},
-        variable:{}
-    })
-}*/
+
 
 const InputCalibrator=({
     calibrateValidation, calibrateParameters, 
+    constantItems,
     parameters, validation, submitOptions, 
     updateCalibration, isInProgress
 })=>[
@@ -65,7 +48,7 @@ const InputCalibrator=({
 <Col {...flexObj} key={3}>
     <CustomUpdateButton
         disabled={validateAll({...validation, ...calibrateValidation})}
-        onClick={handleForm(submitOptions, {...parameters, ...calibrateParameters})}
+        onClick={handleForm(submitOptions, {...staticItems, static:constantItems, variable:variableItems})}
         text="Calibrate"
         loading={isInProgress}
     />  
