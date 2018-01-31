@@ -1,7 +1,7 @@
 import appSkeleton, {
     createActionType,
     //createOptionReplaceAll,
-    //notifyCalibrationJob
+    //git addnotifyCalibrationJob
 } from '../appSkeleton'
 const baseUrl= 'https://ni6jd9f0z4.execute-api.us-east-1.amazonaws.com/dev/'
 
