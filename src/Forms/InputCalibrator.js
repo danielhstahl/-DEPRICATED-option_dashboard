@@ -15,9 +15,14 @@ const validator={
 export const switchComponent=(condition, Component1, Component2)=>{
     return condition?Component1:Component2
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> e92be43bff6bf96c965e6886af324dcbbf92ab27
 
 const InputCalibrator=({
     calibrateValidation, calibrateParameters, 
+    constantItems,
     parameters, validation, submitOptions, 
     updateCalibration, isInProgress, constantItems,
     variableItems
