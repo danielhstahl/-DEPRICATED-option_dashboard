@@ -5,8 +5,6 @@ import { flexObj } from './globalOptions'
 import { handleForm, validateAll, rangeValidator } from '../Utils/utils'
 import parameters from '../Actions/parameters'
 import { Col } from 'antd'
-import {modelMap} from '../modelSkeleton'
-
 
 const validator={
     fn:rangeValidator(0, 1000000),
@@ -15,16 +13,12 @@ const validator={
 export const switchComponent=(condition, Component1, Component2)=>{
     return condition?Component1:Component2
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> e92be43bff6bf96c965e6886af324dcbbf92ab27
 
 const InputCalibrator=({
     calibrateValidation, calibrateParameters, 
     constantItems,
     parameters, validation, submitOptions, 
-    updateCalibration, isInProgress, constantItems,
+    updateCalibration, isInProgress,
     variableItems
 })=>[
 <Col xs={24} key={1}>

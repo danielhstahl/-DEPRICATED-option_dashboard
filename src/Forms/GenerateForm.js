@@ -14,7 +14,6 @@ import {
     gutter
 } from './globalOptions'
 import CommonInputs from './CommonInputs'
-console.log(updateParameters)
 
 const Manual=({validation, calibrateParameters, parameters, update, submitOptions, formItems})=>[...formItems.map(({key, validator, label, toolTip}, index)=>(
         <Col {...flexObj} key={index}>
