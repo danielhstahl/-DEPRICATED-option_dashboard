@@ -1,14 +1,12 @@
 import React from 'react'
 import './App.css'
 import { sensitivities } from './appSkeleton'
-
 import { modelMap } from './modelSkeleton'
-
 import { FangOost, CarrMadan, FSTS, FangOostHelp, FSTSHelp, CarrMadanHelp } from './Graphs/Algorithms'
 import { Density } from './Graphs/Density'
 import AsyncHOC from './AsyncHoc'
 import ModalInputs from './Forms/ModalInputs'
-//import QuantileInputs from './Forms/QuantileInputs'
+import QuantileInputs from './Forms/QuantileInputs'
 import CardPlot from './Cards/CardPlot'
 import { Row, Col, Dropdown, Layout, Card, Menu } from 'antd'
 import { HashRouter, Route, Link, Redirect, Switch } from 'react-router-dom'
@@ -136,12 +134,12 @@ const HoldCards=({match, ...rest})=>{
 				match={match}
 				model={rootModelLink}
 				{...rest}
-				//CardFooter = {StrikeInputs}
 			/>
 		</Col>
 		<Col {...colBreaks} >
 			<Card title="Density" bordered={false} >
 				<Density />
+				<QuantileInputs/>
 			</Card>
 		</Col>
 	</Row>

@@ -91,7 +91,7 @@ export default modelMap.reduce((aggr, curr)=>{
     const staticItems=getValidator(filterParam('static'))
     const constantItems=filterParam('constant')
     const mapStateToProps=state=>({
-        parameters:state[curr.name+parameters],
+        parameters:{...state[curr.name+parameters], quantile:state.quantile},
         validation:state[curr.name+validation],
         notify:state[curr.name+notify],
         calibrateParameters:state.calibrateParameters, 

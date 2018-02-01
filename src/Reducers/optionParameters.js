@@ -1,6 +1,6 @@
 import {createValidationType, createOptionType, createOptionReplaceAll } from '../appSkeleton'
 import { modelMap, defaultKey } from '../modelSkeleton'
-import { parameters, notify, validation, NOTIFY_CALIBRATION } from '../Actions/actionDefinitions'
+import { parameters, notify, validation, NOTIFY_CALIBRATION, UPDATE_QUANTILE } from '../Actions/actionDefinitions'
 const calibrateState={
     prices:[],
     k:[]
@@ -22,8 +22,7 @@ const defaultFormValidationStatus={
     adaV:'',
     rho:'',
     k:'',
-    prices:'',
-    quantile:''
+    prices:''
 }
 
 
@@ -70,3 +69,11 @@ export default modelMap.reduce((aggr, curr)=>{
     calibrateValidation:generateValidation('calibrate')
 })
 
+export const quantile=(state=.01, action)=>{
+    switch(action.type){
+        case UPDATE_QUANTILE:
+            return action.value
+        default:
+            return state
+    }
+}

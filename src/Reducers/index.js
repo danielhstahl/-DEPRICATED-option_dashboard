@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 
-import optionParameters from './optionParameters'
+import optionParameters, { quantile } from './optionParameters'
 import {
     VaR, density, 
     fangoost,
@@ -15,5 +15,6 @@ export default combineReducers({
     VaR, density, 
     ...fangoost,
     ...carrmadan,
-    ...fsts
+    ...fsts, 
+    quantile
 })

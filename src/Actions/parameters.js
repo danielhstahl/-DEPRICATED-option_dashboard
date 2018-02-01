@@ -1,5 +1,6 @@
 import { createValidationType, createOptionType } from '../appSkeleton'
 import { modelMap } from '../modelSkeleton'
+import { UPDATE_QUANTILE } from './actionDefinitions'
 const generateValidation=paramName=>(key, value, dispatch)=>{
     dispatch({
         type:createValidationType(paramName),
@@ -22,4 +23,9 @@ export default modelMap.reduce((aggr, curr)=>({
     updateCalibration:generateOptions('calibrate')
 })
 
-
+export const updateQuantile=(value, dispatch)=>{
+    dispatch({
+        type:UPDATE_QUANTILE,
+        value
+    })
+}

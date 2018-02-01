@@ -7,7 +7,7 @@ import { generateSubmitOptions } from './Utils/utils'
 const initModel=modelMap[0]
 class AsyncHoc extends Component{
     componentDidMount() {
-        this.props.onLoad(this.props.parameters)
+        this.props.onLoad( this.props.parameters)
     }
     render(){
         return null
@@ -15,7 +15,7 @@ class AsyncHoc extends Component{
 }
 
 const mapStateToProps=state=>({
-    parameters:state[initModel.name+parameters]
+    parameters:{...state[initModel.name+parameters], quantile:state.quantile}
 })
 const mapDispatchToProps =dispatch=>({
     onLoad:generateSubmitOptions(dispatch, initModel)
