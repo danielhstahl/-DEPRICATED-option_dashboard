@@ -1,6 +1,6 @@
-import {createValidationType, createOptionType, createOptionReplaceAll, notifyCalibrationJob } from '../appSkeleton'
+import {createValidationType, createOptionType, createOptionReplaceAll } from '../appSkeleton'
 import { modelMap, defaultKey } from '../modelSkeleton'
-import { parameters, notify, validation } from '../Actions/actionDefinitions'
+import { parameters, notify, validation, NOTIFY_CALIBRATION } from '../Actions/actionDefinitions'
 const calibrateState={
     prices:[],
     k:[]
@@ -49,7 +49,7 @@ const generateValidation=(paramName)=>(state=defaultFormValidationStatus, action
 
 const generateNotify=paramName=>(state=false, action)=>{
     switch(action.type){
-        case notifyCalibrationJob(paramName):
+        case NOTIFY_CALIBRATION:
             return action.value
         default:
             return state

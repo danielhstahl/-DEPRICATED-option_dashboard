@@ -32,9 +32,9 @@ export const createOptionType=modelType=>{
 export const createValidationType=modelType=>{
     return `UPDATE_${modelType.toUpperCase()}_VALIDATION`
 }
-export const notifyCalibrationJob=modelType=>{
+/*export const notifyCalibrationJob=modelType=>{
     return `NOTIFY_${modelType.toUpperCase()}_JOB`
-}
+}*/
 
 
 const appSkeleton=cartesian(optionTypes, sensitivities, algorithms).filter(([optionType, sensitivity, algorithm])=>excludePotentialArray(excludeFrom[algorithm], sensitivity))

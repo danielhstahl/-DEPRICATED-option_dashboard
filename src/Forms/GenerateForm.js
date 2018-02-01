@@ -66,7 +66,7 @@ const ModelForm=({
         />, 
         <InputCalibrator 
             variableItems={variableItems}
-            constantItems={[...constantItems, ...staticItems]}
+            constantItems={constantItems}
             parameters={parameters} 
             validation={validation}
             submitOptions={submitCalibration}

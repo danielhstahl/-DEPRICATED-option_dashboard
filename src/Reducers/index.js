@@ -1,18 +1,6 @@
 import { combineReducers } from 'redux'
-/*import {
-    optionParameters, 
-    hestonParameters, 
-    bsParameters, 
-    calibrateParameters,
-    optionValidation,
-    hestonValidation,
-    bsValidation,
-    calibrateValidation,
-    hestonNotify,
-    optionNotify,
-    bsNotify
- } from './optionParameters'*/
- import optionParameters from './optionParameters'
+
+import optionParameters from './optionParameters'
 import {
     VaR, density, 
     fangoost,
