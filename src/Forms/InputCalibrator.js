@@ -4,7 +4,7 @@ import { CustomFormItemTextArea, CustomUpdateButton } from './FormHelper'
 import { flexObj } from './globalOptions'
 import { handleForm, validateAll, rangeValidator } from '../Utils/utils'
 import parameters from '../Actions/parameters'
-import { Col } from 'antd'
+import { Col, Alert } from 'antd'
 
 const validator={
     fn:rangeValidator(0, 1000000),
@@ -53,6 +53,9 @@ const InputCalibrator=({
         text="Calibrate"
         loading={isInProgress}
     />  
+</Col>,
+<Col {...flexObj} key={4}>
+    {parameters.mse?<Alert message={`Mean Squared Error: ${parameters.mse}`} type="success" />:null}  
 </Col>
 ]
 

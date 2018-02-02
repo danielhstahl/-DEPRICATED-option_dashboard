@@ -179,8 +179,10 @@ const getCommentsTopLine=(bodyAsString)=>{
 *  or calibrated.  The 'lBound' and 'uBound' 
 *  are the upper and lower limits of the variable. 
 *  You must specify a function to convert to and 
-*  from the baseline model (extended CGMY).  As an 
-*  example, see heston.js and 
+*  from the baseline model (extended CGMY).  To 
+*  convert from baseline to CGMY, you must have the
+*  variable parameters in a "variable" sub-object.
+*  As an example, see heston.js and 
 *  https://github.com/phillyfan1138/CharacteristicFunctions/blob/master/ConversionHestonCF.pdf 
 */ \n
 export const model=`

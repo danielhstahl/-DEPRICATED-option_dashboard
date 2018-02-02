@@ -109,7 +109,7 @@ export default modelMap.reduce((aggr, curr)=>{
         submitCalibration:parameters=>{
             modelCal(getActualJson(parameters), dispatch)
         },
-        submitOptions:generateSubmitOptions(dispatch, curr, getAllData)
+        submitOptions:generateSubmitOptions(dispatch, getActualJson, getAllData)
     })
     
     return {

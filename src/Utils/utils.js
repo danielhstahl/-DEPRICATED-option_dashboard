@@ -57,7 +57,7 @@ export const removeFirstAndLastElement=arr=>arr.slice(1, -1)
 export const upperFirstLetter=string=>string[0].toUpperCase() + string.substring(1)
 
 
-export const generateSubmitOptions=(dispatch, modelAttributes, getAllData)=>modelParameters=>{
-    const updatedAdvanced=modelAttributes[modelAttributes.name+'ToAdvanced'](modelParameters)
-    getAllData(updatedAdvanced, dispatch)
+export const generateSubmitOptions=(dispatch, getCGMYParams, getAllData)=>modelParameters=>{
+    const {variable, ...rest}=getCGMYParams(parameters)
+    getAllData({...variable, ...rest}, dispatch)
 }
