@@ -148,20 +148,20 @@ export const model={
     }
   ],
   "hestonToAdvanced": hestonParams=>{
-    const {adaV, meanVol, v0}=hestonParams
+    const {adaV, meanVol, v0, rho, speed, ...rest}=hestonParams
     return {
-        ...hestonParams,
-        adaV:convertHestonToCustomAda(adaV, meanVol),
-        sigma:convertHestonToCustomSig(meanVol),
-        v0:convertHestonToCustomV0(v0, meanVol)
+        ...rest,
+        variable:{
+          adaV:convertHestonToCustomAda(adaV, meanVol),
+          sigma:convertHestonToCustomSig(meanVol),
+          v0:convertHestonToCustomV0(v0, meanVol),
+          rho,
+          speed
+        }
     }
-},
-"advancedToheston": customParams=>{
-    const {sigma, v0, adaV}=customParams
-    console.log(customParams)
-    console.log(convertCustomToHestonB(sigma))
-    console.log(convertCustomToHestonC(adaV, sigma))
-    console.log(convertCustomToHestonV0(v0, sigma))
+  },
+  "advancedToheston": customParams=>{
+    const {sigma, v0, adaV, ...rest}=customParams
     return {
         ...customParams,
         meanVol:convertCustomToHestonB(sigma),

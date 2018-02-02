@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { CustomFormItemTextArea, CustomUpdateButton } from './FormHelper'
 import { flexObj } from './globalOptions'
-import { handleForm, validateAll, rangeValidator, extractDefaultValues } from '../Utils/utils'
+import { handleForm, validateAll, rangeValidator } from '../Utils/utils'
 import parameters from '../Actions/parameters'
 import { Col } from 'antd'
 

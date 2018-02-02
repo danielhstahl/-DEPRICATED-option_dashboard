@@ -132,6 +132,14 @@ export const model={
       "feature": "constant"
     }
   ],
-  "bsToAdvanced": bsParams=>bsParams,
+  "bsToAdvanced": bsParams=>{
+    const {sigma, ...rest}=bsParams
+    return {
+      ...rest,
+      variable:{
+        sigma
+      }
+    }
+  },
   "advancedTobs": bsParams=>bsParams
 }
