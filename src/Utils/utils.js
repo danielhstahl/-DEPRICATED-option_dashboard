@@ -58,6 +58,6 @@ export const upperFirstLetter=string=>string[0].toUpperCase() + string.substring
 
 
 export const generateSubmitOptions=(dispatch, getCGMYParams, getAllData)=>modelParameters=>{
-    const {variable, ...rest}=getCGMYParams(parameters)
-    getAllData({...variable, ...rest}, dispatch)
+    const {variable, ...rest}=getCGMYParams(modelParameters)
+    getAllData({...rest, ...variable}, dispatch)
 }
