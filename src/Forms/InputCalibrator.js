@@ -47,10 +47,8 @@ const InputCalibrator=({
     <CustomUpdateButton
         disabled={validateAll({...validation, ...calibrateValidation})}
         onClick={handleForm(submitOptions, {
-            ...extractDefaultValues(constantItems),
             ...parameters, 
-            ...calibrateParameters, 
-            variable:extractDefaultValues(variableItems)
+            ...calibrateParameters
         })}
         text="Calibrate"
         loading={isInProgress}

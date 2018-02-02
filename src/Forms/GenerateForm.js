@@ -83,6 +83,7 @@ const getValidator=arr=>arr.map(({key, uBound, lBound, ...rest})=>({
 }))
 
 const getFeature=arr=>chosenFeature=>arr.filter(({feature})=>feature===chosenFeature)
+const parseToVariable=(parameters, arr)=>arr.reduce((aggr, curr)=>({...aggr, [curr.key]:parameters[curr.key]}), {})
 
 export default modelMap.reduce((aggr, curr)=>{
     const modelCal=getCalibration(curr.name, curr['advancedTo'+curr.name])
@@ -90,6 +91,7 @@ export default modelMap.reduce((aggr, curr)=>{
     const variableItems=getValidator(filterParam('variable'))
     const staticItems=getValidator(filterParam('static'))
     const constantItems=filterParam('constant')
+    const getActualJson=curr[curr.name+'ToAdvanced']
     const mapStateToProps=state=>({
         parameters:{...state[curr.name+parameters], quantile:state.quantile},
         validation:state[curr.name+validation],
@@ -98,7 +100,7 @@ export default modelMap.reduce((aggr, curr)=>{
         staticItems,
         variableItems, 
         constantItems,
-        getActualJson:curr[curr.name+'ToAdvanced']
+        getActualJson
     })
     
     const mapDispatchToProps=dispatch=>({
@@ -106,8 +108,14 @@ export default modelMap.reduce((aggr, curr)=>{
             updateParameters['update'+curr.name](key, value, validateStatus, dispatch)
         },
         submitCalibration:parameters=>{
-            console.log(parameters)
-            modelCal(parameters, dispatch)
+            const parms=getActualJson(parameters)
+            const variable=parseToVariable(parms, variableItems)
+
+            //variable:extractDefaultValues(variableItems)
+
+
+            //console.log(variable)
+            modelCal({...parameters, variable}, dispatch)
         },
         submitOptions:generateSubmitOptions(dispatch, curr)
     })
