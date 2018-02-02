@@ -1,7 +1,7 @@
 import React from 'react'
 import { handleForm, validateAll, createBounds, generateSubmitOptions } from '../Utils/utils'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
-import { getCalibration } from '../Actions/lambda'
+import { getCalibration, getAllData } from '../Actions/lambda'
 import { connect } from 'react-redux'
 import { parameters, notify, validation } from '../Actions/actionDefinitions'
 import InputCalibrator, { switchComponent } from './InputCalibrator'
@@ -109,7 +109,7 @@ export default modelMap.reduce((aggr, curr)=>{
         submitCalibration:parameters=>{
             modelCal(getActualJson(parameters), dispatch)
         },
-        submitOptions:generateSubmitOptions(dispatch, curr)
+        submitOptions:generateSubmitOptions(dispatch, curr, getAllData)
     })
     
     return {

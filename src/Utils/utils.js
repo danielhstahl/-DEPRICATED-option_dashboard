@@ -1,5 +1,3 @@
-import { getAllData } from '../Actions/lambda'
-import { defaultKey } from '../modelSkeleton'
 export const keepMiddleElements=(arr, perc1, perc2)=>{
     const n=arr.length
     const m1=Math.floor(perc1*n)
@@ -33,7 +31,7 @@ export const isNotComplete=num=>{
     return strNum.indexOf('.') === strNum.length - 1
 }
 
-export const extractDefaultValues=parameters=>parameters.reduce((aggr, curr)=>({...aggr, [curr.key]:curr[defaultKey]}), {})
+export const extractDefaultValues=(parameters, defaultKey)=>parameters.reduce((aggr, curr)=>({...aggr, [curr.key]:curr[defaultKey]}), {})
 
 export const createBounds=(min, max)=>({
     fn:rangeValidator(min, max),
@@ -59,7 +57,7 @@ export const removeFirstAndLastElement=arr=>arr.slice(1, -1)
 export const upperFirstLetter=string=>string[0].toUpperCase() + string.substring(1)
 
 
-export const generateSubmitOptions=(dispatch, modelAttributes)=>modelParameters=>{
+export const generateSubmitOptions=(dispatch, modelAttributes, getAllData)=>modelParameters=>{
     const updatedAdvanced=modelAttributes[modelAttributes.name+'ToAdvanced'](modelParameters)
     getAllData(updatedAdvanced, dispatch)
 }
