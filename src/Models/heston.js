@@ -158,6 +158,10 @@ export const model={
 },
 "advancedToheston": customParams=>{
     const {sigma, v0, adaV}=customParams
+    console.log(customParams)
+    console.log(convertCustomToHestonB(sigma))
+    console.log(convertCustomToHestonC(adaV, sigma))
+    console.log(convertCustomToHestonV0(v0, sigma))
     return {
         ...customParams,
         meanVol:convertCustomToHestonB(sigma),

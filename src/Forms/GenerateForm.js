@@ -106,6 +106,7 @@ export default modelMap.reduce((aggr, curr)=>{
             updateParameters['update'+curr.name](key, value, validateStatus, dispatch)
         },
         submitCalibration:parameters=>{
+            console.log(parameters)
             modelCal(parameters, dispatch)
         },
         submitOptions:generateSubmitOptions(dispatch, curr)

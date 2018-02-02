@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { CustomFormItemTextArea, CustomUpdateButton } from './FormHelper'
 import { flexObj } from './globalOptions'
-import { handleForm, validateAll, rangeValidator } from '../Utils/utils'
+import { handleForm, validateAll, rangeValidator, extractDefaultValues } from '../Utils/utils'
 import parameters from '../Actions/parameters'
 import { Col } from 'antd'
 
@@ -46,7 +46,12 @@ const InputCalibrator=({
 <Col {...flexObj} key={3}>
     <CustomUpdateButton
         disabled={validateAll({...validation, ...calibrateValidation})}
-        onClick={handleForm(submitOptions, {...constantItems, ...parameters, ...calibrateParameters, variable:variableItems})}
+        onClick={handleForm(submitOptions, {
+            ...extractDefaultValues(constantItems),
+            ...parameters, 
+            ...calibrateParameters, 
+            variable:extractDefaultValues(variableItems)
+        })}
         text="Calibrate"
         loading={isInProgress}
     />  

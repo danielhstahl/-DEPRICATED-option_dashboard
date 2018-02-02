@@ -1,6 +1,7 @@
 import {createValidationType, createOptionType, createOptionReplaceAll } from '../appSkeleton'
-import { modelMap, defaultKey } from '../modelSkeleton'
+import { modelMap } from '../modelSkeleton'
 import { parameters, notify, validation, NOTIFY_CALIBRATION, UPDATE_QUANTILE } from '../Actions/actionDefinitions'
+import { extractDefaultValues } from '../Utils/utils'
 const calibrateState={
     prices:[],
     k:[]
@@ -55,7 +56,7 @@ const generateNotify=paramName=>(state=false, action)=>{
     }
 }
 
-const extractDefaultValues=parameters=>parameters.reduce((aggr, curr)=>({...aggr, [curr.key]:curr[defaultKey]}), {})
+
 
 export default modelMap.reduce((aggr, curr)=>{
     return {

@@ -1,5 +1,5 @@
 import { getAllData } from '../Actions/lambda'
-
+import { defaultKey } from '../modelSkeleton'
 export const keepMiddleElements=(arr, perc1, perc2)=>{
     const n=arr.length
     const m1=Math.floor(perc1*n)
@@ -32,6 +32,8 @@ export const isNotComplete=num=>{
     const strNum=num.toString()
     return strNum.indexOf('.') === strNum.length - 1
 }
+
+export const extractDefaultValues=parameters=>parameters.reduce((aggr, curr)=>({...aggr, [curr.key]:curr[defaultKey]}), {})
 
 export const createBounds=(min, max)=>({
     fn:rangeValidator(min, max),
