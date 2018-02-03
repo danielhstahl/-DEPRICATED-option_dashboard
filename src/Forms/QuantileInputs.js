@@ -48,7 +48,7 @@ const mapStateToProps=({optionParameters, quantile})=>({
 })
 
 const mapDispatchToProps =dispatch=>({
-    updateQuantile:(key, value)=>updateQuantile(key, value, dispatch),
+    updateQuantile:(key, value)=>updateQuantile(value, dispatch),
     submitOptions:vals=>getVaRData(vals, dispatch)
 })
 
