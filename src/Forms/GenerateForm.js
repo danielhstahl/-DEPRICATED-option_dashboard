@@ -1,5 +1,5 @@
 import React from 'react'
-import { handleForm, validateAll, createBounds, generateSubmitOptions } from '../Utils/utils'
+import { handleForm, validateAll, createBounds, generateSubmitOptions, getCGMYFunction } from '../Utils/utils'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import { getCalibration, getAllData } from '../Actions/lambda'
 import { connect } from 'react-redux'
@@ -90,7 +90,7 @@ export default modelMap.reduce((aggr, curr)=>{
     const variableItems=getValidator(filterParam('variable'))
     const staticItems=getValidator(filterParam('static'))
     const constantItems=filterParam('constant')
-    const getActualJson=curr[curr.name+'ToAdvanced']
+    const getActualJson=getCGMYFunction(curr)
     const mapStateToProps=state=>({
         parameters:{...state[curr.name+parameters], quantile:state.quantile},
         validation:state[curr.name+validation],
