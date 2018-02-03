@@ -93,6 +93,7 @@ const HoldCards=({match, ...rest})=>{
 	const rootSensitivityLink=match.params[rootSensitivity]
 	const currentModel=modelMap.find(({name})=>rootModelLink===name)
 	return [
+	<AsyncHOC key={-1} model={currentModel}/>,
 	<WrapModalInputs 
 		sensitivity={rootSensitivityLink}
 		model={rootModelLink}
@@ -113,8 +114,7 @@ const HoldCards=({match, ...rest})=>{
 				HelpComponent={CarrMadanHelp}
 				url={carrMadanHelpUrl}
 				match={match}
-				model={rootModelLink}
-				modelAttr={currentModel}
+				model={currentModel}
 				{...rest}
 			/>
 		</Col>
@@ -126,8 +126,7 @@ const HoldCards=({match, ...rest})=>{
 				url={fstsHelpUrl}
 				match={match}
 				{...rest}
-				model={rootModelLink}
-				modelAttr={currentModel}
+				model={currentModel}
 			/>
 		</Col>
 		<Col {...colBreaks} >
@@ -137,8 +136,7 @@ const HoldCards=({match, ...rest})=>{
 				HelpComponent={FangOostHelp}
 				url={fangOostHelpUrl}
 				match={match}
-				model={rootModelLink}
-				modelAttr={currentModel}
+				model={currentModel}
 				{...rest}
 			/>
 		</Col>
@@ -155,7 +153,6 @@ const HoldCards=({match, ...rest})=>{
 const App =()=>(
 	<HashRouter basename='/'>
 		<Layout>
-			<AsyncHOC/>
 			<Content style={style}>
 				<div className='container'>
 					<Switch>

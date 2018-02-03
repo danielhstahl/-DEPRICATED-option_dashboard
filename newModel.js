@@ -13,7 +13,7 @@ const defaultWrite=(name, label)=>({
     label,
     parameters:[
         {
-            defVal:6,
+            defVal:8,
             key:'numU',
             lBound:6,
             uBound:10,
@@ -58,7 +58,7 @@ const defaultWrite=(name, label)=>({
             feature:'variable'
         },
         {
-            defVal:1.0,
+            defVal:.2,
             lBound:0,
             uBound:2,
             key:'C',
