@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { CustomFormItemTextArea, CustomUpdateButton } from './FormHelper'
 import { flexObj } from './globalOptions'
 import { handleForm, validateAll, rangeValidator } from '../Utils/utils'
-import { updateCalibration } from '../Actions/parameters'
-import { Col } from 'antd'
+import parameters from '../Actions/parameters'
+import { Col, Alert } from 'antd'
 
 const validator={
     fn:rangeValidator(0, 1000000),
@@ -13,7 +13,14 @@ const validator={
 export const switchComponent=(condition, Component1, Component2)=>{
     return condition?Component1:Component2
 }
-const InputCalibrator=({calibrateValidation, calibrateParameters, parameters, validation, submitOptions, updateCalibration, isInProgress})=>[
+
+const InputCalibrator=({
+    calibrateValidation, calibrateParameters, 
+    constantItems,
+    parameters, validation, submitOptions, 
+    updateCalibration, isInProgress,
+    variableItems
+})=>[
 <Col xs={24} key={1}>
     <CustomFormItemTextArea 
         objKey='k' 
@@ -39,10 +46,16 @@ const InputCalibrator=({calibrateValidation, calibrateParameters, parameters, va
 <Col {...flexObj} key={3}>
     <CustomUpdateButton
         disabled={validateAll({...validation, ...calibrateValidation})}
-        onClick={handleForm(submitOptions, {...parameters, ...calibrateParameters})}
+        onClick={handleForm(submitOptions, {
+            ...parameters, 
+            ...calibrateParameters
+        })}
         text="Calibrate"
         loading={isInProgress}
     />  
+</Col>,
+<Col {...flexObj} key={4}>
+    {parameters.mse?<Alert message={`Mean Squared Error: ${parameters.mse}`} type="success" />:null}  
 </Col>
 ]
 
@@ -50,7 +63,7 @@ const mapStateToProps=({calibrateParameters, calibrateValidation})=>({calibrateP
 
 const mapDispatchToProps=dispatch=>({
     updateCalibration:(key, value, validateStatus)=>{
-        updateCalibration(key, value, validateStatus, dispatch)
+        parameters.updateCalibration(key, value, validateStatus, dispatch)
     }
 })
 export default connect(

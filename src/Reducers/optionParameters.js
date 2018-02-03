@@ -1,38 +1,12 @@
-import {createValidationType, createOptionType, createOptionReplaceAll, notifyCalibrationJob } from '../appSkeleton'
-const defaultState={
-    numU:6,//gets raised to power of 2: 2^numU
-    r:.03,
-    T:.25,
-    S0:50,
-    sigma:.2,
-    C:1.0,
-    G:1.4,
-    M:2.5,
-    Y:.6,
-    speed:.4,
-    v0:1.05,
-    adaV:.2,
-    rho:-.5,
-    quantile:.01
-}
-const hestonState={
-    ...defaultState, 
-    C:0.0,
-    v0:.04,
-    adaV:.2,
-    meanVol:.04
-}
-
-const bsState={
-    ...defaultState,
-    v0:1.0,
-    C:0.0,
-    adaV:0.0
-}
+import {createValidationType, createOptionType, createOptionReplaceAll } from '../appSkeleton'
+import { modelMap, defaultKey } from '../modelSkeleton'
+import { parameters, notify, validation, NOTIFY_CALIBRATION, UPDATE_QUANTILE } from '../Actions/actionDefinitions'
+import { extractDefaultValues } from '../Utils/utils'
 const calibrateState={
     prices:[],
     k:[]
 }
+
 const defaultFormValidationStatus={
     numU:'',
     r:'',
@@ -49,9 +23,9 @@ const defaultFormValidationStatus={
     adaV:'',
     rho:'',
     k:'',
-    prices:'',
-    quantile:''
+    prices:''
 }
+
 
 
 const generateParameters=(paramName, defaultState)=>(state=defaultState, action)=>{
@@ -75,23 +49,32 @@ const generateValidation=(paramName)=>(state=defaultFormValidationStatus, action
 
 const generateNotify=paramName=>(state=false, action)=>{
     switch(action.type){
-        case notifyCalibrationJob(paramName):
+        case NOTIFY_CALIBRATION:
             return action.value
         default:
             return state
     }
 }
 
-export const hestonNotify=generateNotify('heston')
-export const optionNotify=generateNotify('full')
-export const bsNotify=generateNotify('bs')
 
-export const optionParameters=generateParameters('full', defaultState)
-export const hestonParameters=generateParameters('heston', hestonState)
-export const bsParameters=generateParameters('bs', bsState)
-export const calibrateParameters=generateParameters('calibrate', calibrateState)
 
-export const optionValidation=generateValidation('full')
-export const hestonValidation=generateValidation('heston')
-export const bsValidation=generateValidation('bs')
-export const calibrateValidation=generateValidation('calibrate')
+export default modelMap.reduce((aggr, curr)=>{
+    return {
+        ...aggr,
+        [curr.name+notify]:generateNotify(curr.name),
+        [curr.name+parameters]:generateParameters(curr.name, extractDefaultValues(curr.parameters, defaultKey)),
+        [curr.name+validation]:generateValidation(curr.name),
+    }
+}, {
+    calibrateParameters:generateParameters('calibrate', calibrateState),
+    calibrateValidation:generateValidation('calibrate')
+})
+
+export const quantile=(state=.01, action)=>{
+    switch(action.type){
+        case UPDATE_QUANTILE:
+            return action.value
+        default:
+            return state
+    }
+}

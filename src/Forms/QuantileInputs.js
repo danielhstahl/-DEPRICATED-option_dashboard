@@ -1,7 +1,7 @@
 import React from 'react'
 import { createArray, handleForm } from '../Utils/utils'
 import { CustomDrop } from './FormHelper'
-import { updateCustom } from '../Actions/parameters'
+import { updateQuantile } from '../Actions/parameters'
 import { getVaRData } from '../Actions/lambda'
 import { connect } from 'react-redux'
 import { Button, Row, Col} from 'antd'
@@ -10,8 +10,7 @@ import {
     gutter
 } from './globalOptions'
 const quantileOptions=createArray(.001, .05, .001)
-const DummyComponent=({children})=><div>{children}</div>
-const QuantileInputs=({quantileParameters, updateOptions, submitOptions})=>(
+const QuantileInputs=({quantileParameters, updateQuantile, submitOptions})=>(
     <Row gutter={gutter}>
         <Col xs={24} md={16}>
             <CustomDrop 
@@ -21,8 +20,7 @@ const QuantileInputs=({quantileParameters, updateOptions, submitOptions})=>(
                 round={3}
                 toolTip="This is the quantile of the asset return distribution.  A .01 quantile translates to a 99% VaR"
                 label="Quantile"
-                onChange={updateOptions}
-                WrapperComponent={DummyComponent}
+                onChange={updateQuantile}
             />
         </Col>
         <Col xs={24} md={8}>
@@ -36,18 +34,21 @@ const QuantileInputs=({quantileParameters, updateOptions, submitOptions})=>(
 )
 QuantileInputs.propTypes={
     quantileParameters:PropTypes.shape({
-        quantile:PropTypes.number.isRequired
+        quantile:PropTypes.number.isRequired,
     }),
-    updateOptions:PropTypes.func.isRequired,
+    updateQuantile:PropTypes.func.isRequired,
     submitOptions:PropTypes.func.isRequired
 }
 
-const mapStateToProps=state=>({
-    quantileParameters:state.optionParameters
+const mapStateToProps=({optionParameters, quantile})=>({
+    quantileParameters:{
+        ...optionParameters,
+        quantile
+    }
 })
 
 const mapDispatchToProps =dispatch=>({
-    updateOptions:(key, value)=>updateCustom(key, value, dispatch),
+    updateQuantile:(key, value)=>updateQuantile(key, value, dispatch),
     submitOptions:vals=>getVaRData(vals, dispatch)
 })
 

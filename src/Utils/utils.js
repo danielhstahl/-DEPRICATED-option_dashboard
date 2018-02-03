@@ -31,6 +31,8 @@ export const isNotComplete=num=>{
     return strNum.indexOf('.') === strNum.length - 1
 }
 
+export const extractDefaultValues=(parameters, defaultKey)=>parameters.reduce((aggr, curr)=>({...aggr, [curr.key]:curr[defaultKey]}), {})
+
 export const createBounds=(min, max)=>({
     fn:rangeValidator(min, max),
     help: `Must be a number between ${min} and ${max}`
@@ -53,3 +55,9 @@ export const validateAll=parameters=>{
 export const removeFirstAndLastElement=arr=>arr.slice(1, -1)
 
 export const upperFirstLetter=string=>string[0].toUpperCase() + string.substring(1)
+
+
+export const generateSubmitOptions=(dispatch, getCGMYParams, getAllData)=>modelParameters=>{
+    const {variable, ...rest}=getCGMYParams(modelParameters)
+    getAllData({...rest, ...variable}, dispatch)
+}

@@ -1,23 +1,20 @@
 import appSkeleton, {
-    sensitivities,  
     createActionType,
-    optionTypes,
-    algorithms,
-    createOptionReplaceAll,
-    notifyCalibrationJob
+    createOptionReplaceAll
 } from '../appSkeleton'
+import {
+    NOTIFY_CALIBRATION
+} from './actionDefinitions'
+
 const baseUrl= 'https://ni6jd9f0z4.execute-api.us-east-1.amazonaws.com/dev/'
 
 const createBody=params=>({
     method:'post',
     body:JSON.stringify(params)
 })
-
-const [callName, putName]=optionTypes
-const [fangOostName]=algorithms
 export const getOptionUrl=(optionType, sensitivity, algorithm)=>params=>fetch(`${baseUrl}${optionType}/${sensitivity}/${algorithm}`, createBody(params)).then(response=>response.json())
 
-export const getUnderlyingUrl=(base, section)=>params=>fetch(`${baseUrl}${base}/${section}`, createBody(params)).then(response=>response.json())
+export const getUnderlyingUrl=(base, section)=>params=>fetch(`${baseUrl}${base}/${section}`, createBody(params)).then(response=> response.json())
 
 
 export const getVaRData=(parms, dispatch)=>{
@@ -38,35 +35,21 @@ export const getDensity=(parms, dispatch)=>{
 }
 
 export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=>{
-    //console.log(parms)
-    //type is "full", "heston", "bs"
     dispatch({
-        type:notifyCalibrationJob(type),
+        type:NOTIFY_CALIBRATION,
         value:true
     })
-    getOptionUrl('call', 'calibration', type)(parms).then(response=>{
+    getUnderlyingUrl('call', 'calibration')(parms).then(response=>{
         dispatch({
             type:createOptionReplaceAll(type),
             data:optionalChangeParameters?optionalChangeParameters(response):response,
         })
         dispatch({
-            type:notifyCalibrationJob(type),
+            type:NOTIFY_CALIBRATION,
             value:false
         })
     })
 }
-
-const generateFangOost=optionType=>(parms, dispatch)=>sensitivities.forEach(
-    sensitivity=>getOptionUrl(optionType, sensitivity, fangOostName)(parms).then(response=>dispatch({
-        type:createActionType(optionType, sensitivity, fangOostName),
-        data:response
-    }))
-)
-
-
-export const getFangOostCall=generateFangOost(callName)
-export const getFangOostPut=generateFangOost(putName)
-
 
 export const getAllData=(parameters, dispatch)=>{
     appSkeleton.forEach(

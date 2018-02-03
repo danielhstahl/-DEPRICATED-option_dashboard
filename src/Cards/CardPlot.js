@@ -4,6 +4,8 @@ import { Card, Alert } from 'antd'
 import { rootSensitivity, rootModel } from '../Routes/routeDefinitions'
 import { Route, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { parameters } from '../Actions/actionDefinitions'
+
 import {
     sensitivities
 } from '../appSkeleton'
@@ -21,7 +23,7 @@ const ThetaWarning=({adaV, v0})=>(
 const NoSensitivity=({sensitivity, title})=>(
 	<p>Attribute {sensitivity} is not available for {title}!</p>
 )
-const CardPlot=({Algorithm, HelpComponent, url, match, title, adaV, v0, CardFooter})=>{
+const CardPlot=({Algorithm, HelpComponent, url, match, title, adaV, v0})=>{
 	const rootModelLink=match.params[rootModel]
 	const rootSensitivityLink=match.params[rootSensitivity]
 	const localUrl=`/${rootModelLink}/${rootSensitivityLink}${url}`
@@ -37,7 +39,6 @@ const CardPlot=({Algorithm, HelpComponent, url, match, title, adaV, v0, CardFoot
 			{Component?<Component/> :<NoSensitivity sensitivity={rootSensitivityLink} title={title}/>}
 			<IVComponent />
 			<Route path={localUrl} exact component={HelpComponent}/>
-			{CardFooter ? <div className='cardFooter'><CardFooter /></div> : <div className='cardFooter'></div> }
 		</Card>
 	)
 }
@@ -52,10 +53,11 @@ CardPlot.propTypes={
     }),
     adaV:PropTypes.number.isRequired,
     v0:PropTypes.number.isRequired,
-    CardFooter:PropTypes.func,
     title:PropTypes.string.isRequired
 }
 
-const mapStateToProps=({customParameters})=>({...customParameters})
+const mapStateToProps=(state, {model})=>({
+	...state[model+parameters]
+})
 
 export default connect(mapStateToProps)(CardPlot)

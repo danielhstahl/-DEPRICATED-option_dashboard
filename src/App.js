@@ -1,6 +1,7 @@
 import React from 'react'
 import './App.css'
-import { sensitivities, modelChoices } from './appSkeleton'
+import { sensitivities } from './appSkeleton'
+import { modelMap } from './modelSkeleton'
 import { FangOost, CarrMadan, FSTS, FangOostHelp, FSTSHelp, CarrMadanHelp } from './Graphs/Algorithms'
 import { Density } from './Graphs/Density'
 import AsyncHOC from './AsyncHoc'
@@ -18,11 +19,11 @@ const style = {
 }
 
 const [priceName]=sensitivities
-const [, , CustomName]=modelChoices
+const [FirstModel]=modelMap
 const Content=Layout.Content
 const paramUrl=`/:${rootModel}/:${rootSensitivity}`
 const baseUrl='/'
-const redirectUrl=`${CustomName.value}/${priceName}`
+const redirectUrl=`${FirstModel.name}/${priceName}`
 const fangOostHelpUrl='/fangoost/help'
 const carrMadanHelpUrl='/carrmadan/help'
 const fstsHelpUrl='/fsts/help'
@@ -31,8 +32,8 @@ const floatRight={ float:'right',  }
 const colBreaks={ sm:24, md:12, xl:6 }
 const modelChoiceGenerator = handleMenuClick=>(
 	<Menu onClick={e=>handleMenuClick(e.key)}>
-	{modelChoices.map(({value, label})=>(
-		<Menu.Item key={value}>{label}</Menu.Item>
+	{modelMap.map(({name, label})=>(
+		<Menu.Item key={name}>{label}</Menu.Item>
 	))}
 	</Menu>
 )
@@ -64,7 +65,7 @@ const MenuSensitivities=({history, sensitivity, model})=>{
 					}}
 					overlay={modelChoiceGenerator(goToInputModal)}
 				>
-					{modelChoices.find(({value})=>model===value).label}: Inputs
+					{modelMap.find(({name})=>model===name).label}: Inputs
 				</Dropdown.Button>
 			</div>
 		</Menu>
@@ -109,6 +110,7 @@ const HoldCards=({match, ...rest})=>{
 				HelpComponent={CarrMadanHelp}
 				url={carrMadanHelpUrl}
 				match={match}
+				model={rootModelLink}
 				{...rest}
 			/>
 		</Col>
@@ -120,6 +122,7 @@ const HoldCards=({match, ...rest})=>{
 				url={fstsHelpUrl}
 				match={match}
 				{...rest}
+				model={rootModelLink}
 			/>
 		</Col>
 		<Col {...colBreaks} >
@@ -129,13 +132,14 @@ const HoldCards=({match, ...rest})=>{
 				HelpComponent={FangOostHelp}
 				url={fangOostHelpUrl}
 				match={match}
+				model={rootModelLink}
 				{...rest}
-				//CardFooter = {StrikeInputs}
 			/>
 		</Col>
 		<Col {...colBreaks} >
 			<Card title="Density" bordered={false} >
-				<Density /> <div className='cardFooter'> <QuantileInputs /> </div>
+				<Density />
+				<QuantileInputs/>
 			</Card>
 		</Col>
 	</Row>

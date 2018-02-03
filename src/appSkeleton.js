@@ -9,21 +9,6 @@ export const optionTypes=[
     'call',
     'put'
 ]
-export const modelChoices=[
-    {
-        label:'Heston',
-        value:'heston'
-    },
-    {
-        label:'Black Scholes',
-        value:'bs'
-    },
-    {
-        label:'Advanced',
-        value:'advanced'
-    }
-]
-
 
 export const algorithms=[
     'fangoost',
@@ -37,20 +22,16 @@ export const excludeFrom={
 export const createActionType=(optionType, sensitivity, algorithm)=>{
     return `UPDATE_${optionType.toUpperCase()}_${sensitivity.toUpperCase()}_${algorithm.toUpperCase()}`
 }
+
 export const createOptionReplaceAll=modelType=>{
     return `UPDATE_${modelType.toUpperCase()}_PARAMETER_ALL`
 }
-
 export const createOptionType=modelType=>{
     return `UPDATE_${modelType.toUpperCase()}_PARAMETER`
 }
 export const createValidationType=modelType=>{
     return `UPDATE_${modelType.toUpperCase()}_VALIDATION`
 }
-export const notifyCalibrationJob=modelType=>{
-    return `NOTIFY_${modelType.toUpperCase()}_JOB`
-}
-
 
 const appSkeleton=cartesian(optionTypes, sensitivities, algorithms).filter(([optionType, sensitivity, algorithm])=>excludePotentialArray(excludeFrom[algorithm], sensitivity))
 

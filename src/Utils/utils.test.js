@@ -6,7 +6,6 @@ import {
     cartesian,
     createBounds
 } from './utils'
-
 it('correctly creates array with non-exact parameter', ()=>{
     const init=.001
     const last=.2
