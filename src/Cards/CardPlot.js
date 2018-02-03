@@ -5,7 +5,7 @@ import { rootSensitivity, rootModel } from '../Routes/routeDefinitions'
 import { Route, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { parameters } from '../Actions/actionDefinitions'
-
+import { getCGMYFunction, getAllCGMY } from '../Utils/utils'
 import {
     sensitivities
 } from '../appSkeleton'
@@ -23,9 +23,11 @@ const ThetaWarning=({adaV, v0})=>(
 const NoSensitivity=({sensitivity, title})=>(
 	<p>Attribute {sensitivity} is not available for {title}!</p>
 )
-const CardPlot=({Algorithm, HelpComponent, url, match, title, adaV, v0})=>{
+const CardPlot=({Algorithm, HelpComponent, url, match, title, parameters, model, modelAttr})=>{
 	const rootModelLink=match.params[rootModel]
 	const rootSensitivityLink=match.params[rootSensitivity]
+	console.log(getAllCGMY(parameters, getCGMYFunction(modelAttr)))
+	const {adaV, v0}=getAllCGMY(parameters, getCGMYFunction(modelAttr))
 	const localUrl=`/${rootModelLink}/${rootSensitivityLink}${url}`
 	const Component=Algorithm[rootSensitivityLink]
 	const IVComponent=Algorithm.IV
@@ -51,13 +53,11 @@ CardPlot.propTypes={
     match:PropTypes.shape({
         params:PropTypes.object
     }),
-    adaV:PropTypes.number.isRequired,
-    v0:PropTypes.number.isRequired,
     title:PropTypes.string.isRequired
 }
 
 const mapStateToProps=(state, {model})=>({
-	...state[model+parameters]
+	parameters:state[model+parameters]
 })
 
 export default connect(mapStateToProps)(CardPlot)

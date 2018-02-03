@@ -38,7 +38,7 @@ const modelChoiceGenerator = handleMenuClick=>(
 	</Menu>
 )
 const colorStyle={backgroundColor: 'whitesmoke'}
-const MenuSensitivities=({history, sensitivity, model})=>{
+const MenuSensitivities=({history, sensitivity, model, label})=>{
 	const goToInputModal=model=>{
 		history.push(`/${model}/${sensitivity}/${inputsUrl}/manual`)
 	}
@@ -65,7 +65,7 @@ const MenuSensitivities=({history, sensitivity, model})=>{
 					}}
 					overlay={modelChoiceGenerator(goToInputModal)}
 				>
-					{modelMap.find(({name})=>model===name).label}: Inputs
+					{label}: Inputs
 				</Dropdown.Button>
 			</div>
 		</Menu>
@@ -91,6 +91,7 @@ const WrapModalInputs=({model, sensitivity})=>{
 const HoldCards=({match, ...rest})=>{
 	const rootModelLink=match.params[rootModel]
 	const rootSensitivityLink=match.params[rootSensitivity]
+	const currentModel=modelMap.find(({name})=>rootModelLink===name)
 	return [
 	<WrapModalInputs 
 		sensitivity={rootSensitivityLink}
@@ -100,7 +101,9 @@ const HoldCards=({match, ...rest})=>{
 	<MenuSensitivities 
 		sensitivity={rootSensitivityLink}
 		model={rootModelLink}
-		{...rest} key={1}
+		label={currentModel.label}
+		{...rest} 
+		key={1}
 	/>,
 	<Row gutter={16} type="flex" justify="space-between" key={2}>
 		<Col {...colBreaks} >
@@ -111,6 +114,7 @@ const HoldCards=({match, ...rest})=>{
 				url={carrMadanHelpUrl}
 				match={match}
 				model={rootModelLink}
+				modelAttr={currentModel}
 				{...rest}
 			/>
 		</Col>
@@ -123,6 +127,7 @@ const HoldCards=({match, ...rest})=>{
 				match={match}
 				{...rest}
 				model={rootModelLink}
+				modelAttr={currentModel}
 			/>
 		</Col>
 		<Col {...colBreaks} >
@@ -133,6 +138,7 @@ const HoldCards=({match, ...rest})=>{
 				url={fangOostHelpUrl}
 				match={match}
 				model={rootModelLink}
+				modelAttr={currentModel}
 				{...rest}
 			/>
 		</Col>
