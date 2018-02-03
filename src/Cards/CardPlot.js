@@ -26,7 +26,6 @@ const NoSensitivity=({sensitivity, title})=>(
 const CardPlot=({Algorithm, HelpComponent, url, match, title, parameters, model})=>{
 	const rootModelLink=match.params[rootModel]
 	const rootSensitivityLink=match.params[rootSensitivity]
-	console.log(getAllCGMY(parameters, getCGMYFunction(model)))
 	const {adaV, v0}=getAllCGMY(parameters, getCGMYFunction(model))
 	const localUrl=`/${rootModelLink}/${rootSensitivityLink}${url}`
 	const Component=Algorithm[rootSensitivityLink]
