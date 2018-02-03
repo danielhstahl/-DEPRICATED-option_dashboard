@@ -1,25 +1,23 @@
 import {Component} from 'react'
 import { connect } from 'react-redux'
-import { modelMap } from './modelSkeleton'
 import { parameters } from './Actions/actionDefinitions'
 import { getAllData } from './Actions/lambda'
 import { generateSubmitOptions, getCGMYFunction } from './Utils/utils'
 
-const initModel=modelMap[0]
 class AsyncHoc extends Component{
     componentDidMount() {
-        this.props.onLoad( this.props.parameters)
+        this.props.onLoad( this.props.model, this.props.parameters)
     }
     render(){
         return null
     }
 }
 
-const mapStateToProps=state=>({
-    parameters:{...state[initModel.name+parameters], quantile:state.quantile}
+const mapStateToProps=(state, props)=>({
+    parameters:{...state[props.model.name+parameters], quantile:state.quantile}
 })
 const mapDispatchToProps =dispatch=>({
-    onLoad:generateSubmitOptions(dispatch, getCGMYFunction(initModel), getAllData)
+    onLoad:(model, parameters)=>generateSubmitOptions(dispatch, getCGMYFunction(model), getAllData)(parameters)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AsyncHoc)

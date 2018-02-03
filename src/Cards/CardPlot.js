@@ -23,11 +23,11 @@ const ThetaWarning=({adaV, v0})=>(
 const NoSensitivity=({sensitivity, title})=>(
 	<p>Attribute {sensitivity} is not available for {title}!</p>
 )
-const CardPlot=({Algorithm, HelpComponent, url, match, title, parameters, model, modelAttr})=>{
+const CardPlot=({Algorithm, HelpComponent, url, match, title, parameters, model})=>{
 	const rootModelLink=match.params[rootModel]
 	const rootSensitivityLink=match.params[rootSensitivity]
-	console.log(getAllCGMY(parameters, getCGMYFunction(modelAttr)))
-	const {adaV, v0}=getAllCGMY(parameters, getCGMYFunction(modelAttr))
+	console.log(getAllCGMY(parameters, getCGMYFunction(model)))
+	const {adaV, v0}=getAllCGMY(parameters, getCGMYFunction(model))
 	const localUrl=`/${rootModelLink}/${rootSensitivityLink}${url}`
 	const Component=Algorithm[rootSensitivityLink]
 	const IVComponent=Algorithm.IV
@@ -57,7 +57,7 @@ CardPlot.propTypes={
 }
 
 const mapStateToProps=(state, {model})=>({
-	parameters:state[model+parameters]
+	parameters:state[model.name+parameters]
 })
 
 export default connect(mapStateToProps)(CardPlot)

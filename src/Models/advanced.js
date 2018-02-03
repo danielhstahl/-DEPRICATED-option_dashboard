@@ -62,7 +62,7 @@ export const model={
       "feature": "variable"
     },
     {
-      "defVal": 1,
+      "defVal": .2,
       "lBound": 0,
       "uBound": 2,
       "key": "C",
