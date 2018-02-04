@@ -17,7 +17,7 @@ export const model={
   "label": "Advanced",
   "parameters": [
     {
-      "defVal": 6,
+      "defVal": 8,
       "key": "numU",
       "lBound": 6,
       "uBound": 10,

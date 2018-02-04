@@ -31,7 +31,7 @@ const CardPlot=({Algorithm, HelpComponent, url, match, title, parameters, model}
 	const {adaV, v0}=getAllCGMY(parameters, getCGMYFunction(model))
 	const localUrl=`/${rootModelLink}/${rootSensitivityLink}${url}`
 	const Component=Algorithm[rootSensitivityLink]
-	const IVComponent=Algorithm.IV
+	const IVComponent=Algorithm.IV	
 	return (
 		<Card 
 			title={title} 

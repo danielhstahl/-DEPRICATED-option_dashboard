@@ -1,5 +1,5 @@
 import React from 'react'
-import { createArray, handleForm } from '../Utils/utils'
+import { createArray } from '../Utils/utils'
 import { CustomDrop } from './FormHelper'
 import { updateQuantile } from '../Actions/parameters'
 import { getVaRData } from '../Actions/lambda'
@@ -27,7 +27,7 @@ const QuantileInputs=({quantileParameters, updateQuantile, submitOptions})=>(
             
             <Button 
                 className='side-button submit-button' type="primary" 
-                onClick={handleForm(submitOptions, quantileParameters)}
+                onClick={submitOptions(quantileParameters)}
             >Update</Button>
         </Col>
     </Row>
@@ -49,7 +49,7 @@ const mapStateToProps=({optionParameters, quantile})=>({
 
 const mapDispatchToProps =dispatch=>({
     updateQuantile:(key, value)=>updateQuantile(value, dispatch),
-    submitOptions:vals=>getVaRData(vals, dispatch)
+    submitOptions:vals=>()=>getVaRData(vals, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuantileInputs)

@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import { fullWidth, formItemLayoutLabel } from './globalOptions'
 import { isNotComplete } from '../Utils/utils'
 const onChangeNumberHelper=(onChange, validator, objKey)=>value=>{
-    const isValid=validator?validator.fn(value):true
-    onChange(objKey, value, isValid?'':'error') 
+    const isValid=validator?validator.fn(value):'truthy'
+    onChange(objKey, value, typeof isValid==='boolean'?'error':'') 
 }
 const onChangeTextAreaHelper=(onChange, validator, objKey)=>e=>{
     const value=e.target.value
