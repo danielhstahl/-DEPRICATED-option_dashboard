@@ -150,19 +150,21 @@ const HoldCards=({match, ...rest})=>{
 	]
 }
 
-const App =()=>(
-	<HashRouter basename='/'>
-		<Layout>
-			<Content style={style}>
-				<div className='container'>
-					<Switch>
-						<Route path={paramUrl} component={HoldCards}/>
-						<Redirect from={baseUrl} exact to={redirectUrl} />
-					</Switch>
-				</div>
-			</Content>
-		</Layout>
-	</HashRouter>
+export const App =()=>(
+	<Layout>
+		<Content style={style}>
+			<div className='container'>
+				<Switch>
+					<Route path={paramUrl} component={HoldCards}/>
+					<Redirect from={baseUrl} exact to={redirectUrl} />
+				</Switch>
+			</div>
+		</Content>
+	</Layout>
 )
 
-export default App
+export default ()=>(
+	<HashRouter basename='/'>
+		<App/>
+	</HashRouter>
+)

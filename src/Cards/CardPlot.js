@@ -11,8 +11,10 @@ import {
 } from '../appSkeleton'
 
 const [, , thetaName]=sensitivities
-const switchTheta=(adaV, v0, sensitivity, Component)=>(sensitivity===thetaName&&(adaV>0||v0!==1))&&Component
-const ThetaWarning=({adaV, v0})=>(
+//exported for testing purposes
+export const switchTheta=(adaV, v0, sensitivity, Component)=>(sensitivity===thetaName&&(adaV>0||v0!==1))&&Component
+//exported for testing purposes (in App.test.js)
+export const ThetaWarning=({adaV, v0})=>(
 <Alert
 	message="Warning"
 	description={`Theta is inaccurate when adaV>0 (currently ${adaV}) or v0!=1 (currently ${v0})`}

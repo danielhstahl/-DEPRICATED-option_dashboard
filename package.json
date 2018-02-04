@@ -4,6 +4,8 @@
   "private": true,
   "homepage": "https://phillyfan1138.github.io/option_dashboard",
   "devDependencies": {
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "react-scripts": "1.0.17"
   },
   "dependencies": {
@@ -27,4 +29,5 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   }
+
 }
