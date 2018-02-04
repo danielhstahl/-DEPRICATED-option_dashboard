@@ -9,7 +9,7 @@ import ModalInputs from './Forms/ModalInputs'
 import QuantileInputs from './Forms/QuantileInputs'
 import CardPlot from './Cards/CardPlot'
 import { Row, Col, Dropdown, Layout, Card, Menu } from 'antd'
-import { HashRouter, Route, Link, Redirect, Switch } from 'react-router-dom'
+import { Route, Link, Redirect, Switch } from 'react-router-dom'
 import { upperFirstLetter } from './Utils/utils'
 import { rootModel, rootSensitivity, modalInputsIndex, inputsUrl } from './Routes/routeDefinitions'
 const style = {
@@ -150,7 +150,7 @@ const HoldCards=({match, ...rest})=>{
 	]
 }
 
-export const App =()=>(
+export default ()=>(
 	<Layout>
 		<Content style={style}>
 			<div className='container'>
@@ -163,8 +163,3 @@ export const App =()=>(
 	</Layout>
 )
 
-export default ()=>(
-	<HashRouter basename='/'>
-		<App/>
-	</HashRouter>
-)
