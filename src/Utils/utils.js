@@ -44,10 +44,6 @@ export const cartesian = (a, b, ...c) => (b ? cartesian(f(a, b), ...c) : a)
 
 export const excludePotentialArray=(maybeArr, maybeInArr)=>maybeArr?maybeArr.indexOf(maybeInArr)===-1:true
 
-export const handleForm=(submitOptions, ...parameters)=>e=>{
-    e.preventDefault()
-    submitOptions(...parameters)
-}
 export const validateAll=parameters=>{
     return Object.keys(parameters).some(val=>parameters[val])
 }
@@ -63,6 +59,6 @@ export const getAllCGMY=(modelParameters, getCGMYParams)=>{
 
 export const getCGMYFunction=(model)=>model[model.name+'ToAdvanced']
 
-export const generateSubmitOptions=(dispatch, getCGMYParams, getAllData)=>modelParameters=>{
+export const generateSubmitOptions=(dispatch, getCGMYParams, getAllData)=>modelParameters=>()=>{
     getAllData(getAllCGMY(modelParameters, getCGMYParams), dispatch)
 }

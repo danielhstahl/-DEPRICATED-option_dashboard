@@ -1,7 +1,6 @@
 import {
     keepMiddleElements, 
     createArray,
-    handleForm,
     removeFirstAndLastElement,
     cartesian,
     createBounds,

@@ -17,7 +17,7 @@ const mapStateToProps=(state, props)=>({
     parameters:{...state[props.model.name+parameters], quantile:state.quantile}
 })
 const mapDispatchToProps =dispatch=>({
-    onLoad:(model, parameters)=>generateSubmitOptions(dispatch, getCGMYFunction(model), getAllData)(parameters)
+    onLoad:(model, parameters)=>generateSubmitOptions(dispatch, getCGMYFunction(model), getAllData)(parameters)()
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AsyncHoc)

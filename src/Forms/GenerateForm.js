@@ -1,5 +1,5 @@
 import React from 'react'
-import { handleForm, validateAll, createBounds, generateSubmitOptions, getCGMYFunction } from '../Utils/utils'
+import { validateAll, createBounds, generateSubmitOptions, getCGMYFunction } from '../Utils/utils'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import { getCalibration, getAllData } from '../Actions/lambda'
 import { connect } from 'react-redux'
@@ -31,9 +31,7 @@ const Manual=({validation, calibrateParameters, parameters, update, submitOption
     <Col {...flexObj} key={formItems.length}>
         <CustomUpdateButton
             disabled={validateAll(validation)}
-            onClick={handleForm(
-                submitOptions, {...parameters, ...calibrateParameters}
-            )}
+            onClick={submitOptions({...parameters, ...calibrateParameters})}
         />
     </Col>
 ]

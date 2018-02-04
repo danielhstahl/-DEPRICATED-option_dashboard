@@ -2,14 +2,20 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import reducer from './Reducers/index'
-import { MemoryRouter } from 'react-router'
+import { MemoryRouter, Link } from 'react-router'
 import  App from './App'
 import { shallow, mount, render } from 'enzyme'
 import CardPlot, { ThetaWarning } from './Cards/CardPlot'
-import { Dropdown, Menu } from 'antd'
+import { Dropdown, Menu, Modal, Form, InputNumber, Button } from 'antd'
 import { modelMap } from './modelSkeleton'
-let store = createStore(reducer)
-
+//import parameters from './Actions/parameters'
+let store// = createStore(reducer)
+const mockEvent={
+    preventDefault:()=>{}
+}
+beforeEach(()=>{
+    store=createStore(reducer)
+})
 describe('base app', () => {
     window.fetch = jest.fn().mockImplementation(() => Promise.resolve({
         json: () => Promise.resolve([{
@@ -81,5 +87,68 @@ describe('base app', () => {
             expect(wrapperTheta.find(ThetaWarning).length).toEqual(0)
         })
     })
-    
+    it('correctly errors when entering out of bounds steps', ()=>{
+        const wrapper=mount(<Provider store={store}>
+            <MemoryRouter initialEntries={[ `/advanced/price/inputs/manual` ]}>
+                <App />
+            </MemoryRouter>
+        </Provider>
+        )
+        const modal=wrapper.find(Modal)
+        expect(modal.length).toEqual(1)
+        expect(modal.find(Button).props().disabled).toBeFalsy()
+        const field=wrapper.findWhere(val=>val.props().objKey==='G').find(InputNumber)
+        field.props().onChange('-1')
+        wrapper.update()
+        expect(wrapper.find('.ant-form-explain').text()).toEqual('Must be a number between 0.2 and 20')
+        expect(wrapper.find(Modal).find(Button).props().disabled).toEqual(true)
+    })    
+    it('submits and does not have theta warning when adaV=0 and v0=1 for Advanced', ()=>{
+        const wrapper=mount(<Provider store={store}>
+            <MemoryRouter initialEntries={[ `/advanced/theta/inputs/manual` ]}>
+                <App />
+            </MemoryRouter>
+        </Provider>
+        )
+        expect(wrapper.find(ThetaWarning).length).toEqual(2)
+        const modal=wrapper.find(Modal)
+        expect(modal.length).toEqual(1)
+        expect(modal.find(Button).props().disabled).toBeFalsy()
+        const v0=wrapper.findWhere(val=>val.props().objKey==='v0').find(InputNumber)
+        v0.props().onChange(1)
+        const adaV=wrapper.findWhere(val=>val.props().objKey==='adaV').find(InputNumber)
+        adaV.props().onChange(0)
+        wrapper.update()
+
+        expect(wrapper.find('.ant-form-explain').length).toEqual(0)
+        wrapper.find(Modal).find(Button).props().onClick()
+        wrapper.update()
+        wrapper.find('.ant-modal-close').props().onClick()
+        wrapper.update()
+        expect(wrapper.find(Modal).length).toEqual(0)
+        expect(wrapper.find(ThetaWarning).length).toEqual(0)
+    })    
+    it('submits and does have theta warning for Heston', ()=>{
+        const wrapper=mount(<Provider store={store}>
+            <MemoryRouter initialEntries={[ `/heston/theta/inputs/manual` ]}>
+                <App />
+            </MemoryRouter>
+        </Provider>
+        )
+        expect(wrapper.find(ThetaWarning).length).toEqual(2)
+        const modal=wrapper.find(Modal)
+        expect(modal.length).toEqual(1)
+        expect(modal.find(Button).props().disabled).toBeFalsy()
+        const v0=wrapper.findWhere(val=>val.props().objKey==='v0').find(InputNumber)
+        v0.props().onChange(.05)
+        const adaV=wrapper.findWhere(val=>val.props().objKey==='adaV').find(InputNumber)
+        adaV.props().onChange(.25)
+        wrapper.update()
+        wrapper.find(Modal).find(Button).props().onClick()
+        wrapper.update()
+        wrapper.find('.ant-modal-close').props().onClick()
+        wrapper.update()
+        expect(wrapper.find(Modal).length).toEqual(0)
+        expect(wrapper.find(ThetaWarning).length).toEqual(2)
+    })    
 })
