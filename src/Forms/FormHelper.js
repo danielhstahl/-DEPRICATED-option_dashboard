@@ -8,9 +8,7 @@ const onChangeNumberHelper=(onChange, validator, objKey)=>value=>{
     onChange(objKey, value, typeof isValid==='boolean'?'error':'') 
 }
 const onChangeTextAreaHelper=(onChange, validator, objKey)=>e=>{
-
     const value=e.target.value
-    //console.log(value)
     const result=value.split(',').map(val=>isNotComplete(val)?val:validator.fn(val)||val)
     onChange(objKey, result, result.find(v=>!validator.fn(v))?'error':'') 
 }

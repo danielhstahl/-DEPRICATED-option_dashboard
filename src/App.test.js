@@ -6,7 +6,7 @@ import { MemoryRouter, Link } from 'react-router'
 import  App from './App'
 import { shallow, mount, render } from 'enzyme'
 import CardPlot, { ThetaWarning } from './Cards/CardPlot'
-import { Dropdown, Menu, Modal, Form, InputNumber, Button, Input } from 'antd'
+import { Dropdown, Menu, Modal, Form, InputNumber, Button, Input, Select } from 'antd'
 import { modelMap } from './modelSkeleton'
 //import parameters from './Actions/parameters'
 let store// = createStore(reducer)
@@ -188,5 +188,18 @@ describe('base app', () => {
         wrapper.update()
         expect(wrapper.find('.ant-form-explain').text()).toEqual('Requires positive, comma separated numbers like "2, 3, 4"')
         expect(wrapper.find(Modal).find(Button).props().disabled).toEqual(true)
+    })    
+    it('correctly selects quantile', ()=>{
+        const wrapper=mount(<Provider store={store}>
+            <MemoryRouter initialEntries={[ `/advanced/price` ]}>
+                <App />
+            </MemoryRouter>
+        </Provider>
+        )
+        //expect(modal.find(QuantileInputs).props().disabled).toBeFalsy()
+        const field=wrapper.findWhere(val=>val.props().objKey==='quantile').find(Select)
+        field.props().onChange('.008')
+        wrapper.update()
+        expect(wrapper.findWhere(val=>val.props().objKey==='quantile').find(Select).props().value).toEqual('0.008')
     })    
 })
