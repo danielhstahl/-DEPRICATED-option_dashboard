@@ -6,13 +6,18 @@ import { MemoryRouter, Link } from 'react-router'
 import  App from './App'
 import { shallow, mount, render } from 'enzyme'
 import CardPlot, { ThetaWarning } from './Cards/CardPlot'
-import { Dropdown, Menu, Modal, Form, InputNumber, Button } from 'antd'
+import { Dropdown, Menu, Modal, Form, InputNumber, Button, Input } from 'antd'
 import { modelMap } from './modelSkeleton'
 //import parameters from './Actions/parameters'
 let store// = createStore(reducer)
 const mockEvent={
     preventDefault:()=>{}
 }
+const mockTextEvent=value=>({
+    target:{
+        value
+    }
+})
 beforeEach(()=>{
     store=createStore(reducer)
 })
@@ -150,5 +155,38 @@ describe('base app', () => {
         wrapper.update()
         expect(wrapper.find(Modal).length).toEqual(0)
         expect(wrapper.find(ThetaWarning).length).toEqual(2)
+    }) 
+    it('changes calibration form', ()=>{
+        const wrapper=mount(<Provider store={store}>
+            <MemoryRouter initialEntries={[ `/advanced/price/inputs/calibration` ]}>
+                <App />
+            </MemoryRouter>
+        </Provider>
+        )
+        //console.log(wrapper.debug())
+        const modal=wrapper.find(Modal)
+        expect(modal.length).toEqual(1)
+        expect(modal.find(Button).props().disabled).toBeFalsy()
+        const field=wrapper.findWhere(val=>val.props().objKey==='k').find(Input.TextArea)
+        //console.log(field.debug())
+        field.props().onChange(mockTextEvent('1, 2, 3'))
+        wrapper.update()
+        expect(wrapper.find(Modal).find(Button).props().disabled).toBeFalsy()
+    })   
+    it('errors calibration with incorrect input', ()=>{
+        const wrapper=mount(<Provider store={store}>
+            <MemoryRouter initialEntries={[ `/advanced/price/inputs/calibration` ]}>
+                <App />
+            </MemoryRouter>
+        </Provider>
+        )
+        const modal=wrapper.find(Modal)
+        expect(modal.length).toEqual(1)
+        expect(modal.find(Button).props().disabled).toBeFalsy()
+        const field=wrapper.findWhere(val=>val.props().objKey==='k').find(Input.TextArea)
+        field.props().onChange(mockTextEvent('hello'))
+        wrapper.update()
+        expect(wrapper.find('.ant-form-explain').text()).toEqual('Requires positive, comma separated numbers like "2, 3, 4"')
+        expect(wrapper.find(Modal).find(Button).props().disabled).toEqual(true)
     })    
 })

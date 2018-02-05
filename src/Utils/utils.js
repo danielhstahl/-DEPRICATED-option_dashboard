@@ -59,6 +59,10 @@ export const getAllCGMY=(modelParameters, getCGMYParams)=>{
 
 export const getCGMYFunction=(model)=>model[model.name+'ToAdvanced']
 
-export const generateSubmitOptions=(dispatch, getCGMYParams, getAllData)=>modelParameters=>()=>{
-    getAllData(getAllCGMY(modelParameters, getCGMYParams), dispatch)
+export const generateSubmitOptions=(dispatch, getCGMYParams, fetchFn)=>modelParameters=>()=>{
+    fetchFn(getAllCGMY(modelParameters, getCGMYParams), dispatch)
+}
+
+export const generateCalibrationOptions=(dispatch, getCGMYParams, fetchFn)=>modelParameters=>()=>{
+    fetchFn(getCGMYParams(modelParameters), dispatch)
 }
