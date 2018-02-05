@@ -134,7 +134,7 @@ export const model={
       "feature": "variable"
     }
   ],
-  "AdvancedToAdvanced": parameters=>{
+  "advancedToAdvanced": parameters=>{
     const { rho, adaV, v0, speed, C, G, M, Y, sigma, ...rest } = parameters
     return {
       ...rest,
@@ -148,5 +148,5 @@ export const model={
       }
     }
   },
-  "advancedToAdvanced": parameters=>parameters
+  "advancedToadvanced": parameters=>parameters
 }
