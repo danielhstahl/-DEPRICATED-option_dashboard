@@ -1,5 +1,5 @@
 import React from 'react'
-import { validateAll, createBounds, generateSubmitOptions, getCGMYFunction } from '../Utils/utils'
+import { validateAll, createBounds, generateSubmitOptions, getCGMYFunction, generateCalibrationOptions } from '../Utils/utils'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import { getCalibration, getAllData } from '../Actions/lambda'
 import { connect } from 'react-redux'
@@ -104,9 +104,7 @@ export default modelMap.reduce((aggr, curr)=>{
         updateParameters:(key, value, validateStatus)=>{
             updateParameters['update'+curr.name](key, value, validateStatus, dispatch)
         },
-        submitCalibration:parameters=>{
-            modelCal(getActualJson(parameters), dispatch)
-        },
+        submitCalibration:generateCalibrationOptions(dispatch, getActualJson, modelCal),
         submitOptions:generateSubmitOptions(dispatch, getActualJson, getAllData)
     })
     
