@@ -5,11 +5,10 @@ import { connect } from 'react-redux'
 import { parameters, notify, validation } from '../Actions/actionDefinitions'
 import InputCalibrator, { switchComponent } from './InputCalibrator'
 import updateParameters from '../Actions/parameters'
-import { Row, Col } from 'antd'
+import { Row } from 'antd'
 import { modelMap } from '../modelSkeleton'
 import ShowJson from './ShowJson'
 import {
-    flexObj,
     gutter
 } from './globalOptions'
 import { CommonInputs, CommonUpdateButton } from './CommonInputs'
