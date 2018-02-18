@@ -3,9 +3,11 @@ import { connect } from 'react-redux'
 import { CustomFormItemTextArea, CustomUpdateButton } from './FormHelper'
 import { flexObj } from './globalOptions'
 import { validateAll, rangeValidator } from '../Utils/utils'
-import parameters from '../Actions/parameters'
+import actionObjWithUpdateCalibration from '../Actions/parameters' 
 import { Col, Alert } from 'antd'
+import PropTypes from 'prop-types'
 
+const { updateCalibration }=actionObjWithUpdateCalibration
 const validator={
     fn:rangeValidator(0, 1000000),
     help:'Requires positive, comma separated numbers like "2, 3, 4"'
@@ -15,11 +17,9 @@ export const switchComponent=(condition, Component1, Component2)=>{
 }
 
 const InputCalibrator=({
-    calibrateValidation, calibrateParameters, 
-    constantItems,
+    calibrateValidation, calibrateParameters,
     parameters, validation, submitOptions, 
-    updateCalibration, isInProgress,
-    variableItems
+    updateCalibration, isInProgress
 })=>[
 <Col xs={24} key={1}>
     <CustomFormItemTextArea 
@@ -59,11 +59,26 @@ const InputCalibrator=({
 </Col>
 ]
 
+InputCalibrator.propTypes={
+    calibrateParameters:PropTypes.shape({
+        prices:PropTypes.arrayOf(PropTypes.number).isRequired,
+        k:PropTypes.arrayOf(PropTypes.number).isRequired,
+    }),
+    calibrateValidation:PropTypes.object.isRequired,
+    parameters:PropTypes.shape({
+        mse:PropTypes.number
+    }), 
+    validation:PropTypes.object.isRequired, 
+    submitOptions:PropTypes.func.isRequired, 
+    updateCalibration:PropTypes.func.isRequired, 
+    isInProgress:PropTypes.bool.isRequired
+}
+
 const mapStateToProps=({calibrateParameters, calibrateValidation})=>({calibrateParameters, calibrateValidation})
 
 const mapDispatchToProps=dispatch=>({
     updateCalibration:(key, value, validateStatus)=>{
-        parameters.updateCalibration(key, value, validateStatus, dispatch)
+        updateCalibration(key, value, validateStatus, dispatch)
     }
 })
 export default connect(

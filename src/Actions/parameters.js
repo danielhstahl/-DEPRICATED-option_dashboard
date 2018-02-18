@@ -8,7 +8,7 @@ const generateValidation=paramName=>(key, value, dispatch)=>{
         value
     })
 }
-const generateOptions=(paramName)=>(key, value, validation, dispatch)=>{
+const generateOptions=paramName=>(key, value, validation, dispatch)=>{
     dispatch({
         type:createOptionType(paramName),
         key,

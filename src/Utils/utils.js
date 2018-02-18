@@ -57,7 +57,7 @@ export const getAllCGMY=(modelParameters, getCGMYParams)=>{
     return {...rest, ...variable}
 }
 
-export const getCGMYFunction=(model)=>model[model.name+'ToAdvanced']
+export const getCGMYFunction=model=>model[model.name+'ToAdvanced']
 
 export const generateSubmitOptions=(dispatch, getCGMYParams, fetchFn)=>modelParameters=>()=>{
     fetchFn(getAllCGMY(modelParameters, getCGMYParams), dispatch)

@@ -1,6 +1,5 @@
 import React from 'react'
 import { validateAll, createBounds, generateSubmitOptions, getCGMYFunction, generateCalibrationOptions } from '../Utils/utils'
-import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import { getCalibration, getAllData } from '../Actions/lambda'
 import { connect } from 'react-redux'
 import { parameters, notify, validation } from '../Actions/actionDefinitions'
@@ -13,28 +12,7 @@ import {
     flexObj,
     gutter
 } from './globalOptions'
-import CommonInputs from './CommonInputs'
-
-const Manual=({validation, calibrateParameters, parameters, update, submitOptions, formItems})=>[...formItems.map(({key, validator, label, toolTip}, index)=>(
-        <Col {...flexObj} key={index}>
-            <CustomFormItemInput
-                label={label}
-                objKey={key}
-                parms={parameters}
-                validator={validator}
-                validationResults={validation}
-                toolTip={toolTip}
-                onChange={update}
-            />
-        </Col>
-    )), 
-    <Col {...flexObj} key={formItems.length}>
-        <CustomUpdateButton
-            disabled={validateAll(validation)}
-            onClick={submitOptions({...parameters, ...calibrateParameters})}
-        />
-    </Col>
-]
+import { CommonInputs, CommonUpdateButton } from './CommonInputs'
 
 const ModelForm=({
     type, parameters, validation, 
@@ -44,36 +22,44 @@ const ModelForm=({
     constantItems, 
     updateParameters, 
     submitCalibration, submitOptions, getActualJson
-})=>[
-    <Row gutter={gutter} key={0}>
+})=>{
+    const CurryCommonInput=({formItems})=>(
         <CommonInputs 
-            parameters={parameters} 
-            validation={validation} 
-            update={updateParameters} 
-            formItems={staticItems}
-        />
-        {switchComponent(type==='manual', 
-        <Manual 
-            formItems={variableItems}
-            validation={validation} 
-            parameters={parameters} 
-            update={updateParameters} 
-            submitOptions={submitOptions}
-            calibrateParameters={calibrateParameters}
-        />, 
-        <InputCalibrator 
-            variableItems={variableItems}
-            constantItems={constantItems}
-            parameters={parameters} 
+            parameters={parameters}
             validation={validation}
-            submitOptions={submitCalibration}
-            isInProgress={notify}
-        />)}
-    </Row>,
-    <Row key={1}>
-        <ShowJson parameters={getActualJson(parameters)}/>
-    </Row>
-]
+            update={updateParameters}
+            formItems={formItems}
+        />
+    )
+    return [
+        <Row gutter={gutter} key={0}>
+            <CurryCommonInput formItems={staticItems}/>
+            {switchComponent(type==='manual', 
+            [
+                <CurryCommonInput key={0} formItems={variableItems}/>,
+                <CommonUpdateButton
+                    key={1}
+                    submitOptions={submitOptions}
+                    calibrateParameters={calibrateParameters}
+                    validateAll={validateAll}
+                    parameters={parameters}
+                    validation={validation}
+                />
+            ], 
+            <InputCalibrator 
+                variableItems={variableItems}
+                constantItems={constantItems}
+                parameters={parameters} 
+                validation={validation}
+                submitOptions={submitCalibration}
+                isInProgress={notify}
+            />)}
+        </Row>,
+        <Row key={1}>
+            <ShowJson parameters={getActualJson(parameters)}/>
+        </Row>
+    ]
+}
 const getValidator=arr=>arr.map(({key, uBound, lBound, ...rest})=>({
     key,
     ...rest,
