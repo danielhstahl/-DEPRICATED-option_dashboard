@@ -6,7 +6,7 @@ import {
     NOTIFY_CALIBRATION
 } from './actionDefinitions'
 
-const baseUrl= 'https://ni6jd9f0z4.execute-api.us-east-1.amazonaws.com/dev/'
+const baseUrl= 'https://ni6jd9f0z4.execute-api.us-east-1.amazonaws.com/dev/v1/'
 
 const createBody=params=>({
     method:'post',
