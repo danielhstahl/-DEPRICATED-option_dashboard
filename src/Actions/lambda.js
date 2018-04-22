@@ -5,8 +5,8 @@ import appSkeleton, {
 import {
     NOTIFY_CALIBRATION
 } from './actionDefinitions'
-
-const baseUrl= 'https://ni6jd9f0z4.execute-api.us-east-1.amazonaws.com/dev/v1/'
+//https://74ekexhct2.execute-api.us-east-1.amazonaws.com/dev/v1/call/price/fangoost
+const baseUrl= 'https://74ekexhct2.execute-api.us-east-1.amazonaws.com/dev/v1/'
 
 const createBody=params=>({
     method:'post',
