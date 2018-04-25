@@ -12,7 +12,7 @@ const createBody=params=>({
     method:'post',
     body:JSON.stringify(params)
 })
-export const getOptionUrl=(optionType, sensitivity, algorithm)=>params=>fetch(`${baseUrl}${optionType}/${sensitivity}/${algorithm}`, createBody(params)).then(response=>response.json())
+export const getOptionUrl=(optionType, sensitivity, algorithm)=>params=>fetch(`${baseUrl}calculator/${optionType}/${sensitivity}/${algorithm}`, createBody(params)).then(response=>response.json())
 
 export const getUnderlyingUrl=(base, section)=>params=>fetch(`${baseUrl}${base}/${section}`, createBody(params)).then(response=> response.json())
 
@@ -20,7 +20,7 @@ export const getUnderlyingUrl=(base, section)=>params=>fetch(`${baseUrl}${base}/
 export const getVaRData=(parms, dispatch)=>{
     const base='density'
     const section='var'
-    getUnderlyingUrl(base, section)(parms).then(response=>dispatch({
+    getUnderlyingUrl(base+'/calculator', section)(parms).then(response=>dispatch({
         type:'UPDATE_DENSITY_VAR',
         data:response
     }))
@@ -28,7 +28,7 @@ export const getVaRData=(parms, dispatch)=>{
 export const getDensity=(parms, dispatch)=>{
     const base='density'
     const section='raw'
-    getUnderlyingUrl(base, section)(parms).then(response=>dispatch({
+    getUnderlyingUrl(base+'/calculator', section)(parms).then(response=>dispatch({
         type:'UPDATE_DENSITY_RAW',
         data:response
     }))
