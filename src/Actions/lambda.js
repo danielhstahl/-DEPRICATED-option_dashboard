@@ -17,7 +17,7 @@ const getOptionUrl=(...urlParams)=>params=>fetch(createUrl(urlParams), createBod
 
 const getDData=(section, type)=>(parms, dispatch)=>{
     const base='density'
-    getOptionUrl('calculator', base, section)(parms).then(response=>dispatch({
+    getOptionUrl(base, section)(parms).then(response=>dispatch({
         type,
         data:response
     }))
