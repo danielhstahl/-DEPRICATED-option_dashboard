@@ -15,15 +15,15 @@ export const createUrl=urlParams=>`${baseUrl}${urlParams.join('/')}`
 
 const getOptionUrl=(...urlParams)=>params=>fetch(createUrl(urlParams), createBody(params)).then(response=>response.json())
 
-const getDData=section=>(parms, dispatch)=>{
+const getDData=(section, type)=>(parms, dispatch)=>{
     const base='density'
     getOptionUrl('calculator', base, section)(parms).then(response=>dispatch({
-        type:'UPDATE_DENSITY_VAR',
+        type,
         data:response
     }))
 }
-export const getVaRData=getDData('var')
-export const getDensity=getDData('raw')
+export const getVaRData=getDData('var', 'UPDATE_DENSITY_VAR')
+export const getDensity=getDData('raw', 'UPDATE_DENSITY_RAW')
 
 export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=>{
     dispatch({
