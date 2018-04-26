@@ -6,40 +6,32 @@ import {
     NOTIFY_CALIBRATION
 } from './actionDefinitions'
 //https://74ekexhct2.execute-api.us-east-1.amazonaws.com/dev/v1/call/price/fangoost
-const baseUrl= 'https://74ekexhct2.execute-api.us-east-1.amazonaws.com/dev/v1/'
+export const baseUrl= 'https://74ekexhct2.execute-api.us-east-1.amazonaws.com/dev/v1/'
 
 const createBody=params=>({
     method:'post',
     body:JSON.stringify(params)
 })
-export const getOptionUrl=(optionType, sensitivity, algorithm)=>params=>fetch(`${baseUrl}calculator/${optionType}/${sensitivity}/${algorithm}`, createBody(params)).then(response=>response.json())
+export const createUrl=(...urlParams)=>`${baseUrl}${urlParams.join('/')}`
 
-export const getUnderlyingUrl=(base, section)=>params=>fetch(`${baseUrl}${base}/${section}`, createBody(params)).then(response=> response.json())
+const getOptionUrl=(...urlParams)=>params=>fetch(createUrl(urlParams), createBody(params)).then(response=>response.json())
 
-
-export const getVaRData=(parms, dispatch)=>{
+const getDData=section=>(parms, dispatch)=>{
     const base='density'
-    const section='var'
-    getUnderlyingUrl(base+'/calculator', section)(parms).then(response=>dispatch({
+    getOptionUrl('calculator', base, section)(parms).then(response=>dispatch({
         type:'UPDATE_DENSITY_VAR',
         data:response
     }))
 }
-export const getDensity=(parms, dispatch)=>{
-    const base='density'
-    const section='raw'
-    getUnderlyingUrl(base+'/calculator', section)(parms).then(response=>dispatch({
-        type:'UPDATE_DENSITY_RAW',
-        data:response
-    }))
-}
+export const getVaRData=getDData('var')
+export const getDensity=getDData('raw')
 
 export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=>{
     dispatch({
         type:NOTIFY_CALIBRATION,
         value:true
     })
-    getUnderlyingUrl('call', 'calibration')(parms).then(response=>{
+    getOptionUrl('calibrator')(parms).then(response=>{
         dispatch({
             type:createOptionReplaceAll(type),
             data:optionalChangeParameters?optionalChangeParameters(response):response,
