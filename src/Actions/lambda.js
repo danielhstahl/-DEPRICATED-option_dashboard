@@ -5,14 +5,13 @@ import appSkeleton, {
 import {
     NOTIFY_CALIBRATION
 } from './actionDefinitions'
-//https://74ekexhct2.execute-api.us-east-1.amazonaws.com/dev/v1/call/price/fangoost
 export const baseUrl= 'https://74ekexhct2.execute-api.us-east-1.amazonaws.com/dev/v1/'
 
 const createBody=params=>({
     method:'post',
     body:JSON.stringify(params)
 })
-export const createUrl=(...urlParams)=>`${baseUrl}${urlParams.join('/')}`
+export const createUrl=urlParams=>`${baseUrl}${urlParams.join('/')}`
 
 const getOptionUrl=(...urlParams)=>params=>fetch(createUrl(urlParams), createBody(params)).then(response=>response.json())
 
@@ -45,7 +44,7 @@ export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=
 
 export const getAllData=(parameters, dispatch)=>{
     appSkeleton.forEach(
-        row=>getOptionUrl(...row)(parameters).then(response=>dispatch({
+        row=>getOptionUrl('calculator', ...row)(parameters).then(response=>dispatch({
             type:createActionType(...row),
             data:response, 
             parameters

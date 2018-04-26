@@ -37,11 +37,9 @@ const appSkeleton=cartesian(optionTypes, sensitivities, algorithms).filter(([opt
 
 const appendIfExists=(arr, val)=>arr?[...arr, val]:[val]
 
-export const keySkeleton=appSkeleton.reduce((aggr, [optionType, sensitivity, algorithm])=>{
-    return {
-        ...aggr,
-        [algorithm]:appendIfExists(aggr[algorithm], [sensitivity, optionType])
-    }
-}, {})
+export const keySkeleton=appSkeleton.reduce((aggr, [optionType, sensitivity, algorithm])=>({
+    ...aggr,
+    [algorithm]:appendIfExists(aggr[algorithm], [sensitivity, optionType])
+}), {})
 
 export default appSkeleton
