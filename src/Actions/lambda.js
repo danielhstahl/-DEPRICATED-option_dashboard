@@ -3,9 +3,12 @@ import appSkeleton, {
     createOptionReplaceAll
 } from '../appSkeleton'
 import {
-    NOTIFY_CALIBRATION
+    NOTIFY_CALIBRATION,
+    UPDATE_DENSITY_RAW,
+    UPDATE_DENSITY_VAR,
+    UPDATE_RANGE_DATA
 } from './actionDefinitions'
-export const baseUrl= 'https://74ekexhct2.execute-api.us-east-1.amazonaws.com/dev/v1/'
+export const baseUrl= 'https://74ekexhct2.execute-api.us-east-1.amazonaws.com/dev/v2/'
 
 const createBody=params=>({
     method:'post',
@@ -15,15 +18,23 @@ export const createUrl=urlParams=>`${baseUrl}${urlParams.join('/')}`
 
 const getOptionUrl=(...urlParams)=>params=>fetch(createUrl(urlParams), createBody(params)).then(response=>response.json())
 
+const getDefaultUrl=(...urlParams)=>fetch(createUrl(urlParams)).then(response=>response.json())
+
+
+export const getRangeData=dispatch=>()=>getDefaultUrl('calibrator', 'parameter_ranges').then(data=>dispatch({
+    type:UPDATE_RANGE_DATA,
+    data
+}))
+
 const getDData=(section, type)=>(parms, dispatch)=>{
     const base='density'
-    getOptionUrl(base, section)(parms).then(response=>dispatch({
+    getOptionUrl(base, section)(parms).then(data=>dispatch({
         type,
-        data:response
+        data
     }))
 }
-export const getVaRData=getDData('var', 'UPDATE_DENSITY_VAR')
-export const getDensity=getDData('raw', 'UPDATE_DENSITY_RAW')
+export const getVaRData=getDData('var', UPDATE_DENSITY_VAR)
+export const getDensity=getDData('raw', UPDATE_DENSITY_RAW)
 
 export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=>{
     dispatch({

@@ -44,7 +44,7 @@ const defaultWrite=(name, label)=>({
             defVal:.2,
             key:'sigma',
             label:"Volatility",
-            toolTip:"This is the volatility of the diffusion component of the (extended) CGMY process",
+            toolTip:"This is the volatility of the diffusion component of the (extended) Jump Diffusion process",
             feature:'variable'
         },
         {
@@ -55,21 +55,21 @@ const defaultWrite=(name, label)=>({
             feature:'variable'
         },
         {
-            defVal:1.4,
+            defVal:.3,
             key:'sigJ',
             label:"Volatility of Jump",
             toolTip:"This is the volatility of the jump component",
             feature:'variable'
         },
         {
-            defVal:2.5,
+            defVal:1.0,
             key:'lambda',
             label:"Lambda",
             toolTip:"This is the frequency of jumps",
             feature:'variable'
         },
         {
-            defVal:.4,,
+            defVal:.4,
             key:'speed',
             label:"Speed",
             toolTip:"Speed of mean reversion of time change",
@@ -144,12 +144,12 @@ const getCommentsTopLine=bodyAsString=>{
 *  The parameters with feature 'static' will be used 
 *  but won't be calibrated.  Feature 'variable' will
 *  be calibrated.  Feature 'constant' wont' be used
-*  or calibrated.  The 'lBound' and 'uBound' 
-*  are the upper and lower limits of the variable. 
+*  or calibrated.  
 *  You must specify a function to convert to and 
-*  from the baseline model (extended CGMY).  To 
-*  convert from baseline to CGMY, you must have the
-*  variable parameters in a "variable" sub-object.
+*  from the baseline model (extended Merton Jump 
+*  Diffusion).  To convert from baseline to Merton 
+*  Jump Diffusion, you must have the variable
+*  parameters in a "variable" sub-object.
 *  As an example, see heston.js and 
 *  https://github.com/phillyfan1138/CharacteristicFunctions/blob/master/ConversionHestonCF.pdf 
 */ \n
@@ -164,7 +164,7 @@ const writeFile=(fileName, content)=>{
     })
 }
 const writeToDoGenerator=fileName=>{
-    const message=`Skeleton of model has been generated at ${fileName}.  You must edit this including putting custom variables and a converter back and forth from CGMY models`
+    const message=`Skeleton of model has been generated at ${fileName}.  You must edit this including putting custom variables and a converter back and forth from Jump Diffusion models`
     return console.log(message)
 }
 

@@ -7,7 +7,11 @@ import {
     algorithms,
     createActionType
 } from '../appSkeleton'
-import { getDomain } from '../Utils/cgmyUtils'
+import { getDomain } from '../Utils/mertonUtils'
+import {
+    UPDATE_DENSITY_VAR,
+    UPDATE_DENSITY_RAW
+} from '../Actions/actionDefinitions'
 
 const [fangoostName, carrMadanName, fstsName]=algorithms
 
@@ -54,5 +58,5 @@ const actionVaRFactory=(actionType, defState)=>(state=defState, action)=>{
     }
 }
 
-export const VaR=actionVaRFactory('UPDATE_DENSITY_VAR', {})
-export const density=actionVaRFactory('UPDATE_DENSITY_RAW', [])
+export const VaR=actionVaRFactory(UPDATE_DENSITY_VAR, {})
+export const density=actionVaRFactory(UPDATE_DENSITY_RAW, [])

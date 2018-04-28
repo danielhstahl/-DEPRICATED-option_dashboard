@@ -12,7 +12,6 @@
   "dependencies": {
     "antd": "^3.1.4",
     "array_utils": "^1.4",
-    "gamma": "^1.0.0",
     "gh-pages": "^1.1.0",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",

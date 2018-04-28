@@ -59,19 +59,35 @@ const ModelForm=({
         </Row>
     ]
 }
+/*
 const getValidator=arr=>arr.map(({key, uBound, lBound, ...rest})=>({
     key,
     ...rest,
     validator:createBounds(lBound, uBound)
-}))
+}))*/
 
 const getFeature=arr=>chosenFeature=>arr.filter(({feature})=>feature===chosenFeature)
 
+const getSubKeys=key=>arr=>arr.reduce((aggr, curr)=>({...aggr, [curr]:ranges[curr][key]}), {})
+
+const getBounds=(parameters, convertAdvancedToSpecific)=>ranges=>{
+    const rangeKeys=Object.keys(ranges)
+    const upperRanges=getSubKeys('upper')(rangeKeys)
+    const lowerRanges=getSubKeys('lower')(rangeKeys)
+    const convertedUpperRanges=convertAdvancedToSpecific(upperRanges)
+    const convertedLowerRanges=convertAdvancedToSpecific(lowerRanges)
+    return parameters.map(v=>({
+        ...v, 
+        validator:createBounds(convertedLowerRanges[v.key], convertedUpperRanges[v.key])
+        //uBound:convertedUpperRanges[v.key], lBound:convertedLowerRanges[v.key]}))
+}
+
 export default modelMap.reduce((aggr, curr)=>{
-    const modelCal=getCalibration(curr.name, curr['advancedTo'+curr.name])
+    const convertAdvancedToSpecific=curr['advancedTo'+curr.name]
+    const modelCal=getCalibration(curr.name, convertAdvancedToSpecific)
     const filterParam=getFeature(curr.parameters)
-    const variableItems=getValidator(filterParam('variable'))
-    const staticItems=getValidator(filterParam('static'))
+    const variableItemsGenerator=getBounds(filterParam('variable', convertAdvancedToSpecific))
+    const staticItemsGenerator=getBounds(filterParam('static', convertAdvancedToSpecific))
     const constantItems=filterParam('constant')
     const getActualJson=getCGMYFunction(curr)
     const mapStateToProps=state=>({
@@ -79,8 +95,8 @@ export default modelMap.reduce((aggr, curr)=>{
         validation:state[curr.name+validation],
         notify:state[curr.name+notify],
         calibrateParameters:state.calibrateParameters, 
-        staticItems,
-        variableItems, 
+        staticItems:staticItemsGenerator(state.range),
+        variableItems:variableItemsGenerator(state.range), 
         constantItems,
         getActualJson
     })

@@ -1,7 +1,3 @@
-import gamma from 'gamma'
-
-
-//sqrt((sigma*sigma+lambda*(muJ*muJ+sigJ*sigJ))*T);
 const vol=(T, sigma, lambda, muJ, sigJ)=>{
     return Math.sqrt(T*(sigma*sigma+lambda*(muJ*muJ+sigJ*sigJ)))
 }

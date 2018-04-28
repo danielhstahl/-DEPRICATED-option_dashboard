@@ -7,7 +7,7 @@ import {
     carrmadan,
     fsts
 } from './data'
-
+import range from './range'
 
 /**Note that each import for the algorithms contains nested properties which must be unnested*/
 export default combineReducers({
@@ -16,5 +16,6 @@ export default combineReducers({
     ...fangoost,
     ...carrmadan,
     ...fsts, 
-    quantile
+    quantile,
+    range
 })
