@@ -12,11 +12,17 @@ export const baseUrl=process.env.NODE_ENV === 'production'?'https://74ekexhct2.e
 
 const createBody=params=>({
     method:'post',
-    body:JSON.stringify(params)
+    body:JSON.stringify(params),
+    headers: {
+        'user-agent': 'option-dashboard',
+        'content-type': 'application/json',
+        'accept': 'application/json',
+    }
 })
 export const createUrl=urlParams=>`${baseUrl}${urlParams.join('/')}`
 
 const getOptionUrl=(...urlParams)=>params=>fetch(createUrl(urlParams), createBody(params)).then(response=>response.json())
+
 
 const getDefaultUrl=(...urlParams)=>fetch(createUrl(urlParams)).then(response=>response.json())
 

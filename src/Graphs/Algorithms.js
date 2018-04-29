@@ -12,9 +12,16 @@ const [fangOostName, carrMadanName, fstsName]=algorithms
 const [, putName]=optionTypes
 const [priceName]=sensitivities
 const sensitivityIndex=0
+
 export const hasAtLeastIndex=(index, arr)=>arr.length>index?arr[index]:null
-export const getMarketDataFromStrikeAndPrice=(strikes, prices)=>strikes.length>0?strikes.map((strike, index)=>({strike, price:hasAtLeastIndex(index, prices)})):null
-export const generateMarketData=(sensitivity, {k, prices})=>priceName===sensitivity?getMarketDataFromStrikeAndPrice(k, prices):null
+
+export const getMarketDataFromStrikeAndPrice=(strikes, prices)=>strikes.length>0?
+    strikes.map((strike, index)=>({strike, price:hasAtLeastIndex(index, prices)})):
+    null
+
+export const generateMarketData=(sensitivity, {k, prices})=>priceName===sensitivity?
+    getMarketDataFromStrikeAndPrice(k, prices):
+    null
 
 export const generateAlgorithmOptionPrices=(keySkeleton, algorithm)=>(connect, Component, initState)=>getUniqueArray(
     keySkeleton[algorithm], 

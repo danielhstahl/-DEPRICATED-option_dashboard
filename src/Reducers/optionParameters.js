@@ -5,7 +5,7 @@ import { extractDefaultValues } from '../Utils/utils'
 const calibrateState={
     prices:[],
     k:[],
-    someKey:'exists' //check if this shows up in getCalibration in actions/lambda.js
+    constraints:{} //TODO!! make these editable from GUI
 }
 
 const defaultFormValidationStatus={

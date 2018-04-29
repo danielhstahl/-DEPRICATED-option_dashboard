@@ -21,44 +21,46 @@ const ModelForm=({
     constantItems, 
     updateParameters, 
     submitCalibration, submitOptions, getActualJson
-})=>{
-    const CurryCommonInput=({formItems})=>(
+})=>[
+    <Row gutter={gutter} key='inputrow'>
         <CommonInputs 
             parameters={parameters}
             validation={validation}
             update={updateParameters}
-            formItems={formItems}
+            formItems={staticItems}
         />
-    )
-    return [
-        <Row gutter={gutter} key={0}>
-            <CurryCommonInput formItems={staticItems}/>
-            {switchComponent(type==='manual', 
-            [
-                <CurryCommonInput key={0} formItems={variableItems}/>,
-                <CommonUpdateButton
-                    key={1}
-                    submitOptions={submitOptions}
-                    calibrateParameters={calibrateParameters}
-                    validateAll={validateAll}
-                    parameters={parameters}
-                    validation={validation}
-                />
-            ], 
-            <InputCalibrator 
-                variableItems={variableItems}
-                constantItems={constantItems}
-                parameters={parameters} 
+        {switchComponent(type==='manual', 
+        [
+            <CommonInputs 
+                key='variableparameters'
+                parameters={parameters}
                 validation={validation}
-                submitOptions={submitCalibration}
-                isInProgress={notify}
-            />)}
-        </Row>,
-        <Row key={1}>
-            <ShowJson parameters={getActualJson(parameters)}/>
-        </Row>
-    ]
-}
+                update={updateParameters}
+                formItems={variableItems}
+            />,
+            <CommonUpdateButton
+                key='updatebutton'
+                submitOptions={submitOptions}
+                calibrateParameters={calibrateParameters}
+                validateAll={validateAll}
+                parameters={parameters}
+                validation={validation}
+            />
+        ], 
+        <InputCalibrator 
+            variableItems={variableItems}
+            constantItems={constantItems}
+            parameters={parameters} 
+            validation={validation}
+            submitOptions={submitCalibration}
+            isInProgress={notify}
+        />)}
+    </Row>,
+    <Row key='jsonrow'>
+        <ShowJson parameters={getActualJson(parameters)}/>
+    </Row>
+]
+
 
 const getFeature=arr=>chosenFeature=>arr.filter(({feature})=>feature===chosenFeature)
 

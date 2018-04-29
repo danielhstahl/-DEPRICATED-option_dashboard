@@ -66,7 +66,7 @@ export const model={
       "feature": "variable"
     },
     {
-      "defVal": 1.0,
+      "defVal": 0.2,
       "key": "lambda",
       "label": "Lambda",
       "toolTip": "This is the frequency of jumps",
