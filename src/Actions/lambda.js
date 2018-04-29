@@ -8,7 +8,7 @@ import {
     UPDATE_DENSITY_VAR,
     UPDATE_RANGE_DATA
 } from './actionDefinitions'
-export const baseUrl= 'https://74ekexhct2.execute-api.us-east-1.amazonaws.com/dev/v2/'
+export const baseUrl=process.env.NODE_ENV === 'production'?'https://74ekexhct2.execute-api.us-east-1.amazonaws.com/dev/v2/':'/'
 
 const createBody=params=>({
     method:'post',

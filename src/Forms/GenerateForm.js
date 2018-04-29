@@ -59,12 +59,6 @@ const ModelForm=({
         </Row>
     ]
 }
-/*
-const getValidator=arr=>arr.map(({key, uBound, lBound, ...rest})=>({
-    key,
-    ...rest,
-    validator:createBounds(lBound, uBound)
-}))*/
 
 const getFeature=arr=>chosenFeature=>arr.filter(({feature})=>feature===chosenFeature)
 

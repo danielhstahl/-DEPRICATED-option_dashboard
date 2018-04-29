@@ -4,7 +4,8 @@ import { parameters, notify, validation, NOTIFY_CALIBRATION, UPDATE_QUANTILE } f
 import { extractDefaultValues } from '../Utils/utils'
 const calibrateState={
     prices:[],
-    k:[]
+    k:[],
+    someKey:'exists' //check if this shows up in getCalibration in actions/lambda.js
 }
 
 const defaultFormValidationStatus={
