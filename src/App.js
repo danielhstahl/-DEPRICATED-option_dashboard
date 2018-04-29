@@ -11,7 +11,6 @@ import CardPlot from './Cards/CardPlot'
 import { Row, Col, Dropdown, Layout, Card, Menu } from 'antd'
 import { Route, Link, Redirect, Switch } from 'react-router-dom'
 import { upperFirstLetter } from './Utils/utils'
-import {getRangeData} from './Actions/lambda'
 import { rootModel, rootSensitivity, modalInputsIndex, inputsUrl } from './Routes/routeDefinitions'
 const style = {
 	background: 'whitesmoke',

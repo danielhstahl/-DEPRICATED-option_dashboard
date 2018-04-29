@@ -20,7 +20,6 @@ const getOptionUrl=(...urlParams)=>params=>fetch(createUrl(urlParams), createBod
 
 const getDefaultUrl=(...urlParams)=>fetch(createUrl(urlParams)).then(response=>response.json())
 
-
 export const getRangeData=dispatch=>()=>getDefaultUrl('calibrator', 'parameter_ranges').then(data=>dispatch({
     type:UPDATE_RANGE_DATA,
     data
@@ -41,7 +40,9 @@ export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=
         type:NOTIFY_CALIBRATION,
         value:true
     })
+    console.log(parms)
     getOptionUrl('calibrator')(parms).then(response=>{
+        console.log(response)
         dispatch({
             type:createOptionReplaceAll(type),
             data:optionalChangeParameters?optionalChangeParameters(response):response,
@@ -54,6 +55,7 @@ export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=
 }
 
 export const getAllData=(parameters, dispatch)=>{
+    console.log(parameters)
     appSkeleton.forEach(
         row=>getOptionUrl('calculator', ...row)(parameters).then(response=>dispatch({
             type:createActionType(...row),

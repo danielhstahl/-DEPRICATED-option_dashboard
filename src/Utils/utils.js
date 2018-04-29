@@ -52,17 +52,17 @@ export const removeFirstAndLastElement=arr=>arr.slice(1, -1)
 
 export const upperFirstLetter=string=>string[0].toUpperCase() + string.substring(1)
 
-export const getAllCGMY=(modelParameters, getCGMYParams)=>{
-    const {variable, ...rest}=getCGMYParams(modelParameters)
+export const getAllAdvanced=(modelParameters, getAdvancedParams)=>{
+    const {variable, ...rest}=getAdvancedParams(modelParameters)
     return {...rest, ...variable}
 }
 
-export const getCGMYFunction=model=>model[model.name+'ToAdvanced']
+export const convertSpecificToAdvanced=model=>model[model.name+'ToAdvanced']
 
-export const generateSubmitOptions=(dispatch, getCGMYParams, fetchFn)=>modelParameters=>()=>{
-    fetchFn(getAllCGMY(modelParameters, getCGMYParams), dispatch)
+export const generateSubmitOptions=(dispatch, getAdvancedParams, fetchFn)=>modelParameters=>()=>{
+    fetchFn(getAllAdvanced(modelParameters, getAdvancedParams), dispatch)
 }
 
-export const generateCalibrationOptions=(dispatch, getCGMYParams, fetchFn)=>modelParameters=>()=>{
-    fetchFn(getCGMYParams(modelParameters), dispatch)
+export const generateCalibrationOptions=(dispatch, getAdvancedParams, fetchFn)=>modelParameters=>()=>{
+    fetchFn(getAdvancedParams(modelParameters), dispatch)
 }

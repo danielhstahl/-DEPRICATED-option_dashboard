@@ -52,14 +52,14 @@ export const model={
       "feature": "variable"
     },
     {
-      "defVal": 0.2,
+      "defVal": -.05,
       "key": "muJ",
       "label": "Mean Jump Size",
       "toolTip": "This is the mean value of the jump component",
       "feature": "variable"
     },
     {
-      "defVal": 0.4,
+      "defVal": 0.3,
       "key": "sigJ",
       "label": "Volatility of Jump",
       "toolTip": "This is the volatility of the jump component",
@@ -101,10 +101,10 @@ export const model={
       "feature": "variable"
     }
   ],
-  "advancedToAdvanced": ({rho, adaV, v0, speed, sigma, sigL, muL, lambda, ...rest})=>({
+  "advancedToAdvanced": ({rho, adaV, v0, speed, sigma, sigJ, muJ, lambda, ...rest})=>({
     ...rest,
     variable:{
-      rho, adaV, v0, speed, sigma, sigL, muL, lambda
+      rho, adaV, v0, speed, sigma, sigJ, muJ, lambda
     }
   }),
   "advancedToadvanced": parameters=>parameters

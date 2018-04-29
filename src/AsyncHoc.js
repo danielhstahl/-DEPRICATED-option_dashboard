@@ -2,7 +2,7 @@ import {Component} from 'react'
 import { connect } from 'react-redux'
 import { parameters } from './Actions/actionDefinitions'
 import { getAllData, getRangeData } from './Actions/lambda'
-import { generateSubmitOptions, getCGMYFunction } from './Utils/utils'
+import { generateSubmitOptions, convertSpecificToAdvanced } from './Utils/utils'
 
 class AsyncHoc extends Component{
     componentDidMount() {
@@ -18,7 +18,7 @@ const mapStateToProps=(state, props)=>({
 })
 const mapDispatchToProps =dispatch=>({
     onLoad:(model, parameters)=>{
-        generateSubmitOptions(dispatch, getCGMYFunction(model), getAllData)(parameters)()
+        generateSubmitOptions(dispatch, convertSpecificToAdvanced(model), getAllData)(parameters)()
         getRangeData(dispatch)()
     }
 })

@@ -1,5 +1,5 @@
 import React from 'react'
-import { validateAll, createBounds, generateSubmitOptions, getCGMYFunction, generateCalibrationOptions } from '../Utils/utils'
+import { validateAll, createBounds, generateSubmitOptions, convertSpecificToAdvanced, generateCalibrationOptions } from '../Utils/utils'
 import { getCalibration, getAllData } from '../Actions/lambda'
 import { connect } from 'react-redux'
 import { parameters, notify, validation } from '../Actions/actionDefinitions'
@@ -68,28 +68,28 @@ const getValidator=arr=>arr.map(({key, uBound, lBound, ...rest})=>({
 
 const getFeature=arr=>chosenFeature=>arr.filter(({feature})=>feature===chosenFeature)
 
-const getSubKeys=key=>arr=>arr.reduce((aggr, curr)=>({...aggr, [curr]:ranges[curr][key]}), {})
+const getSubKeys=key=>(arr, obj)=>arr.reduce((aggr, curr)=>({...aggr, [curr]:obj[curr][key]}), {})
 
 const getBounds=(parameters, convertAdvancedToSpecific)=>ranges=>{
     const rangeKeys=Object.keys(ranges)
-    const upperRanges=getSubKeys('upper')(rangeKeys)
-    const lowerRanges=getSubKeys('lower')(rangeKeys)
+    const upperRanges=getSubKeys('upper')(rangeKeys, ranges)
+    const lowerRanges=getSubKeys('lower')(rangeKeys, ranges)
     const convertedUpperRanges=convertAdvancedToSpecific(upperRanges)
     const convertedLowerRanges=convertAdvancedToSpecific(lowerRanges)
     return parameters.map(v=>({
         ...v, 
         validator:createBounds(convertedLowerRanges[v.key], convertedUpperRanges[v.key])
-        //uBound:convertedUpperRanges[v.key], lBound:convertedLowerRanges[v.key]}))
+    }))
 }
 
 export default modelMap.reduce((aggr, curr)=>{
     const convertAdvancedToSpecific=curr['advancedTo'+curr.name]
     const modelCal=getCalibration(curr.name, convertAdvancedToSpecific)
     const filterParam=getFeature(curr.parameters)
-    const variableItemsGenerator=getBounds(filterParam('variable', convertAdvancedToSpecific))
-    const staticItemsGenerator=getBounds(filterParam('static', convertAdvancedToSpecific))
+    const variableItemsGenerator=getBounds(filterParam('variable'), convertAdvancedToSpecific)
+    const staticItemsGenerator=getBounds(filterParam('static'), convertAdvancedToSpecific)
     const constantItems=filterParam('constant')
-    const getActualJson=getCGMYFunction(curr)
+    const getActualJson=convertSpecificToAdvanced(curr)
     const mapStateToProps=state=>({
         parameters:{...state[curr.name+parameters], quantile:state.quantile},
         validation:state[curr.name+validation],
@@ -98,7 +98,7 @@ export default modelMap.reduce((aggr, curr)=>{
         staticItems:staticItemsGenerator(state.range),
         variableItems:variableItemsGenerator(state.range), 
         constantItems,
-        getActualJson
+        getActualJson 
     })
     
     const mapDispatchToProps=dispatch=>({

@@ -5,7 +5,7 @@ import { rootSensitivity, rootModel } from '../Routes/routeDefinitions'
 import { Route, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { parameters } from '../Actions/actionDefinitions'
-import { getCGMYFunction, getAllCGMY } from '../Utils/utils'
+import { convertSpecificToAdvanced, getAllAdvanced } from '../Utils/utils'
 import {
     sensitivities
 } from '../appSkeleton'
@@ -28,7 +28,7 @@ const NoSensitivity=({sensitivity, title})=>(
 const CardPlot=({Algorithm, HelpComponent, url, match, title, parameters, model})=>{
 	const rootModelLink=match.params[rootModel]
 	const rootSensitivityLink=match.params[rootSensitivity]
-	const {adaV, v0}=getAllCGMY(parameters, getCGMYFunction(model))
+	const {adaV, v0}=getAllAdvanced(parameters, convertSpecificToAdvanced(model))
 	const localUrl=`/${rootModelLink}/${rootSensitivityLink}${url}`
 	const Component=Algorithm[rootSensitivityLink]
 	const IVComponent=Algorithm.IV	

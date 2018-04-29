@@ -38,7 +38,7 @@ const generateParameters=(paramName, defaultState)=>(state=defaultState, action)
             return state
     }
 }
-const generateValidation=(paramName)=>(state=defaultFormValidationStatus, action)=>{
+const generateValidation=paramName=>(state=defaultFormValidationStatus, action)=>{
     switch (action.type){
         case createValidationType(paramName):
             return {...state, [action.key]:action.value}
@@ -58,14 +58,12 @@ const generateNotify=paramName=>(state=false, action)=>{
 
 
 
-export default modelMap.reduce((aggr, curr)=>{
-    return {
-        ...aggr,
-        [curr.name+notify]:generateNotify(curr.name),
-        [curr.name+parameters]:generateParameters(curr.name, extractDefaultValues(curr.parameters, defaultKey)),
-        [curr.name+validation]:generateValidation(curr.name),
-    }
-}, {
+export default modelMap.reduce((aggr, curr)=>({
+    ...aggr,
+    [curr.name+notify]:generateNotify(curr.name),
+    [curr.name+parameters]:generateParameters(curr.name, extractDefaultValues(curr.parameters, defaultKey)),
+    [curr.name+validation]:generateValidation(curr.name),
+}), {
     calibrateParameters:generateParameters('calibrate', calibrateState),
     calibrateValidation:generateValidation('calibrate')
 })

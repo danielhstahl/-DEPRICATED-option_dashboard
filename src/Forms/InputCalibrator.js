@@ -48,7 +48,8 @@ const InputCalibrator=({
         disabled={validateAll({...validation, ...calibrateValidation})}
         onClick={submitOptions({
             ...parameters, 
-            ...calibrateParameters
+            ...calibrateParameters,
+            constraints:{}//TODO!  make these editable from the GUI
         })}
         text="Calibrate"
         loading={isInProgress}
