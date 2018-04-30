@@ -12,12 +12,7 @@ export const baseUrl=process.env.NODE_ENV === 'production'?'https://74ekexhct2.e
 
 const createBody=params=>({
     method:'post',
-    body:JSON.stringify(params),
-    headers: {
-        'user-agent': 'option-dashboard',
-        'content-type': 'application/json',
-        'accept': 'application/json',
-    }
+    body:JSON.stringify(params)
 })
 export const createUrl=urlParams=>`${baseUrl}${urlParams.join('/')}`
 
