@@ -49,7 +49,6 @@ const ModelForm=({
         ], 
         <InputCalibrator 
             variableItems={variableItems}
-            constantItems={constantItems}
             parameters={parameters} 
             validation={validation}
             submitOptions={submitCalibration}
@@ -72,9 +71,15 @@ const getBounds=(parameters, convertAdvancedToSpecific)=>ranges=>{
     const lowerRanges=getSubKeys('lower')(rangeKeys, ranges)
     const convertedUpperRanges=convertAdvancedToSpecific(upperRanges)
     const convertedLowerRanges=convertAdvancedToSpecific(lowerRanges)
+    console.log(convertedLowerRanges)
+    console.log(ranges)
     return parameters.map(v=>({
         ...v, 
-        validator:createBounds(convertedLowerRanges[v.key], convertedUpperRanges[v.key])
+        validator:createBounds(convertedLowerRanges[v.key], convertedUpperRanges[v.key]),
+        bounds:{
+            min:convertedLowerRanges[v.key]||0, 
+            max:convertedUpperRanges[v.key]||100
+        }
     }))
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { CustomFormItemTextArea, CustomUpdateButton } from './FormHelper'
+import { CustomFormItemTextArea, CustomUpdateButton, CustomSlider } from './FormHelper'
 import { flexObj } from './globalOptions'
 import { validateAll, rangeValidator } from '../Utils/utils'
 import actionObjWithUpdateCalibration from '../Actions/parameters' 
@@ -18,6 +18,7 @@ export const switchComponent=(condition, Component1, Component2)=>{
 
 const InputCalibrator=({
     calibrateValidation, calibrateParameters,
+    variableItems,
     parameters, validation, submitOptions, 
     updateCalibration, isInProgress
 })=>[
@@ -43,6 +44,13 @@ const InputCalibrator=({
         onChange={updateCalibration}
     />
 </Col>,
+...variableItems.map(({bounds, key, label})=>
+    <CustomSlider 
+        range={calibrateParameters.constraints[key]||bounds} 
+        {...bounds} key={key} 
+        label={label}
+    />
+),
 <Col {...flexObj} key={3}>
     <CustomUpdateButton
         disabled={validateAll({...validation, ...calibrateValidation})}

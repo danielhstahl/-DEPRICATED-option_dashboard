@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tooltip, Input, Form, Button, Select, InputNumber } from 'antd'
+import { Tooltip, Input, Form, Button, Select, InputNumber, Slider } from 'antd'
 import PropTypes from 'prop-types'
 import { fullWidth, formItemLayoutLabel } from './globalOptions'
 import { isNotComplete } from '../Utils/utils'
@@ -121,3 +121,9 @@ CustomUpdateButton.propTypes={
     disabled:PropTypes.bool,
     onClick:PropTypes.func.isRequired
 }
+
+export const CustomSlider=({range, onChange, label, min, max})=>(
+    <FormItem {...formItemLayoutLabel} colon={false} label={label}>
+        <Slider style={fullWidth} range value={[range.min, range.max]} min={min} max={max} onChange={onChange} step={(max-min)/100}/>
+    </FormItem>
+)
