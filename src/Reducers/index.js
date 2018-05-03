@@ -1,14 +1,13 @@
 import { combineReducers } from 'redux'
 
-import optionParameters, { quantile } from './optionParameters'
+import optionParameters, { quantile, range } from './optionParameters'
 import {
     VaR, density, 
     fangoost,
     carrmadan,
-    fsts
+    fsts, spline, 
 } from './data'
-import range from './range'
-
+import staticRange from './range'
 /**Note that each import for the algorithms contains nested properties which must be unnested*/
 export default combineReducers({
     ...optionParameters,
@@ -16,6 +15,8 @@ export default combineReducers({
     ...fangoost,
     ...carrmadan,
     ...fsts, 
+    spline,
     quantile,
+    staticRange,
     range
 })

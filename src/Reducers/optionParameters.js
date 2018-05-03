@@ -1,11 +1,10 @@
 import {createValidationType, createOptionType, createOptionReplaceAll } from '../appSkeleton'
 import { modelMap, defaultKey } from '../modelSkeleton'
-import { parameters, notify, validation, NOTIFY_CALIBRATION, UPDATE_QUANTILE } from '../Actions/actionDefinitions'
+import { parameters, notify, validation, NOTIFY_CALIBRATION, UPDATE_QUANTILE, UPDATE_SLIDER_RANGE } from '../Actions/actionDefinitions'
 import { extractDefaultValues } from '../Utils/utils'
 const calibrateState={
     prices:[],
-    k:[],
-    constraints:{} //TODO!! make these editable from GUI
+    k:[]
 }
 
 const defaultFormValidationStatus={
@@ -57,8 +56,6 @@ const generateNotify=paramName=>(state=false, action)=>{
     }
 }
 
-
-
 export default modelMap.reduce((aggr, curr)=>({
     ...aggr,
     [curr.name+notify]:generateNotify(curr.name),
@@ -73,6 +70,16 @@ export const quantile=(state=.01, action)=>{
     switch(action.type){
         case UPDATE_QUANTILE:
             return action.value
+        default:
+            return state
+    }
+}
+
+export const range=(state={}, action)=>{
+    switch(action.type){
+        case UPDATE_SLIDER_RANGE:
+            const [lower, upper]=action.value
+            return {...state, [action.key]:{lower, upper}}
         default:
             return state
     }

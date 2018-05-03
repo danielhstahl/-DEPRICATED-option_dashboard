@@ -6,18 +6,14 @@ import {
     NOTIFY_CALIBRATION,
     UPDATE_DENSITY_RAW,
     UPDATE_DENSITY_VAR,
-    UPDATE_RANGE_DATA
+    UPDATE_RANGE_DATA,
+    UPDATE_SPLINE_DATA
 } from './actionDefinitions'
 export const baseUrl=process.env.NODE_ENV === 'production'?'https://74ekexhct2.execute-api.us-east-1.amazonaws.com/dev/v2/':'/'
 
 const createBody=params=>({
     method:'post',
-    body:JSON.stringify(params),
-    headers: {
-        'user-agent': 'option-dashboard',
-        'content-type': 'application/json',
-        'accept': 'application/json',
-    }
+    body:JSON.stringify(params)
 })
 export const createUrl=urlParams=>`${baseUrl}${urlParams.join('/')}`
 
@@ -26,7 +22,7 @@ const getOptionUrl=(...urlParams)=>params=>fetch(createUrl(urlParams), createBod
 
 const getDefaultUrl=(...urlParams)=>fetch(createUrl(urlParams)).then(response=>response.json())
 
-export const getRangeData=dispatch=>()=>getDefaultUrl('calibrator', 'parameter_ranges').then(data=>dispatch({
+export const getRangeData=dispatch=>()=>getDefaultUrl('parameters', 'parameter_ranges').then(data=>dispatch({
     type:UPDATE_RANGE_DATA,
     data
 }))
@@ -42,13 +38,12 @@ export const getVaRData=getDData('var', UPDATE_DENSITY_VAR)
 export const getDensity=getDData('raw', UPDATE_DENSITY_RAW)
 
 export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=>{
+    console.log(parms)
     dispatch({
         type:NOTIFY_CALIBRATION,
         value:true
     })
-    console.log(parms)
-    getOptionUrl('calibrator')(parms).then(response=>{
-        console.log(response)
+    getOptionUrl('calibrator', 'calibrate')(parms).then(response=>{
         dispatch({
             type:createOptionReplaceAll(type),
             data:optionalChangeParameters?optionalChangeParameters(response):response,
@@ -56,6 +51,14 @@ export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=
         dispatch({
             type:NOTIFY_CALIBRATION,
             value:false
+        })
+    })
+}
+export const getSpline=(parms, dispatch)=>{
+    getOptionUrl('calibrator', 'spline')(parms).then(response=>{
+        dispatch({
+            type:UPDATE_SPLINE_DATA,
+            data:response
         })
     })
 }

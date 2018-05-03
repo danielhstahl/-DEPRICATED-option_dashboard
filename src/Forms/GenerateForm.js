@@ -16,10 +16,8 @@ import { CommonInputs, CommonUpdateButton } from './CommonInputs'
 const ModelForm=({
     type, parameters, validation, 
     notify, calibrateParameters,
-    staticItems,
-    variableItems, 
-    constantItems, 
-    updateParameters, 
+    staticItems, variableItems, 
+    constantItems, updateParameters, 
     submitCalibration, submitOptions, getActualJson
 })=>[
     <Row gutter={gutter} key='inputrow'>
@@ -49,7 +47,6 @@ const ModelForm=({
         ], 
         <InputCalibrator 
             variableItems={variableItems}
-            constantItems={constantItems}
             parameters={parameters} 
             validation={validation}
             submitOptions={submitCalibration}
@@ -74,7 +71,11 @@ const getBounds=(parameters, convertAdvancedToSpecific)=>ranges=>{
     const convertedLowerRanges=convertAdvancedToSpecific(lowerRanges)
     return parameters.map(v=>({
         ...v, 
-        validator:createBounds(convertedLowerRanges[v.key], convertedUpperRanges[v.key])
+        validator:createBounds(convertedLowerRanges[v.key], convertedUpperRanges[v.key]),
+        bounds:{
+            lower:convertedLowerRanges[v.key]||0, 
+            upper:convertedUpperRanges[v.key]||100
+        }
     }))
 }
 
@@ -91,8 +92,8 @@ export default modelMap.reduce((aggr, curr)=>{
         validation:state[curr.name+validation],
         notify:state[curr.name+notify],
         calibrateParameters:state.calibrateParameters, 
-        staticItems:staticItemsGenerator(state.range),
-        variableItems:variableItemsGenerator(state.range), 
+        staticItems:staticItemsGenerator(state.staticRange),
+        variableItems:variableItemsGenerator(state.staticRange), 
         constantItems,
         getActualJson 
     })

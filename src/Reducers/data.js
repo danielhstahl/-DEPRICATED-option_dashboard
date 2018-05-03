@@ -10,7 +10,8 @@ import {
 import { getDomain } from '../Utils/mertonUtils'
 import {
     UPDATE_DENSITY_VAR,
-    UPDATE_DENSITY_RAW
+    UPDATE_DENSITY_RAW,
+    UPDATE_SPLINE_DATA
 } from '../Actions/actionDefinitions'
 
 const [fangoostName, carrMadanName, fstsName]=algorithms
@@ -60,3 +61,12 @@ const actionVaRFactory=(actionType, defState)=>(state=defState, action)=>{
 
 export const VaR=actionVaRFactory(UPDATE_DENSITY_VAR, {})
 export const density=actionVaRFactory(UPDATE_DENSITY_RAW, [])
+
+export const spline=(state={curve:[], points:[]}, action)=>{
+    switch(action.type){
+        case UPDATE_SPLINE_DATA:
+            return action.data
+        default:
+            return state
+    }
+}
