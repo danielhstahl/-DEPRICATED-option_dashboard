@@ -62,7 +62,7 @@ const ModelForm=({
 const getFeature=arr=>chosenFeature=>arr.filter(({feature})=>feature===chosenFeature)
 
 const getSubKeys=key=>(arr, obj)=>arr.reduce((aggr, curr)=>({...aggr, [curr]:obj[curr][key]}), {})
-
+const ifExistsThenShow=(val, defaultVal)=>val===undefined?defaultVal:val
 const getBounds=(parameters, convertAdvancedToSpecific)=>ranges=>{
     const rangeKeys=Object.keys(ranges)
     const upperRanges=getSubKeys('upper')(rangeKeys, ranges)
@@ -73,8 +73,8 @@ const getBounds=(parameters, convertAdvancedToSpecific)=>ranges=>{
         ...v, 
         validator:createBounds(convertedLowerRanges[v.key], convertedUpperRanges[v.key]),
         bounds:{
-            lower:convertedLowerRanges[v.key]||0, 
-            upper:convertedUpperRanges[v.key]||100
+            lower:ifExistsThenShow(convertedLowerRanges[v.key], 0), 
+            upper:ifExistsThenShow(convertedUpperRanges[v.key], 100)
         }
     }))
 }
