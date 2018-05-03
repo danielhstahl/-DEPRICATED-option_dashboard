@@ -45,11 +45,13 @@ const InputCalibrator=({
     />
 </Col>,
 ...variableItems.map(({bounds, key, label})=>
-    <CustomSlider 
-        range={calibrateParameters.constraints[key]||bounds} 
-        {...bounds} key={key} 
-        label={label}
-    />
+    <Col xs={24} key={key} >
+        <CustomSlider 
+            range={calibrateParameters.constraints[key]||bounds} 
+            {...bounds} 
+            label={label}
+        />
+    </Col>
 ),
 <Col {...flexObj} key={3}>
     <CustomUpdateButton

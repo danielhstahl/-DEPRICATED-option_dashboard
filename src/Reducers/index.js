@@ -5,7 +5,7 @@ import {
     VaR, density, 
     fangoost,
     carrmadan,
-    fsts
+    fsts, spline
 } from './data'
 import range from './range'
 
@@ -16,6 +16,7 @@ export default combineReducers({
     ...fangoost,
     ...carrmadan,
     ...fsts, 
+    spline,
     quantile,
     range
 })

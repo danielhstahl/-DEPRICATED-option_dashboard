@@ -16,10 +16,8 @@ import { CommonInputs, CommonUpdateButton } from './CommonInputs'
 const ModelForm=({
     type, parameters, validation, 
     notify, calibrateParameters,
-    staticItems,
-    variableItems, 
-    constantItems, 
-    updateParameters, 
+    staticItems, variableItems, 
+    constantItems, updateParameters, 
     submitCalibration, submitOptions, getActualJson
 })=>[
     <Row gutter={gutter} key='inputrow'>
@@ -71,8 +69,6 @@ const getBounds=(parameters, convertAdvancedToSpecific)=>ranges=>{
     const lowerRanges=getSubKeys('lower')(rangeKeys, ranges)
     const convertedUpperRanges=convertAdvancedToSpecific(upperRanges)
     const convertedLowerRanges=convertAdvancedToSpecific(lowerRanges)
-    console.log(convertedLowerRanges)
-    console.log(ranges)
     return parameters.map(v=>({
         ...v, 
         validator:createBounds(convertedLowerRanges[v.key], convertedUpperRanges[v.key]),
