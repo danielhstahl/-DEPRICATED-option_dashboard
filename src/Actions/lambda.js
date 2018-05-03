@@ -38,6 +38,7 @@ export const getVaRData=getDData('var', UPDATE_DENSITY_VAR)
 export const getDensity=getDData('raw', UPDATE_DENSITY_RAW)
 
 export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=>{
+    console.log(parms)
     dispatch({
         type:NOTIFY_CALIBRATION,
         value:true

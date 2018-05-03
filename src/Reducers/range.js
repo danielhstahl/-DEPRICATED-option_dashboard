@@ -1,4 +1,4 @@
-export const UPDATE_RANGE_DATA='UPDATE_RANGE_DATA'
+import {UPDATE_RANGE_DATA} from '../Actions/actionDefinitions'
 
 export default (state={}, action)=>{
     switch(action.type){

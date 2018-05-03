@@ -122,7 +122,7 @@ CustomUpdateButton.propTypes={
     onClick:PropTypes.func.isRequired
 }
 
-export const CustomSlider=({range, onChange, label, min, max})=>(
+export const CustomSlider=({range, onChange, label, objKey, min, max})=>(
     <FormItem 
         {...formItemLayoutLabel} 
         colon={false} 
@@ -130,9 +130,9 @@ export const CustomSlider=({range, onChange, label, min, max})=>(
     >
         <Slider 
             style={fullWidth} range 
-            value={[range.min, range.max]} 
+            value={[range.lower, range.upper]} 
             min={min} max={max} 
-            onChange={onChange} 
+            onChange={val=>onChange(objKey, val)} 
             step={(max-min)/100}
         />
     </FormItem>

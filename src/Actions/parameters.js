@@ -1,6 +1,6 @@
 import { createValidationType, createOptionType } from '../appSkeleton'
 import { modelMap } from '../modelSkeleton'
-import { UPDATE_QUANTILE } from './actionDefinitions'
+import { UPDATE_QUANTILE, UPDATE_SLIDER_RANGE } from './actionDefinitions'
 const generateValidation=paramName=>(key, value, dispatch)=>{
     dispatch({
         type:createValidationType(paramName),
@@ -15,6 +15,13 @@ const generateOptions=paramName=>(key, value, validation, dispatch)=>{
         value
     })
     generateValidation(paramName)(key, validation, dispatch)
+}
+export const updateSlider=(key, value, dispatch)=>{
+    dispatch({
+        type:UPDATE_SLIDER_RANGE,
+        key, 
+        value
+    })
 }
 export default modelMap.reduce((aggr, curr)=>({
     ...aggr, 

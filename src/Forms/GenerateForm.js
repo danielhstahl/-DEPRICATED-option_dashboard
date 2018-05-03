@@ -73,8 +73,8 @@ const getBounds=(parameters, convertAdvancedToSpecific)=>ranges=>{
         ...v, 
         validator:createBounds(convertedLowerRanges[v.key], convertedUpperRanges[v.key]),
         bounds:{
-            min:convertedLowerRanges[v.key]||0, 
-            max:convertedUpperRanges[v.key]||100
+            lower:convertedLowerRanges[v.key]||0, 
+            upper:convertedUpperRanges[v.key]||100
         }
     }))
 }
@@ -92,8 +92,8 @@ export default modelMap.reduce((aggr, curr)=>{
         validation:state[curr.name+validation],
         notify:state[curr.name+notify],
         calibrateParameters:state.calibrateParameters, 
-        staticItems:staticItemsGenerator(state.range),
-        variableItems:variableItemsGenerator(state.range), 
+        staticItems:staticItemsGenerator(state.staticRange),
+        variableItems:variableItemsGenerator(state.staticRange), 
         constantItems,
         getActualJson 
     })
