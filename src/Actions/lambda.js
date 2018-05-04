@@ -37,6 +37,15 @@ const getDData=(section, type)=>(parms, dispatch)=>{
 export const getVaRData=getDData('var', UPDATE_DENSITY_VAR)
 export const getDensity=getDData('raw', UPDATE_DENSITY_RAW)
 
+export const getSpline=(parms, dispatch)=>{
+    getOptionUrl('calibrator', 'spline')(parms).then(response=>{
+        dispatch({
+            type:UPDATE_SPLINE_DATA,
+            data:response
+        })
+    })
+}
+
 export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=>{
     console.log(parms)
     dispatch({
@@ -53,15 +62,9 @@ export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=
             value:false
         })
     })
+    getSpline(parms, dispatch)
 }
-export const getSpline=(parms, dispatch)=>{
-    getOptionUrl('calibrator', 'spline')(parms).then(response=>{
-        dispatch({
-            type:UPDATE_SPLINE_DATA,
-            data:response
-        })
-    })
-}
+
 
 export const getAllData=(parameters, dispatch)=>{
     console.log(parameters)

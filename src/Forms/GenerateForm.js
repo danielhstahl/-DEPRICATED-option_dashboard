@@ -1,24 +1,28 @@
 import React from 'react'
 import { validateAll, createBounds, generateSubmitOptions, convertSpecificToAdvanced, generateCalibrationOptions } from '../Utils/utils'
 import { getCalibration, getAllData } from '../Actions/lambda'
+import InputSettings from  './InputSettings'
+import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { parameters, notify, validation } from '../Actions/actionDefinitions'
-import InputCalibrator, { switchComponent } from './InputCalibrator'
+import InputCalibrator from './InputCalibrator'
 import updateParameters from '../Actions/parameters'
 import { Row } from 'antd'
 import { modelMap } from '../modelSkeleton'
 import ShowJson from './ShowJson'
+import {SplineCurves} from '../Graphs/Graphs.js'
 import {
     gutter
 } from './globalOptions'
 import { CommonInputs, CommonUpdateButton } from './CommonInputs'
 
 const ModelForm=({
-    type, parameters, validation, 
+    parameters, validation, 
     notify, calibrateParameters,
     staticItems, variableItems, 
     constantItems, updateParameters, 
-    submitCalibration, submitOptions, getActualJson
+    submitCalibration, submitOptions, 
+    basePath, getActualJson, spline
 })=>[
     <Row gutter={gutter} key='inputrow'>
         <CommonInputs 
@@ -27,31 +31,48 @@ const ModelForm=({
             update={updateParameters}
             formItems={staticItems}
         />
-        {switchComponent(type==='manual', 
-        [
-            <CommonInputs 
-                key='variableparameters'
-                parameters={parameters}
-                validation={validation}
-                update={updateParameters}
-                formItems={variableItems}
-            />,
-            <CommonUpdateButton
-                key='updatebutton'
-                submitOptions={submitOptions}
-                calibrateParameters={calibrateParameters}
-                validateAll={validateAll}
-                parameters={parameters}
-                validation={validation}
-            />
-        ], 
-        <InputCalibrator 
-            variableItems={variableItems}
-            parameters={parameters} 
-            validation={validation}
-            submitOptions={submitCalibration}
-            isInProgress={notify}
-        />)}
+        <Route 
+            path={`${basePath}/manual`} exact 
+            render={()=>[
+                <CommonInputs 
+                    key='variableparameters'
+                    parameters={parameters}
+                    validation={validation}
+                    update={updateParameters}
+                    formItems={variableItems}
+                />,
+                <CommonUpdateButton
+                    key='updatebutton'
+                    submitOptions={submitOptions}
+                    calibrateParameters={calibrateParameters}
+                    validateAll={validateAll}
+                    parameters={parameters}
+                    validation={validation}
+                />
+            ]}
+        />
+        <Route 
+            path={`${basePath}/calibration`} exact 
+            render={()=>[
+                <InputCalibrator 
+                    key='inputcal'
+                    variableItems={variableItems}
+                    parameters={parameters} 
+                    validation={validation}
+                    submitOptions={submitCalibration}
+                    isInProgress={notify}
+                />,
+                <SplineCurves key='spline' spline={spline} title='Fit' xLabel='Log Strikes' yLabel='Transformed Option Prices'/>
+            ]}
+        />
+        <Route 
+            path={`${basePath}/settings`} exact 
+            render={()=>(
+                <InputSettings 
+                    variableItems={variableItems}
+                />
+            )}
+        />
     </Row>,
     <Row key='jsonrow'>
         <ShowJson parameters={getActualJson(parameters)}/>
@@ -95,7 +116,8 @@ export default modelMap.reduce((aggr, curr)=>{
         staticItems:staticItemsGenerator(state.staticRange),
         variableItems:variableItemsGenerator(state.staticRange), 
         constantItems,
-        getActualJson 
+        getActualJson,
+        spline:state.spline
     })
     
     const mapDispatchToProps=dispatch=>({

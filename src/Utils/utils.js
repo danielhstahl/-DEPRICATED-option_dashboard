@@ -44,9 +44,7 @@ export const cartesian = (a, b, ...c) => (b ? cartesian(f(a, b), ...c) : a)
 
 export const excludePotentialArray=(maybeArr, maybeInArr)=>maybeArr?maybeArr.indexOf(maybeInArr)===-1:true
 
-export const validateAll=parameters=>{
-    return Object.keys(parameters).some(val=>parameters[val])
-}
+export const validateAll=parameters=>Object.keys(parameters).some(val=>parameters[val])
 
 export const removeFirstAndLastElement=arr=>arr.slice(1, -1)
 
