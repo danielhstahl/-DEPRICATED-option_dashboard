@@ -1,11 +1,29 @@
-import {createValidationType, createOptionType, createOptionReplaceAll } from '../appSkeleton'
+import { combineReducers } from 'redux'
+
+import {
+    createValidationType, 
+    createOptionType, 
+    createOptionReplaceAll 
+} from '../appSkeleton'
+
 import { modelMap, defaultKey } from '../modelSkeleton'
-import { parameters, notify, validation, NOTIFY_CALIBRATION, UPDATE_QUANTILE, UPDATE_SLIDER_RANGE } from '../Actions/actionDefinitions'
+
+import {PARAMETERS, NOTIFY, VALIDATION} from '../Utils/constants'
+import { 
+    NOTIFY_CALIBRATION, 
+    UPDATE_QUANTILE, 
+    UPDATE_SLIDER_RANGE ,
+    UPDATE_RANGE_DATA
+} from '../Actions/actionDefinitions'
+
+
 import { extractDefaultValues } from '../Utils/utils'
+
 const calibrateState={
     prices:[],
     k:[]
 }
+
 
 const defaultFormValidationStatus={
     numU:'',
@@ -24,8 +42,6 @@ const defaultFormValidationStatus={
     k:'',
     prices:''
 }
-
-
 
 const generateParameters=(paramName, defaultState)=>(state=defaultState, action)=>{
     switch (action.type){
@@ -55,17 +71,9 @@ const generateNotify=paramName=>(state=false, action)=>{
     }
 }
 
-export default modelMap.reduce((aggr, curr)=>({
-    ...aggr,
-    [curr.name+notify]:generateNotify(curr.name),
-    [curr.name+parameters]:generateParameters(curr.name, extractDefaultValues(curr.parameters, defaultKey)),
-    [curr.name+validation]:generateValidation(curr.name),
-}), {
-    calibrateParameters:generateParameters('calibrate', calibrateState),
-    calibrateValidation:generateValidation('calibrate')
-})
 
-export const quantile=(state=.01, action)=>{
+
+const quantile=(state=.01, action)=>{
     switch(action.type){
         case UPDATE_QUANTILE:
             return action.value
@@ -74,7 +82,7 @@ export const quantile=(state=.01, action)=>{
     }
 }
 
-export const range=(state={}, action)=>{
+const range=(state={}, action)=>{
     switch(action.type){
         case UPDATE_SLIDER_RANGE:
             const [lower, upper]=action.value
@@ -83,3 +91,27 @@ export const range=(state={}, action)=>{
             return state
     }
 }
+
+const staticRange=(state={}, action)=>{
+    switch(action.type){
+        case UPDATE_RANGE_DATA:
+            return action.data
+        default:
+            return state
+    }
+}
+
+export default combineReducers(
+    modelMap.reduce((aggr, curr)=>({
+        ...aggr,
+        [curr.name+NOTIFY]:generateNotify(curr.name),
+        [curr.name+PARAMETERS]:generateParameters(curr.name, extractDefaultValues(curr.parameters, defaultKey)),
+        [curr.name+VALIDATION]:generateValidation(curr.name),
+    }), {
+        calibrateParameters:generateParameters('calibrate', calibrateState),
+        calibrateValidation:generateValidation('calibrate'),
+        range,
+        quantile,
+        staticRange
+    })
+)

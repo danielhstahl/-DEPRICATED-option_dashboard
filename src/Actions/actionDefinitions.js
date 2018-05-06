@@ -1,6 +1,3 @@
-export const parameters='Parameters'
-export const notify='Notify'
-export const validation='Validation'
 export const NOTIFY_CALIBRATION='NOTIFY_CALIBRATION'
 export const UPDATE_QUANTILE='UPDATE_QUANTILE'
 export const UPDATE_SLIDER_RANGE='UPDATE_SLIDER_RANGE'

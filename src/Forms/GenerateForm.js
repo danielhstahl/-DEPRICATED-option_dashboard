@@ -1,20 +1,30 @@
 import React from 'react'
-import { validateAll, createBounds, generateSubmitOptions, convertSpecificToAdvanced, generateCalibrationOptions } from '../Utils/utils'
-import { getCalibration, getAllData } from '../Actions/lambda'
-import InputSettings from  './InputSettings'
 import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { parameters, notify, validation } from '../Actions/actionDefinitions'
-import InputCalibrator from './InputCalibrator'
-import updateParameters from '../Actions/parameters'
 import { Row } from 'antd'
+
+/**Helpers and constants */
+import { createBounds } from './helperValidators'
+import { 
+    generateSubmitOptions, 
+    convertSpecificToAdvanced, 
+    generateCalibrationOptions
+} from '../Utils/conversionUtils'
 import { modelMap } from '../modelSkeleton'
+import { gutter } from './globalOptions'
+import {PARAMETERS, NOTIFY, VALIDATION} from '../Utils/constants'
+
+/**Actions */
+import { getCalibration, getAllData } from '../Actions/lambda'
+import updateParameters from '../Actions/parameters'
+
+/**Components */
+import InputSettings from  './InputSettings'
+import InputCalculator from  './InputCalculator'
+import InputCalibrator from './InputCalibrator'
+import { CommonInputs } from './CommonInputs'
 import ShowJson from './ShowJson'
-import {SplineCurves} from '../Graphs/Graphs.js'
-import {
-    gutter
-} from './globalOptions'
-import { CommonInputs, CommonUpdateButton } from './CommonInputs'
+
 
 const ModelForm=({
     parameters, validation, 
@@ -22,7 +32,7 @@ const ModelForm=({
     staticItems, variableItems, 
     constantItems, updateParameters, 
     submitCalibration, submitOptions, 
-    basePath, getActualJson, spline
+    basePath, getAdvancedParameters, spline
 })=>[
     <Row gutter={gutter} key='inputrow'>
         <CommonInputs 
@@ -33,27 +43,19 @@ const ModelForm=({
         />
         <Route 
             path={`${basePath}/manual`} exact 
-            render={()=>[
-                <CommonInputs 
-                    key='variableparameters'
+            render={()=>(
+                <InputCalculator
                     parameters={parameters}
                     validation={validation}
-                    update={updateParameters}
-                    formItems={variableItems}
-                />,
-                <CommonUpdateButton
-                    key='updatebutton'
+                    updateParameters={updateParameters}
+                    variableItems={variableItems}
                     submitOptions={submitOptions}
-                    calibrateParameters={calibrateParameters}
-                    validateAll={validateAll}
-                    parameters={parameters}
-                    validation={validation}
                 />
-            ]}
+            )}
         />
         <Route 
             path={`${basePath}/calibration`} exact 
-            render={()=>[
+            render={()=>(
                 <InputCalibrator 
                     key='inputcal'
                     variableItems={variableItems}
@@ -61,9 +63,8 @@ const ModelForm=({
                     validation={validation}
                     submitOptions={submitCalibration}
                     isInProgress={notify}
-                />,
-                <SplineCurves key='spline' spline={spline} title='Fit' xLabel='Log Strikes' yLabel='Transformed Option Prices'/>
-            ]}
+                />
+            )}
         />
         <Route 
             path={`${basePath}/settings`} exact 
@@ -75,7 +76,7 @@ const ModelForm=({
         />
     </Row>,
     <Row key='jsonrow'>
-        <ShowJson parameters={getActualJson(parameters)}/>
+        <ShowJson parameters={getAdvancedParameters(parameters)}/>
     </Row>
 ]
 
@@ -100,32 +101,35 @@ const getBounds=(parameters, convertAdvancedToSpecific)=>ranges=>{
     }))
 }
 
+
+const getConversions=(model, convertAdvancedToSpecific)=>{
+    const filterParam=getFeature(model.parameters)
+    const getVariableItems=getBounds(filterParam('variable'), convertAdvancedToSpecific)
+    const getStaticItems=getBounds(filterParam('static'), convertAdvancedToSpecific)
+    const constantItems=filterParam('constant')
+    const getAdvancedParameters=convertSpecificToAdvanced(model)
+    return {getVariableItems, getStaticItems, getAdvancedParameters, constantItems}
+}
+
 export default modelMap.reduce((aggr, curr)=>{
     const convertAdvancedToSpecific=curr['advancedTo'+curr.name]
-    const modelCal=getCalibration(curr.name, convertAdvancedToSpecific)
-    const filterParam=getFeature(curr.parameters)
-    const variableItemsGenerator=getBounds(filterParam('variable'), convertAdvancedToSpecific)
-    const staticItemsGenerator=getBounds(filterParam('static'), convertAdvancedToSpecific)
-    const constantItems=filterParam('constant')
-    const getActualJson=convertSpecificToAdvanced(curr)
-    const mapStateToProps=state=>({
-        parameters:{...state[curr.name+parameters], quantile:state.quantile},
-        validation:state[curr.name+validation],
-        notify:state[curr.name+notify],
-        calibrateParameters:state.calibrateParameters, 
-        staticItems:staticItemsGenerator(state.staticRange),
-        variableItems:variableItemsGenerator(state.staticRange), 
+    const {getVariableItems, getStaticItems, getAdvancedParameters, constantItems}=getConversions(curr, convertAdvancedToSpecific)
+    const mapStateToProps=({form, graph})=>({
+        parameters:{...form[curr.name+PARAMETERS], quantile:form.quantile},
+        validation:form[curr.name+VALIDATION],
+        notify:form[curr.name+NOTIFY],
+        staticItems:getStaticItems(form.staticRange),
+        variableItems:getVariableItems(form.staticRange), 
         constantItems,
-        getActualJson,
-        spline:state.spline
+        getAdvancedParameters
     })
-    
+    const modelCal=getCalibration(curr.name, convertAdvancedToSpecific)
     const mapDispatchToProps=dispatch=>({
         updateParameters:(key, value, validateStatus)=>{
             updateParameters['update'+curr.name](key, value, validateStatus, dispatch)
         },
-        submitCalibration:generateCalibrationOptions(dispatch, getActualJson, modelCal),
-        submitOptions:generateSubmitOptions(dispatch, getActualJson, getAllData)
+        submitCalibration:generateCalibrationOptions(dispatch, getAdvancedParameters, modelCal),
+        submitOptions:generateSubmitOptions(dispatch, getAdvancedParameters, getAllData)
     })
     
     return {

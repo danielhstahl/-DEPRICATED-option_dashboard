@@ -1,16 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { CustomFormItemTextArea, CustomUpdateButton } from './FormHelper'
-import { flexObj } from './globalOptions'
-import { validateAll, rangeValidator } from '../Utils/utils'
-import parameterObj from '../Actions/parameters' 
 import { Col, Alert } from 'antd'
 import PropTypes from 'prop-types'
-const { updateCalibration }=parameterObj
-const validator={
-    fn:rangeValidator(0, 1000000),
-    help:'Requires positive, comma separated numbers like "2, 3, 4"'
-}
+
+/**Helpers and constants */
+import { flexObj } from './globalOptions'
+import { arrayValidator, validateAll } from './helperValidators'
+import actionParameters from '../Actions/parameters' 
+
+/**Components */
+import { CustomFormItemTextArea, CustomUpdateButton } from './FormHelper'
+import {SplineCurves} from '../Graphs/Graphs.js'
+
+const { updateCalibration }=actionParameters 
 
 const isStockOutOfBounds=({S0, k})=>k.length>0?S0<k[0]||S0>k[k.length-1]:true
 
@@ -18,7 +20,7 @@ const InputCalibrator=({
     calibrateValidation, calibrateParameters,
     variableItems,range,
     parameters, validation, submitOptions, 
-    updateCalibration, isInProgress
+    updateCalibration, isInProgress, spline
 })=>[
 <Col xs={24} key={1}>
     <CustomFormItemTextArea 
@@ -26,7 +28,7 @@ const InputCalibrator=({
         validationResults={calibrateValidation}
         label="Strikes"
         parms={calibrateParameters}
-        validator={validator}
+        validator={arrayValidator}
         toolTip="Comma separated array of strikes"
         onChange={updateCalibration}
     />
@@ -37,7 +39,7 @@ const InputCalibrator=({
         validationResults={calibrateValidation}
         label="Prices"
         parms={calibrateParameters}
-        validator={validator}
+        validator={arrayValidator}
         toolTip="Comma separated array of prices"
         onChange={updateCalibration}
     />
@@ -56,7 +58,8 @@ const InputCalibrator=({
 </Col>,
 <Col {...flexObj} key={4}>
     {parameters.mse?<Alert message={`Mean Squared Error: ${parameters.mse}`} type="success" />:null}  
-</Col>
+</Col>,
+ <SplineCurves key='spline' spline={spline} title='Fit' xLabel='Log Strikes' yLabel='Transformed Option Prices'/>
 ]
 
 InputCalibrator.propTypes={
@@ -74,7 +77,7 @@ InputCalibrator.propTypes={
     isInProgress:PropTypes.bool.isRequired
 }
 
-const mapStateToProps=({calibrateParameters, calibrateValidation, range})=>({calibrateParameters, calibrateValidation, range})
+const mapStateToProps=({form, graph})=>({...form, ...graph}) //includes calibrateParameters, calibrateValidation, range, spline
 
 const mapDispatchToProps=dispatch=>({
     updateCalibration:(key, value, validateStatus)=>{

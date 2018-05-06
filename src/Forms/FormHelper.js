@@ -2,7 +2,7 @@ import React from 'react'
 import { Tooltip, Input, Form, Button, Select, InputNumber, Slider } from 'antd'
 import PropTypes from 'prop-types'
 import { fullWidth, formItemLayoutLabel } from './globalOptions'
-import { isNotComplete } from '../Utils/utils'
+import { isNotComplete } from './helperValidators'
 const onChangeNumberHelper=(onChange, validator, objKey)=>value=>{
     const isValid=validator?validator.fn(value):'truthy'
     onChange(objKey, value, typeof isValid==='boolean'?'error':'') 

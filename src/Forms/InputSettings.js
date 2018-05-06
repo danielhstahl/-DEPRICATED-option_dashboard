@@ -1,8 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { updateSlider } from '../Actions/parameters' 
-import { CustomSlider } from './FormHelper'
 import { Col } from 'antd'
+import actionParameters from '../Actions/parameters' 
+import { CustomSlider } from './FormHelper'
+
+const {updateSlider}=actionParameters
 const InputSettings=({
     variableItems,range,updateSlider
 })=>variableItems.map(({bounds, key, label})=>(
@@ -17,7 +19,7 @@ const InputSettings=({
         />
     </Col>
 ))
-const mapStateToProps=({range})=>({range})
+const mapStateToProps=({form})=>form //includes range
 const mapDispatchToProps=dispatch=>({
     updateSlider:(key, value)=>{
         updateSlider(key, value, dispatch)

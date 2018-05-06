@@ -1,10 +1,10 @@
 import {Component} from 'react'
 import { connect } from 'react-redux'
-import { parameters } from './Actions/actionDefinitions'
+import { PARAMETERS } from './Utils/constants'
 import { getAllData, getRangeData } from './Actions/lambda'
-import { generateSubmitOptions, convertSpecificToAdvanced } from './Utils/utils'
+import { generateSubmitOptions, convertSpecificToAdvanced } from './Utils/conversionUtils'
 
-class AsyncHoc extends Component{
+class LoadData extends Component{
     componentDidMount() {
         this.props.onLoad( this.props.model, this.props.parameters)
     }
@@ -14,7 +14,7 @@ class AsyncHoc extends Component{
 }
 
 const mapStateToProps=(state, props)=>({
-    parameters:{...state[props.model.name+parameters], quantile:state.quantile}
+    parameters:{...state[props.model.name+PARAMETERS], quantile:state.quantile}
 })
 const mapDispatchToProps =dispatch=>({
     onLoad:(model, parameters)=>{
@@ -23,5 +23,5 @@ const mapDispatchToProps =dispatch=>({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AsyncHoc)
+export default connect(mapStateToProps, mapDispatchToProps)(LoadData)
 

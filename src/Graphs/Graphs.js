@@ -122,7 +122,7 @@ const getVar=(VaR, data)=>[
         y:getMax(data, "value")
     }
 ]
-export const DensityCurves=({data, VaR, ES})=>(
+export const DensityCurves=({density, VaR, ES})=>(
     <VictoryChart domainPadding={domainPadding}>
         <VictoryLabel x={25} y={24}
             text={`Value at Risk: ${VaR}`}
@@ -132,12 +132,12 @@ export const DensityCurves=({data, VaR, ES})=>(
         />
         <VictoryLine
             interpolation="natural"
-            data={data}
+            data={density}
             x="atPoint"
             y="value"
         />
         <VictoryLine
-            data={getVar(VaR, data)}
+            data={getVar(VaR, density)}
         />
         <VictoryAxis 
             label="Log Asset Price"
@@ -145,7 +145,7 @@ export const DensityCurves=({data, VaR, ES})=>(
     </VictoryChart>
 )
 DensityCurves.propTypes={
-    data:PropTypes.arrayOf(PropTypes.shape({
+    density:PropTypes.arrayOf(PropTypes.shape({
         value:PropTypes.number.isRequired,
         atPoint:PropTypes.number.isRequired
     })),

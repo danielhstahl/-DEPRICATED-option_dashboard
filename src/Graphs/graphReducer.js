@@ -1,13 +1,18 @@
+import { combineReducers } from 'redux'
+
 import { 
     removeFirstAndLastElement,
     getMiddleByVal
 } from '../Utils/utils'
+
 import {
     keySkeleton,
     algorithms,
     createActionType
 } from '../appSkeleton'
+
 import { getDomain } from '../Utils/mertonUtils'
+
 import {
     UPDATE_DENSITY_VAR,
     UPDATE_DENSITY_RAW,
@@ -46,9 +51,9 @@ const generateAlgorithmState=(keySkeleton, algorithm, factory)=>{
 
 
 
-export const fangoost=generateAlgorithmState(keySkeleton, fangoostName, actionFangOostFactory)
-export const carrmadan=generateAlgorithmState(keySkeleton, carrMadanName, actionDomainFactory)
-export const fsts=generateAlgorithmState(keySkeleton, fstsName, actionDomainFactory)
+const fangoost=generateAlgorithmState(keySkeleton, fangoostName, actionFangOostFactory)
+const carrmadan=generateAlgorithmState(keySkeleton, carrMadanName, actionDomainFactory)
+const fsts=generateAlgorithmState(keySkeleton, fstsName, actionDomainFactory)
 
 const actionVaRFactory=(actionType, defState)=>(state=defState, action)=>{
     switch (action.type){
@@ -59,10 +64,10 @@ const actionVaRFactory=(actionType, defState)=>(state=defState, action)=>{
     }
 }
 
-export const VaR=actionVaRFactory(UPDATE_DENSITY_VAR, {})
-export const density=actionVaRFactory(UPDATE_DENSITY_RAW, [])
+const riskMetrics=actionVaRFactory(UPDATE_DENSITY_VAR, {VaR:0, ES:0})
+const density=actionVaRFactory(UPDATE_DENSITY_RAW, [])
 
-export const spline=(state={curve:[], points:[]}, action)=>{
+const spline=(state={curve:[], points:[]}, action)=>{
     switch(action.type){
         case UPDATE_SPLINE_DATA:
             return action.data
@@ -70,3 +75,11 @@ export const spline=(state={curve:[], points:[]}, action)=>{
             return state
     }
 }
+export default combineReducers({
+    ...fangoost,
+    ...carrmadan,
+    ...fsts,
+    riskMetrics,
+    density,
+    spline
+})

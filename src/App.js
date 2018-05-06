@@ -4,7 +4,7 @@ import { sensitivities } from './appSkeleton'
 import { modelMap } from './modelSkeleton'
 import { FangOost, CarrMadan, FSTS, FangOostHelp, FSTSHelp, CarrMadanHelp } from './Graphs/Algorithms'
 import { Density } from './Graphs/Density'
-import AsyncHOC from './AsyncHoc'
+import LoadData from './LoadData'
 import ModalInputs from './Forms/ModalInputs'
 import QuantileInputs from './Forms/QuantileInputs'
 import CardPlot from './Cards/CardPlot'
@@ -93,7 +93,7 @@ const HoldCards=({match, ...rest})=>{
 	const rootSensitivityLink=match.params[rootSensitivity]
 	const currentModel=modelMap.find(({name})=>rootModelLink===name)
 	return [
-	<AsyncHOC key={-1} model={currentModel}/>,
+	<LoadData key={-1} model={currentModel}/>,
 	<WrapModalInputs 
 		sensitivity={rootSensitivityLink}
 		model={rootModelLink}

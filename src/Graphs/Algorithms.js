@@ -23,27 +23,30 @@ export const generateMarketData=(sensitivity, {k, prices})=>priceName===sensitiv
     getMarketDataFromStrikeAndPrice(k, prices):
     null
 
-export const generateAlgorithmOptionPrices=(keySkeleton, algorithm)=>(connect, Component, initState)=>getUniqueArray(
-    keySkeleton[algorithm], 
-    sensitivityIndex
-).reduce((aggr, [sensitivity], index)=>({
-    ...aggr,
-    [sensitivity]:connect(
-        state=>({
-            ...optionTypes.reduce((aggrState, optionType)=>({
-                ...aggrState,
-                [optionType]:state[algorithm+optionType+sensitivity],
-                yLabel:upperFirstLetter(sensitivity)
-            }), initState),
-            marketData:algorithm===fstsName?null:generateMarketData(sensitivity, state.calibrateParameters)
-        })
-    )(Component)
-}), {})
+export const generateAlgorithmOptionPrices=(keySkeleton, algorithm)=>
+    (connect, Component, initState)=>
+        getUniqueArray(
+            keySkeleton[algorithm], 
+            sensitivityIndex
+        )
+        .reduce((aggr, [sensitivity], index)=>({
+            ...aggr,
+            [sensitivity]:connect(
+                ({form, graph})=>({
+                    ...optionTypes.reduce((aggrState, optionType)=>({
+                        ...aggrState,
+                        [optionType]:graph[algorithm+optionType+sensitivity],
+                        yLabel:upperFirstLetter(sensitivity)
+                    }), initState),
+                    marketData:algorithm===fstsName?null:generateMarketData(sensitivity, form.calibrateParameters)
+                })
+            )(Component)
+        }), {})
 
 
 
-const generateIVState=(algorithm, Component, initState)=>connect(
-    state=>({put:state[algorithm+putName+priceName], ...initState})
+const generateIVState=(connect, algorithm, Component, initState)=>connect(
+    ({graph})=>({put:graph[algorithm+putName+priceName], ...initState})
 )(Component)
 
 const fangOostInitState={
@@ -61,17 +64,17 @@ const fstsInitState={
 
 export const FangOost={
     ...generateAlgorithmOptionPrices(keySkeleton, fangOostName)(connect, OptionCurves, fangOostInitState),
-    IV:generateIVState(fangOostName, IVCurves, fangOostInitState)
+    IV:generateIVState(connect, fangOostName, IVCurves, fangOostInitState)
 }
 
 export const CarrMadan={
     ...generateAlgorithmOptionPrices(keySkeleton, carrMadanName)(connect, OptionCurves, carrMadanInitState),
-    IV:generateIVState(carrMadanName, IVCurves, carrMadanInitState)
+    IV:generateIVState(connect, carrMadanName, IVCurves, carrMadanInitState)
 }
 
 export const FSTS={
     ...generateAlgorithmOptionPrices(keySkeleton, fstsName)(connect, OptionCurves, fstsInitState),
-    IV:generateIVState(fstsName, IVCurves, fstsInitState)
+    IV:generateIVState(connect, fstsName, IVCurves, fstsInitState)
 }
 
 
