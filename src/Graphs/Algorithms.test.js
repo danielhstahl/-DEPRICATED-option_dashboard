@@ -58,14 +58,18 @@ describe('generateMarketData', ()=>{
 })
 describe('generateAlgorithmOptionPrices', ()=>{
     const state={
-        calibrateParameters:{
-            k:[4],
-            prices:[5]
+        graph:{
+            algocallhello:'value1',
+            algoputhello:'value2',
+            algocallworld:'value3',
+            algoputworld:'value4',
         },
-        algocallhello:'value1',
-        algoputhello:'value2',
-        algocallworld:'value3',
-        algoputworld:'value4',
+        form:{
+            calibrateParameters:{
+                k:[4],
+                prices:[5]
+            },
+        }
     }
     it('contains correct keys', ()=>{
         const keySkeleton={

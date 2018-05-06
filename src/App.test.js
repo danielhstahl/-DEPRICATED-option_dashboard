@@ -8,6 +8,7 @@ import { shallow, mount, render } from 'enzyme'
 import CardPlot, { ThetaWarning } from './Cards/CardPlot'
 import { Dropdown, Menu, Modal, Form, InputNumber, Button, Input, Select } from 'antd'
 import { modelMap } from './modelSkeleton'
+import {UPDATE_RANGE_DATA} from './Actions/actionDefinitions'
 //import parameters from './Actions/parameters'
 let store// = createStore(reducer)
 const mockEvent={
@@ -20,6 +21,10 @@ const mockTextEvent=value=>({
 })
 beforeEach(()=>{
     store=createStore(reducer)
+    store.dispatch({
+        type:UPDATE_RANGE_DATA,
+        data:{"T":{"upper":1e+06, "lower":0},"S0":{"upper":1e+06, "lower":0},"rho":{"upper":1, "lower":-1},"r":{"upper":0.4, "lower":0},"speed":{"upper":3, "lower":0},"v0":{"upper":1.8, "lower":0.2},"sigJ":{"upper":2, "lower":0},"adaV":{"upper":3, "lower":0},"sigma":{"upper":1, "lower":0},"muJ":{"upper":1, "lower":-1},"numU":{"upper":10, "lower":5},"lambda":{"upper":2, "lower":0}}
+    })
 })
 describe('base app', () => {
     window.fetch = jest.fn().mockImplementation(() => Promise.resolve({
@@ -102,13 +107,18 @@ describe('base app', () => {
         const modal=wrapper.find(Modal)
         expect(modal.length).toEqual(1)
         expect(modal.find(Button).props().disabled).toBeFalsy()
-        const field=wrapper.findWhere(val=>val.props().objKey==='G').find(InputNumber)
+        /*const testField=wrapper.findWhere(val=>val.props().objKey)
+        testField.forEach(v=>{
+            console.log(v)
+        })*/
+        const field=wrapper.findWhere(val=>val.props().objKey==='sigJ').find(InputNumber)
         field.props().onChange('-1')
         wrapper.update()
-        expect(wrapper.find('.ant-form-explain').text()).toEqual('Must be a number between 0.2 and 20')
+        expect(wrapper.find('.ant-form-explain').text()).toEqual('Must be a number between 0 and 2') //the definitions come from the API
         expect(wrapper.find(Modal).find(Button).props().disabled).toEqual(true)
     })    
     it('submits and does not have theta warning when adaV=0 and v0=1 for Advanced', ()=>{
+        
         const wrapper=mount(<Provider store={store}>
             <MemoryRouter initialEntries={[ `/advanced/theta/inputs/manual` ]}>
                 <App />
@@ -124,7 +134,7 @@ describe('base app', () => {
         const adaV=wrapper.findWhere(val=>val.props().objKey==='adaV').find(InputNumber)
         adaV.props().onChange(0)
         wrapper.update()
-
+        //console.log(wrapper.find('.ant-form-explain').first().text())
         expect(wrapper.find('.ant-form-explain').length).toEqual(0)
         wrapper.find(Modal).find(Button).props().onClick()
         wrapper.update()
@@ -166,10 +176,12 @@ describe('base app', () => {
         //console.log(wrapper.debug())
         const modal=wrapper.find(Modal)
         expect(modal.length).toEqual(1)
-        expect(modal.find(Button).props().disabled).toBeFalsy()
+        expect(modal.find(Button).props().disabled).toEqual(true)
         const field=wrapper.findWhere(val=>val.props().objKey==='k').find(Input.TextArea)
+        const fieldStock=wrapper.findWhere(val=>val.props().objKey==='S0').find(InputNumber)
         //console.log(field.debug())
         field.props().onChange(mockTextEvent('1, 2, 3'))
+        fieldStock.props().onChange(2)
         wrapper.update()
         expect(wrapper.find(Modal).find(Button).props().disabled).toBeFalsy()
     })   
@@ -182,7 +194,7 @@ describe('base app', () => {
         )
         const modal=wrapper.find(Modal)
         expect(modal.length).toEqual(1)
-        expect(modal.find(Button).props().disabled).toBeFalsy()
+        //expect(modal.find(Button).props().disabled).toBeFalsy()
         const field=wrapper.findWhere(val=>val.props().objKey==='k').find(Input.TextArea)
         field.props().onChange(mockTextEvent('hello'))
         wrapper.update()
