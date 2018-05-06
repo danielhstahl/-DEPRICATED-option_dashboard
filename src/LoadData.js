@@ -2,7 +2,7 @@ import {Component} from 'react'
 import { connect } from 'react-redux'
 import { PARAMETERS } from './Utils/constants'
 import { getAllData, getRangeData } from './Actions/lambda'
-import { generateSubmitOptions, convertSpecificToAdvanced } from './Utils/conversionUtils'
+import { generateSubmitOptions, generateConvertSpecificToAdvanced } from './Utils/conversionUtils'
 
 class LoadData extends Component{
     componentDidMount() {
@@ -13,12 +13,12 @@ class LoadData extends Component{
     }
 }
 
-const mapStateToProps=(state, props)=>({
-    parameters:{...state[props.model.name+PARAMETERS], quantile:state.quantile}
+const mapStateToProps=({form}, props)=>({
+    parameters:{...form[props.model.name+PARAMETERS], quantile:form.quantile}
 })
 const mapDispatchToProps =dispatch=>({
     onLoad:(model, parameters)=>{
-        generateSubmitOptions(dispatch, convertSpecificToAdvanced(model), getAllData)(parameters)()
+        generateSubmitOptions(dispatch, generateConvertSpecificToAdvanced(model), getAllData)(parameters)()
         getRangeData(dispatch)()
     }
 })

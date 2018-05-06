@@ -5,7 +5,7 @@ import { rootSensitivity, rootModel } from '../Routes/routeDefinitions'
 import { Route, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { PARAMETERS } from '../Utils/constants'
-import { convertSpecificToAdvanced, getAllAdvanced } from '../Utils/conversionUtils'
+import { generateConvertSpecificToAdvanced, getAllAdvanced } from '../Utils/conversionUtils'
 import {
     sensitivities
 } from '../appSkeleton'
@@ -17,7 +17,7 @@ export const switchTheta=(adaV, v0, sensitivity, Component)=>(sensitivity===thet
 export const ThetaWarning=({adaV, v0})=>(
 <Alert
 	message="Warning"
-	description={`Theta is inaccurate when adaV>0 (currently ${adaV}) or v0!=1 (currently ${v0})`}
+	description={`Theta is inaccurate when Vol of Vol>0 (currently ${adaV}) or V0!=1 (currently ${v0})`}
 	type="warning"
 	showIcon
 />
@@ -28,7 +28,7 @@ const NoSensitivity=({sensitivity, title})=>(
 const CardPlot=({Algorithm, HelpComponent, url, match, title, parameters, model})=>{
 	const rootModelLink=match.params[rootModel]
 	const rootSensitivityLink=match.params[rootSensitivity]
-	const {adaV, v0}=getAllAdvanced(parameters, convertSpecificToAdvanced(model))
+	const {adaV, v0}=getAllAdvanced(parameters, generateConvertSpecificToAdvanced(model))
 	const localUrl=`/${rootModelLink}/${rootSensitivityLink}${url}`
 	const Component=Algorithm[rootSensitivityLink]
 	const IVComponent=Algorithm.IV	

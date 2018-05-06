@@ -7,7 +7,7 @@ import { Row } from 'antd'
 import { createBounds } from './helperValidators'
 import { 
     generateSubmitOptions, 
-    convertSpecificToAdvanced, 
+    generateConvertSpecificToAdvanced, 
     generateCalibrationOptions
 } from '../Utils/conversionUtils'
 import { modelMap } from '../modelSkeleton'
@@ -32,7 +32,7 @@ const ModelForm=({
     staticItems, variableItems, 
     constantItems, updateParameters, 
     submitCalibration, submitOptions, 
-    basePath, getAdvancedParameters, spline
+    basePath, convertSpecificToAdvanced, spline
 })=>[
     <Row gutter={gutter} key='inputrow'>
         <CommonInputs 
@@ -76,7 +76,7 @@ const ModelForm=({
         />
     </Row>,
     <Row key='jsonrow'>
-        <ShowJson parameters={getAdvancedParameters(parameters)}/>
+        <ShowJson parameters={convertSpecificToAdvanced(parameters)}/>
     </Row>
 ]
 
@@ -107,13 +107,13 @@ const getConversions=(model, convertAdvancedToSpecific)=>{
     const getVariableItems=getBounds(filterParam('variable'), convertAdvancedToSpecific)
     const getStaticItems=getBounds(filterParam('static'), convertAdvancedToSpecific)
     const constantItems=filterParam('constant')
-    const getAdvancedParameters=convertSpecificToAdvanced(model)
-    return {getVariableItems, getStaticItems, getAdvancedParameters, constantItems}
+    const convertSpecificToAdvanced=generateConvertSpecificToAdvanced(model)
+    return {getVariableItems, getStaticItems, convertSpecificToAdvanced, constantItems}
 }
 
 export default modelMap.reduce((aggr, curr)=>{
     const convertAdvancedToSpecific=curr['advancedTo'+curr.name]
-    const {getVariableItems, getStaticItems, getAdvancedParameters, constantItems}=getConversions(curr, convertAdvancedToSpecific)
+    const {getVariableItems, getStaticItems, convertSpecificToAdvanced, constantItems}=getConversions(curr, convertAdvancedToSpecific)
     const mapStateToProps=({form, graph})=>({
         parameters:{...form[curr.name+PARAMETERS], quantile:form.quantile},
         validation:form[curr.name+VALIDATION],
@@ -121,15 +121,15 @@ export default modelMap.reduce((aggr, curr)=>{
         staticItems:getStaticItems(form.staticRange),
         variableItems:getVariableItems(form.staticRange), 
         constantItems,
-        getAdvancedParameters
+        convertSpecificToAdvanced
     })
     const modelCal=getCalibration(curr.name, convertAdvancedToSpecific)
     const mapDispatchToProps=dispatch=>({
         updateParameters:(key, value, validateStatus)=>{
             updateParameters['update'+curr.name](key, value, validateStatus, dispatch)
         },
-        submitCalibration:generateCalibrationOptions(dispatch, getAdvancedParameters, modelCal),
-        submitOptions:generateSubmitOptions(dispatch, getAdvancedParameters, getAllData)
+        submitCalibration:generateCalibrationOptions(dispatch, convertSpecificToAdvanced, modelCal),
+        submitOptions:generateSubmitOptions(dispatch, convertSpecificToAdvanced, getAllData)
     })
     
     return {

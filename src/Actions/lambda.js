@@ -9,7 +9,9 @@ import {
     UPDATE_RANGE_DATA,
     UPDATE_SPLINE_DATA
 } from './actionDefinitions'
-export const baseUrl=process.env.NODE_ENV === 'production'?'https://74ekexhct2.execute-api.us-east-1.amazonaws.com/dev/v2/':'/'
+
+console.log(process.env.REACT_APP_CUST)
+export const baseUrl=process.env.NODE_ENV === 'production'||process.env.REACT_APP_CUST==='production'?'https://74ekexhct2.execute-api.us-east-1.amazonaws.com/dev/v2/':'/'
 
 const createBody=params=>({
     method:'post',
