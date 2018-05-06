@@ -55,6 +55,7 @@ export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=
         value:true
     })
     getOptionUrl('calibrator', 'calibrate')(parms).then(response=>{
+        console.log(response)
         dispatch({
             type:createOptionReplaceAll(type),
             data:optionalChangeParameters?optionalChangeParameters(response):response,
