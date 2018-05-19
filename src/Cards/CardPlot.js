@@ -4,8 +4,8 @@ import { Card, Alert } from 'antd'
 import { rootSensitivity, rootModel } from '../Routes/routeDefinitions'
 import { Route, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { parameters } from '../Actions/actionDefinitions'
-import { getCGMYFunction, getAllCGMY } from '../Utils/utils'
+import { PARAMETERS } from '../Utils/constants'
+import { generateConvertSpecificToAdvanced, getAllAdvanced } from '../Utils/conversionUtils'
 import {
     sensitivities
 } from '../appSkeleton'
@@ -17,7 +17,7 @@ export const switchTheta=(adaV, v0, sensitivity, Component)=>(sensitivity===thet
 export const ThetaWarning=({adaV, v0})=>(
 <Alert
 	message="Warning"
-	description={`Theta is inaccurate when adaV>0 (currently ${adaV}) or v0!=1 (currently ${v0})`}
+	description={`Theta is inaccurate when Vol of Vol>0 (currently ${adaV}) or V0!=1 (currently ${v0})`}
 	type="warning"
 	showIcon
 />
@@ -28,7 +28,7 @@ const NoSensitivity=({sensitivity, title})=>(
 const CardPlot=({Algorithm, HelpComponent, url, match, title, parameters, model})=>{
 	const rootModelLink=match.params[rootModel]
 	const rootSensitivityLink=match.params[rootSensitivity]
-	const {adaV, v0}=getAllCGMY(parameters, getCGMYFunction(model))
+	const {adaV, v0}=getAllAdvanced(parameters, generateConvertSpecificToAdvanced(model))
 	const localUrl=`/${rootModelLink}/${rootSensitivityLink}${url}`
 	const Component=Algorithm[rootSensitivityLink]
 	const IVComponent=Algorithm.IV	
@@ -57,8 +57,8 @@ CardPlot.propTypes={
     title:PropTypes.string.isRequired
 }
 
-const mapStateToProps=(state, {model})=>({
-	parameters:state[model.name+parameters]
+const mapStateToProps=({form}, {model})=>({
+	parameters:form[model.name+PARAMETERS]
 })
 
 export default connect(mapStateToProps)(CardPlot)

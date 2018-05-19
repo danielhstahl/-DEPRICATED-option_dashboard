@@ -5,23 +5,25 @@ import { Modal, Menu } from 'antd'
 import { Link } from 'react-router-dom'
 const getBaseUrl=path=>path.split("/:")[0]
 
-const MenuTypes=({match, baseUrl})=>{
-    const baseAndPathUrl=getBaseUrl(match.path)
-    return (
+const MenuTypes=({match, basePath})=>(
     <Menu theme="light" mode="horizontal" selectedKeys={[match.params[modalInputsIndex]]}>
         <Menu.Item key="manual">
-            <Link to={`${baseAndPathUrl}/manual`}>Manual</Link>
+            <Link to={`${basePath}/manual`}>Manual</Link>
         </Menu.Item>
         <Menu.Item key="calibration">
-            <Link to={`${baseAndPathUrl}/calibration`}>Calibration</Link>
+            <Link to={`${basePath}/calibration`}>Calibration</Link>
+        </Menu.Item>
+        <Menu.Item key="settings">
+            <Link to={`${basePath}/settings`}>Settings</Link>
         </Menu.Item>
     </Menu>
-    ) 
-}
+) 
+
 
 const ModalInputs=({history, match, model, baseUrl})=>{
     const closeModal=()=>history.push(baseUrl)
     const ModelComponent=GenerateForm[model]
+    const baseAndPathUrl=getBaseUrl(match.path)
     return (
     <Modal 
         title="Attributes" 
@@ -31,8 +33,8 @@ const ModalInputs=({history, match, model, baseUrl})=>{
         width={900}
         footer={null}
     >
-        <MenuTypes match={match} baseUrl={baseUrl}/>
-        <ModelComponent type={match.params[modalInputsIndex]}/>
+        <MenuTypes match={match} basePath={baseAndPathUrl}/>
+        <ModelComponent match={match} basePath={baseAndPathUrl}/>
     </Modal>
     )
 }

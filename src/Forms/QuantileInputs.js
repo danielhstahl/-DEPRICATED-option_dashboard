@@ -1,7 +1,7 @@
 import React from 'react'
 import { createArray } from '../Utils/utils'
 import { CustomDrop } from './FormHelper'
-import { updateQuantile } from '../Actions/parameters'
+import actionParameters from '../Actions/parameters'
 import { getVaRData } from '../Actions/lambda'
 import { connect } from 'react-redux'
 import { Button, Row, Col} from 'antd'
@@ -9,7 +9,10 @@ import PropTypes from 'prop-types'
 import {    
     gutter
 } from './globalOptions'
+
+const { updateQuantile }=actionParameters
 const quantileOptions=createArray(.001, .05, .001)
+
 const QuantileInputs=({quantileParameters, updateQuantile, submitOptions})=>(
     <Row gutter={gutter}>
         <Col xs={24} md={16}>
@@ -40,10 +43,10 @@ QuantileInputs.propTypes={
     submitOptions:PropTypes.func.isRequired
 }
 
-const mapStateToProps=({optionParameters, quantile})=>({
+const mapStateToProps=({form})=>({
     quantileParameters:{
-        ...optionParameters,
-        quantile
+        ...form.optionParameters,
+        quantile:form.quantile
     }
 })
 

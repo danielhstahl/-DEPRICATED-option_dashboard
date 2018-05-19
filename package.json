@@ -1,5 +1,6 @@
 {
   "name": "option_dashboard",
+  "proxy": "http://localhost:3001",
   "version": "0.0.1",
   "private": true,
   "homepage": "https://phillyfan1138.github.io/option_dashboard",
@@ -7,12 +8,11 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "jest-fetch-mock": "^1.5.0",
-    "react-scripts": "1.0.17"
+    "react-scripts": "1.1.4"
   },
   "dependencies": {
     "antd": "^3.1.4",
     "array_utils": "^1.4",
-    "gamma": "^1.0.0",
     "gh-pages": "^1.1.0",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
@@ -24,6 +24,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start-prd": "REACT_APP_CUST=production react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",

@@ -1,12 +1,10 @@
 import { connect } from 'react-redux'
 import {DensityCurves} from './Graphs'
 
-const mapStateToProps = state=>({
-    data:state.density,
-    VaR:state.VaR.VaR,
-    ES:state.VaR.ES
+const mapStateToProps =({graph})=>({
+  ...graph.riskMetrics,
+  density:graph.density
 })
-
 export const Density = connect(
   mapStateToProps,
 )(DensityCurves)

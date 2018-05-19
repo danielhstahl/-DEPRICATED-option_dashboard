@@ -3,9 +3,15 @@ import appSkeleton, {
     createOptionReplaceAll
 } from '../appSkeleton'
 import {
-    NOTIFY_CALIBRATION
+    NOTIFY_CALIBRATION,
+    UPDATE_DENSITY_RAW,
+    UPDATE_DENSITY_VAR,
+    UPDATE_RANGE_DATA,
+    UPDATE_SPLINE_DATA
 } from './actionDefinitions'
-export const baseUrl= 'https://74ekexhct2.execute-api.us-east-1.amazonaws.com/dev/v1/'
+
+console.log(process.env.REACT_APP_CUST)
+export const baseUrl=process.env.NODE_ENV === 'production'||process.env.REACT_APP_CUST==='production'?'https://74ekexhct2.execute-api.us-east-1.amazonaws.com/dev/v2/':'/'
 
 const createBody=params=>({
     method:'post',
@@ -15,22 +21,41 @@ export const createUrl=urlParams=>`${baseUrl}${urlParams.join('/')}`
 
 const getOptionUrl=(...urlParams)=>params=>fetch(createUrl(urlParams), createBody(params)).then(response=>response.json())
 
+
+const getDefaultUrl=(...urlParams)=>fetch(createUrl(urlParams)).then(response=>response.json())
+
+export const getRangeData=dispatch=>()=>getDefaultUrl('parameters', 'parameter_ranges').then(data=>dispatch({
+    type:UPDATE_RANGE_DATA,
+    data
+}))
+
 const getDData=(section, type)=>(parms, dispatch)=>{
     const base='density'
-    getOptionUrl(base, section)(parms).then(response=>dispatch({
+    getOptionUrl(base, section)(parms).then(data=>dispatch({
         type,
-        data:response
+        data
     }))
 }
-export const getVaRData=getDData('var', 'UPDATE_DENSITY_VAR')
-export const getDensity=getDData('raw', 'UPDATE_DENSITY_RAW')
+export const getVaRData=getDData('var', UPDATE_DENSITY_VAR)
+export const getDensity=getDData('raw', UPDATE_DENSITY_RAW)
+
+export const getSpline=(parms, dispatch)=>{
+    getOptionUrl('calibrator', 'spline')(parms).then(response=>{
+        dispatch({
+            type:UPDATE_SPLINE_DATA,
+            data:response
+        })
+    })
+}
 
 export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=>{
+    console.log(parms)
     dispatch({
         type:NOTIFY_CALIBRATION,
         value:true
     })
-    getOptionUrl('calibrator')(parms).then(response=>{
+    getOptionUrl('calibrator', 'calibrate')(parms).then(response=>{
+        console.log(response)
         dispatch({
             type:createOptionReplaceAll(type),
             data:optionalChangeParameters?optionalChangeParameters(response):response,
@@ -40,9 +65,12 @@ export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=
             value:false
         })
     })
+    getSpline(parms, dispatch)
 }
 
+
 export const getAllData=(parameters, dispatch)=>{
+    console.log(parameters)
     appSkeleton.forEach(
         row=>getOptionUrl('calculator', ...row)(parameters).then(response=>dispatch({
             type:createActionType(...row),

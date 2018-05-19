@@ -20,6 +20,7 @@ const legendOption=[{
     symbol: { fill: "red", type: "circle" }
 }]
 const optionLabelFn=label=>d=>`Price ${d.y} at ${label} ${d.x}`
+const splineLabelFn=label=>d=>`Transformed Option Price ${d.y} at ${label} ${d.x}`
 const ivLabelFn=label=>d=>`Volatility ${d.y} at ${label} ${d.x}`
 const axisStyleOption={ axisLabel: { padding: 30} }
 const axisStyleIV={ axisLabel: { padding: 40} }
@@ -121,7 +122,7 @@ const getVar=(VaR, data)=>[
         y:getMax(data, "value")
     }
 ]
-export const DensityCurves=({data, VaR, ES})=>(
+export const DensityCurves=({density, VaR, ES})=>(
     <VictoryChart domainPadding={domainPadding}>
         <VictoryLabel x={25} y={24}
             text={`Value at Risk: ${VaR}`}
@@ -131,12 +132,12 @@ export const DensityCurves=({data, VaR, ES})=>(
         />
         <VictoryLine
             interpolation="natural"
-            data={data}
+            data={density}
             x="atPoint"
             y="value"
         />
         <VictoryLine
-            data={getVar(VaR, data)}
+            data={getVar(VaR, density)}
         />
         <VictoryAxis 
             label="Log Asset Price"
@@ -144,10 +145,58 @@ export const DensityCurves=({data, VaR, ES})=>(
     </VictoryChart>
 )
 DensityCurves.propTypes={
-    data:PropTypes.arrayOf(PropTypes.shape({
+    density:PropTypes.arrayOf(PropTypes.shape({
         value:PropTypes.number.isRequired,
         atPoint:PropTypes.number.isRequired
     })),
     VaR:PropTypes.number,
     ES:PropTypes.number
+}
+
+
+export const SplineCurves=({spline, title, xLabel, yLabel})=>(
+    <VictoryChart 
+        domainPadding={domainPadding} 
+        containerComponent={<VictoryVoronoiContainer labels={splineLabelFn(xLabel)}/>}
+    >
+        <VictoryLegend x={50} y={50}
+            orientation="vertical"
+            gutter={20}
+            data={legendOption}
+        />
+        <VictoryLabel x={120} y={50}
+            text={title}
+        />
+        <VictoryScatter data={spline.points} x="logStrike" y="transformedOption"/>
+        <VictoryLine
+            style={callStyle}
+            interpolation="natural"
+            data={spline.curve}
+            x="logStrike"
+            y="transformedOption"
+        />
+        <VictoryAxis 
+            dependentAxis
+            style={axisStyleOption}
+            label={yLabel}
+        />
+        <VictoryAxis
+            label={xLabel}
+        />
+    </VictoryChart>
+)
+SplineCurves.propTypes={
+    spline:PropTypes.shape({
+        curve:PropTypes.arrayOf(PropTypes.shape({
+            logStrike:PropTypes.number.isRequired,
+            transformedOption:PropTypes.number.isRequired
+        })),
+        points:PropTypes.arrayOf(PropTypes.shape({
+            logStrike:PropTypes.number.isRequired,
+            transformedOption:PropTypes.number.isRequired
+        }))
+    }),
+    title:PropTypes.string.isRequired,
+    xLabel:PropTypes.string.isRequired,
+    yLabel:PropTypes.string.isRequired,
 }

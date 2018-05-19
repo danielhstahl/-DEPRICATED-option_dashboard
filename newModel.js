@@ -15,8 +15,6 @@ const defaultWrite=(name, label)=>({
         {
             defVal:8,
             key:'numU',
-            lBound:6,
-            uBound:10,
             label:"Discrete Steps",
             toolTip:"This is the log2 number of discrete steps in the complex domain.  The higher the number, the more accurate the result; but the longer it will take.",
             feature:'static'
@@ -24,8 +22,6 @@ const defaultWrite=(name, label)=>({
         {
             defVal:.03,
             key:'r',
-            lBound:0,
-            uBound:1,
             label:"Rate",
             toolTip:"Risk free interest rate",
             feature:'static'
@@ -33,8 +29,6 @@ const defaultWrite=(name, label)=>({
         {
             defVal:50,
             key:'S0',
-            lBound:1,
-            uBound:500,
             label:"S or K",
             toolTip:"For Carr-Madan and Fang-Oosterlee, which price over several strikes and single asset price, this is the asset price.  For FSTS, which prices over several asset prices and single strike, this is the strike",
             feature:'static'
@@ -42,61 +36,40 @@ const defaultWrite=(name, label)=>({
         {
             defVal:1,
             key:'T',
-            lBound:.25,
-            uBound:5,
             label:"T",
             toolTip:"Time till maturity",
             feature:'static'
         },
         {
             defVal:.2,
-            lBound:.05,
             key:'sigma',
-            uBound:2,
             label:"Volatility",
-            toolTip:"This is the volatility of the diffusion component of the (extended) CGMY process",
+            toolTip:"This is the volatility of the diffusion component of the (extended) Jump Diffusion process",
             feature:'variable'
         },
         {
             defVal:.2,
-            lBound:0,
-            uBound:2,
-            key:'C',
-            label:"C",
-            toolTip:"This is the C in CGMY",
+            key:'muJ',
+            label:"Mean Jump Size",
+            toolTip:"This is the mean value of the jump component",
             feature:'variable'
         },
         {
-            defVal:1.4,
-            lBound:.2,
-            uBound:20,
-            key:'G',
-            label:"G",
-            toolTip:"This is the G in CGMY",
+            defVal:.3,
+            key:'sigJ',
+            label:"Volatility of Jump",
+            toolTip:"This is the volatility of the jump component",
             feature:'variable'
         },
         {
-            defVal:2.5,
-            key:'M',
-            lBound:.2,
-            uBound:20,
-            label:"M",
-            toolTip:"This is the M in CGMY",
-            feature:'variable'
-        },
-        {
-            defVal:.6,
-            key:'Y',
-            lBound:-100,
-            uBound:1.99,
-            label:"Y",
-            toolTip:"This is the Y in CGMY",
+            defVal:0.2,
+            key:'lambda',
+            label:"Lambda",
+            toolTip:"This is the frequency of jumps",
             feature:'variable'
         },
         {
             defVal:.4,
-            lBound:.01,
-            uBound:1,
             key:'speed',
             label:"Speed",
             toolTip:"Speed of mean reversion of time change",
@@ -105,33 +78,42 @@ const defaultWrite=(name, label)=>({
         {
             defVal:.95,
             key:'v0',
-            lBound:.2,
+
             label:"V0",
             toolTip:"This is the current value of the variance process",
-            uBound:1.8,
             feature:'variable'
         },
         {
             defVal:.2,
             key:'adaV',
-            lBound:0,
             label:"Vol of Vol",
             toolTip:"This is the volatility of the variance process",
-            uBound:2,
             feature:'variable'
         },
         {
             defVal:-.5,
-            lBound:-.99,
-            uBound:.99,
             key:'rho',
             label:"Rho",
             toolTip:"Correlation between asset and variance",
             feature:'variable'
+        },
+        {
+            defVal:.5,
+            key:'delta',
+            label:"Delta",
+            toolTip:"Impact of jumps on volatility",
+            feature:'variable'
+        },
+        {
+            defVal:10,
+            key:'q',
+            label:"q",
+            toolTip:"Size of volatility jump.  1/q is the average jump size.",
+            feature:'variable'
         }
     ],
-    [name+'ToAdvanced']:'put function that takes the parameters above and converts them to the CGMY parameters.  For an example, see ___',
-    ['advancedTo'+name]:'put function that takes the CGMY parameters and converts them to the parameters above.  For an example, see ___'
+    [name+'ToAdvanced']:'put function that takes the parameters above and converts them to the Jump Diffusion parameters.  For an example, see ___',
+    ['advancedTo'+name]:'put function that takes the Jump Diffusion parameters and converts them to the parameters above.  For an example, see ___'
 })
 
 const checkArgs=()=>{
@@ -146,16 +128,16 @@ const checkArgs=()=>{
 const getModelName=()=>{
     return cliArgs[2]
 }
-const getPath=(name)=>modelFolder+'/'+name+'.js'
+const getPath=name=>modelFolder+'/'+name+'.js'
 
-const checkExistance=(name)=>{  
+const checkExistance=name=>{  
     return new Promise((resolve, reject)=>{
         fs.stat(getPath(name), (err, result)=>{
             err?resolve(false):resolve(true)
         })
     })
 }
-const overWrite=(fileName)=>{
+const overWrite=fileName=>{
     return new Promise((resolve, reject)=>{
         rl.question(`${fileName} already exists! Overwrite? (y/n)`, answer=>{
             answer==='y'?resolve(true):resolve(false)
@@ -171,17 +153,17 @@ const getLabel=()=>{
     })
 }
 
-const getCommentsTopLine=(bodyAsString)=>{
+const getCommentsTopLine=bodyAsString=>{
     const description=`/** This serves as a template for a model plugin. 
 *  The parameters with feature 'static' will be used 
 *  but won't be calibrated.  Feature 'variable' will
 *  be calibrated.  Feature 'constant' wont' be used
-*  or calibrated.  The 'lBound' and 'uBound' 
-*  are the upper and lower limits of the variable. 
+*  or calibrated.  
 *  You must specify a function to convert to and 
-*  from the baseline model (extended CGMY).  To 
-*  convert from baseline to CGMY, you must have the
-*  variable parameters in a "variable" sub-object.
+*  from the baseline model (extended Merton Jump 
+*  Diffusion).  To convert from baseline to Merton 
+*  Jump Diffusion, you must have the variable
+*  parameters in a "variable" sub-object.
 *  As an example, see heston.js and 
 *  https://github.com/phillyfan1138/CharacteristicFunctions/blob/master/ConversionHestonCF.pdf 
 */ \n
@@ -195,8 +177,8 @@ const writeFile=(fileName, content)=>{
         })
     })
 }
-const writeToDoGenerator=(fileName)=>{
-    const message=`Skeleton of model has been generated at ${fileName}.  You must edit this including putting custom variables and a converter back and forth from CGMY models`
+const writeToDoGenerator=fileName=>{
+    const message=`Skeleton of model has been generated at ${fileName}.  You must edit this including putting custom variables and a converter back and forth from Jump Diffusion models`
     return console.log(message)
 }
 
