@@ -40,6 +40,8 @@ const defaultFormValidationStatus={
     adaV:'',
     rho:'',
     k:'',
+    delta:'',
+    q:'',
     prices:''
 }
 

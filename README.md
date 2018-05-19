@@ -33,3 +33,9 @@ In a future state, we want the following:
 * Inside this repo, run `node newModel [modelname]`
 * Edit `./src/Models/[modelname].js`.  This should include adding functions to convert back and forth between CGMY parameters.
 * Run `./generator/buildCode.js`.  This will update `./src/modelSkeleton.js`.
+
+## Development
+
+By default, `npm start` runs against a local server 3001.  This local server is in the [levy-functions](https://github.com/phillyfan1138/levy-functions) repo.
+
+To run against the production (AWS lambda), run `npm run start-prd`.
