@@ -106,19 +106,12 @@ export const model={
       "label":"Delta",
       "toolTip":"Impact of jumps on volatility",
       "feature":'variable'
-    },
-    {
-        "defVal":10,
-        "key":'q',
-        "label":"q",
-        "toolTip":"Size of volatility jump.  1/q is the average jump size.",
-        "feature":'variable'
     }
   ],
-  "advancedToAdvanced": ({rho, adaV, v0, speed, sigma, sigJ, muJ, lambda, delta, q, ...rest})=>({
+  "advancedToAdvanced": ({rho, adaV, v0, speed, sigma, sigJ, muJ, lambda, delta, ...rest})=>({
     ...rest,
     variable:{
-      rho, adaV, v0, speed, sigma, sigJ, muJ, lambda, delta, q
+      rho, adaV, v0, speed, sigma, sigJ, muJ, lambda, delta
     }
   }),
   "advancedToadvanced": parameters=>parameters

@@ -119,13 +119,6 @@ export const model={
       "label": "Delta",
       "toolTip": "Impact of jumps on volatility",
       "feature": "constant"
-    },
-    {
-      "defVal": 10.0,
-      "key": "q",
-      "label": "q",
-      "toolTip": "Size of volatility jump.  1/q is the average jump size.",
-      "feature": "constant"
     }
   ],
   "hestonToAdvanced": ({adaV, meanVol, v0, rho, speed, ...rest})=>({
