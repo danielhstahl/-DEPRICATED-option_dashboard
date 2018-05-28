@@ -99,19 +99,12 @@ export const model={
       "label": "Rho",
       "toolTip": "Correlation between asset and variance",
       "feature": "variable"
-    },
-    {
-      "defVal":.5,
-      "key":'delta',
-      "label":"Delta",
-      "toolTip":"Impact of jumps on volatility",
-      "feature":'variable'
     }
   ],
-  "advancedToAdvanced": ({rho, adaV, v0, speed, sigma, sigJ, muJ, lambda, delta, ...rest})=>({
+  "advancedToAdvanced": ({rho, adaV, v0, speed, sigma, sigJ, muJ, lambda, ...rest})=>({
     ...rest,
     variable:{
-      rho, adaV, v0, speed, sigma, sigJ, muJ, lambda, delta
+      rho, adaV, v0, speed, sigma, sigJ, muJ, lambda
     }
   }),
   "advancedToadvanced": parameters=>parameters

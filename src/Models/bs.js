@@ -99,13 +99,6 @@ export const model={
       "label": "Rho",
       "toolTip": "Correlation between asset and variance",
       "feature": "constant"
-    },
-    {
-      "defVal": 0.0,
-      "key": "delta",
-      "label": "Delta",
-      "toolTip": "Impact of jumps on volatility",
-      "feature": "constant"
     }
   ],
   "bsToAdvanced": ({sigma, ...rest})=>({

@@ -96,13 +96,6 @@ const defaultWrite=(name, label)=>({
             label:"Rho",
             toolTip:"Correlation between asset and variance",
             feature:'variable'
-        },
-        {
-            defVal:.5,
-            key:'delta',
-            label:"Delta",
-            toolTip:"Impact of jumps on volatility",
-            feature:'variable'
         }
     ],
     [name+'ToAdvanced']:'put function that takes the parameters above and converts them to the Jump Diffusion parameters.  For an example, see ___',
