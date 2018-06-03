@@ -6,7 +6,6 @@ import { CustomNumberDrop } from './HelperComponents/FormHelper'
 import {mapStateToProps, mapDispatchToProps} from './reduxInjections'
 import { connect } from 'react-redux'
 import { Button, Row, Col} from 'antd'
-import PropTypes from 'prop-types'
 import {    
     gutter
 } from './globalOptions'
@@ -18,7 +17,7 @@ const QuantileInputs=({model, updateQuantile, submitDensity, ...form})=>(
         <Col xs={24} md={16}>
             <CustomNumberDrop 
                 objKey='quantile' 
-                parms={form[model+PARAMETERS]}
+                parms={form}
                 options={quantileOptions}
                 round={3}
                 toolTip="This is the quantile of the asset return distribution.  A .01 quantile translates to a 99% VaR"
@@ -29,7 +28,7 @@ const QuantileInputs=({model, updateQuantile, submitDensity, ...form})=>(
         <Col xs={24} md={8}>
             <Button 
                 className='side-button submit-button' type="primary" 
-                onClick={submitDensity({quantile:form.quantile, ...form[model+PARAMETERS]}, model)}
+                onClick={submitDensity({quantile:form.quantile, ...form[model.name+PARAMETERS]}, model)}
             >Update</Button>
         </Col>
     </Row>

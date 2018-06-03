@@ -1,23 +1,10 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import { connect } from 'react-redux'
 import { Row } from 'antd'
 
 /**Helpers and constants */
-import { createBounds } from './helperValidators'
-import { 
-    generateSubmitOptions, 
-    generateConvertSpecificToAdvanced, 
-    generateCalibrationOptions
-} from '../Utils/conversionUtils'
-import { modelObj } from '../modelSkeleton'
 import { gutter } from './globalOptions'
-import {PARAMETERS, NOTIFY, VALIDATION} from '../Utils/constants'
 import {getParametersByFeature} from '../Utils/conversionUtils'
-
-/**Actions */
-import { getCalibration, getAllData } from '../Actions/lambda'
-import updateParameters from '../Actions/parameters'
 
 /**Components */
 import InputSettings from  './Settings/InputSettings'
@@ -32,7 +19,7 @@ export default ({model, basePath})=>[
     <Row gutter={gutter} key='inputrow'>
         <CommonInputs 
             model={model}
-            modelParameters={getParametersByFeature(modelObj[model].parameters, 'static')}
+            modelParameters={getParametersByFeature(model.parameters, 'static')}
         />
         <Route 
             path={`${basePath}/manual`} exact 

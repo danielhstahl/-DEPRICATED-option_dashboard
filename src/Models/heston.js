@@ -114,15 +114,11 @@ export const model={
       "feature": "variable"
     }
   ],
-  "hestonToAdvanced": ({adaV, meanVol, v0, rho, speed, ...rest})=>({
+  "hestonToAdvanced": ({adaV, meanVol, v0, ...rest})=>({
       ...rest,
-      variable:{
-        adaV:convertHestonToCustomAda(adaV, meanVol),
-        sigma:convertHestonToCustomSig(meanVol),
-        v0:convertHestonToCustomV0(v0, meanVol),
-        rho,
-        speed
-      }
+      adaV:convertHestonToCustomAda(adaV, meanVol),
+      sigma:convertHestonToCustomSig(meanVol),
+      v0:convertHestonToCustomV0(v0, meanVol)      
   }),
   "advancedToheston": ({sigma, v0, adaV, ...rest})=>({
     ...rest,

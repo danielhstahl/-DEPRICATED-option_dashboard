@@ -147,9 +147,7 @@ const getCommentsTopLine=bodyAsString=>{
 *  or calibrated.  
 *  You must specify a function to convert to and 
 *  from the baseline model (extended Merton Jump 
-*  Diffusion).  To convert from baseline to Merton 
-*  Jump Diffusion, you must have the variable
-*  parameters in a "variable" sub-object.
+*  Diffusion).
 *  As an example, see heston.js and 
 *  https://github.com/phillyfan1138/CharacteristicFunctions/blob/master/ConversionHestonCF.pdf 
 */ \n

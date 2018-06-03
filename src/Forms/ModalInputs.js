@@ -22,7 +22,6 @@ const MenuTypes=({match, basePath})=>(
 
 const ModalInputs=({history, match, model, baseUrl})=>{
     const closeModal=()=>history.push(baseUrl)
-    //const ModelComponent=GenerateForm[model]
     const baseAndPathUrl=getBaseUrl(match.path)
     return (
     <Modal 

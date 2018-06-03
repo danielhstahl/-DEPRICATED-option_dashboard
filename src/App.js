@@ -38,9 +38,9 @@ const modelChoiceGenerator = handleMenuClick=>(
 	</Menu>
 )
 const colorStyle={backgroundColor: 'whitesmoke'}
-const MenuSensitivities=({history, sensitivity, model, label})=>{
-	const goToInputModal=model=>{
-		history.push(`/${model}/${sensitivity}/${inputsUrl}/manual`)
+const MenuSensitivities=({history, sensitivity, modelLink, label})=>{
+	const goToInputModal=modelLink=>{
+		history.push(`/${modelLink}/${sensitivity}/${inputsUrl}/manual`)
 	}
 	return (
 		<Menu 
@@ -52,26 +52,24 @@ const MenuSensitivities=({history, sensitivity, model, label})=>{
 			{
 				sensitivities.map(sensitivity=>(
 					<Menu.Item key={sensitivity}>
-						<Link to={`/${model}/${sensitivity}`}> {upperFirstLetter(sensitivity)} </Link>
+						<Link to={`/${modelLink}/${sensitivity}`}> {upperFirstLetter(sensitivity)} </Link>
 					</Menu.Item>
 				))
 			}
-			<div>
 				<Dropdown.Button 
 					key={1}
 					style={floatRight}
-					onClick={()=>goToInputModal(model)}
+					onClick={()=>goToInputModal(modelLink)}
 					overlay={modelChoiceGenerator(goToInputModal)}
 				>
 					{label}: Inputs
 				</Dropdown.Button>
-			</div>
 		</Menu>
 	)	
 }
 
-const WrapModalInputs=({model, sensitivity})=>{
-	const baseUrl=`/${model}/${sensitivity}`
+const WrapModalInputs=({model, modelLink, sensitivity})=>{
+	const baseUrl=`/${modelLink}/${sensitivity}`
 	return (
 	<Route 
 		path={`${baseUrl}/${inputsUrl}/:${modalInputsIndex}`} 
@@ -94,12 +92,14 @@ const HoldCards=({match, ...rest})=>{
 	<LoadData key={-1} model={currentModel}/>,
 	<WrapModalInputs 
 		sensitivity={rootSensitivityLink}
-		model={rootModelLink}
+		modelLink={rootModelLink}
+		model={currentModel}
 		key={0}
 	/>,
 	<MenuSensitivities 
 		sensitivity={rootSensitivityLink}
-		model={rootModelLink}
+		modelLink={rootModelLink}
+		model={currentModel}
 		label={currentModel.label}
 		{...rest} 
 		key={1}

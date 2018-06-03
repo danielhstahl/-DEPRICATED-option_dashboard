@@ -1,3 +1,5 @@
+import {generateConvertAdvancedToSpecific} from '../Utils/conversionUtils'
+
 const isNumeric=x=>!isNaN(x) && isFinite(x)
 export const rangeValidator=(min, max)=>val=>{
     const x=parseFloat(val)
@@ -8,8 +10,6 @@ export const isNotComplete=num=>{
     const strNum=num.toString()
     return strNum.indexOf('.') === strNum.length - 1
 }
-
-
 
 export const createBounds=(min, max)=>({
     fn:rangeValidator(min, max),
@@ -40,3 +40,8 @@ export const convertParametersToSpecificAndAddValidation=(parameters, convertAdv
         }
     }))
 }
+
+export const getFormItems=(model, modelParameters, range)=>convertParametersToSpecificAndAddValidation(
+    modelParameters,
+    generateConvertAdvancedToSpecific(model)
+)(range)

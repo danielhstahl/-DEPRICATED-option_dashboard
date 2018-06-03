@@ -1,6 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { Col, Alert } from 'antd'
 import PropTypes from 'prop-types'
 
 /**Components */
@@ -12,14 +10,14 @@ import OptionMSE from './OptionMSE'
 const InputCalibrator=({
     model
 })=>[
-    <OptionMaturities key='maturities'/>,
+    <OptionMaturities key='maturities' model={model}/>,
     <OptionPrices key='optionprices' model={model}/>,
     <CommonCalibratorButton key='calibrate' model={model}/>,
     <OptionMSE key='displayconvergence' model={model}/>
 ]
 
 InputCalibrator.propTypes={
-    model:PropTypes.string.isRequired
+    model:PropTypes.object.isRequired
 }
 
 export default InputCalibrator

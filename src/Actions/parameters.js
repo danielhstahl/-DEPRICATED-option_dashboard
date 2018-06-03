@@ -2,12 +2,9 @@ import { modelMap } from '../modelSkeleton'
 import { 
     UPDATE_QUANTILE, 
     UPDATE_SLIDER_RANGE, 
-    UPDATE_OPTION_PRICES, 
-    UPDATE_OPTION_MATURITIES, 
     UPDATE_OPTION_FORM, 
     createValidationType, 
-    createOptionType, 
-    createOptionReplaceAll
+    createOptionType
 } from './actionDefinitions'
 
 const generateValidation=paramName=>(key, value, dispatch)=>{

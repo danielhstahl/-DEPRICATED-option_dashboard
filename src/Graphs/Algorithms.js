@@ -38,7 +38,7 @@ export const generateAlgorithmOptionPrices=(keySkeleton, algorithm)=>
                         [optionType]:graph[algorithm+optionType+sensitivity],
                         yLabel:upperFirstLetter(sensitivity)
                     }), initState),
-                    marketData:algorithm===fstsName?null:generateMarketData(sensitivity, form.calibrateParameters)
+                    marketData:algorithm===fstsName?null:generateMarketData(sensitivity, form.optionValues)
                 })
             )(Component)
         }), {})

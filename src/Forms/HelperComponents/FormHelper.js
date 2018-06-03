@@ -2,16 +2,10 @@ import React from 'react'
 import { Tooltip, Input, Form, Button, Select, InputNumber, Slider } from 'antd'
 import PropTypes from 'prop-types'
 import { fullWidth, formItemLayoutLabel } from '../globalOptions'
-import { isNotComplete } from '../helperValidators'
 
-const onChangeNumberHelper=(onChange, validator, objKey)=>value=>{
-    const isValid=validator?validator.fn(value):'truthy'
-    onChange(objKey, value, typeof isValid==='boolean'?'error':'') 
-}
-const onChangeTextAreaHelper=(onChange, validator, objKey)=>e=>{
-    const value=e.target.value
-    const result=value.split(',').map(val=>isNotComplete(val)?val:validator.fn(val)||val)
-    onChange(objKey, result, result.find(v=>!validator.fn(v))?'error':'') 
+const onChangeHelper=getV=>(onChange, validator, objKey)=>value=>{
+    const isValid=validator?validator.fn(getV(value)):'truthy'
+    onChange(objKey, getV(value), typeof isValid==='boolean'?'error':'') 
 }
 
 const FormItem=Form.Item
@@ -39,12 +33,13 @@ export const CustomNumberDrop=({objKey, parms, options, onChange, round, toolTip
 export const CustomDateDrop=({objKey, parms, options, onChange, toolTip})=>(
 <Tooltip placement="top" title={toolTip}>
     <Select
-        value={new Date(parms[objKey])}
+        value={parms[objKey]}
         onChange={v=>onChange(objKey, v)}
         style={fullWidth}
     >
         {options.map(option=>{
-            return <Option key={option} value={option}>{new Date(option)}</Option>
+            const date=new Date(option)
+            return <Option key={option} value={option}>{date.toLocaleDateString()}</Option>
         })}
     </Select>
 </Tooltip>
@@ -63,7 +58,7 @@ export const CustomInput=({objKey, parms, onChange, toolTip, validator})=>(
 <Tooltip placement="top" title={toolTip}>
     <InputNumber
         value={parms[objKey]}
-        onChange={onChangeNumberHelper(onChange, validator, objKey)}
+        onChange={onChangeHelper(v=>v)(onChange, validator, objKey)}
         style={fullWidth}
     />
 </Tooltip>
@@ -79,17 +74,18 @@ CustomInput.propTypes={
         help:PropTypes.string.isRequired
     })
 }
-export const CustomTextArea=({objKey, parms, onChange, toolTip, validator})=>(
-<Tooltip placement="top" title={toolTip}>
-    <Input.TextArea
-        autosize
-        value={parms[objKey]}
-        onChange={onChangeTextAreaHelper(onChange, validator, objKey)}
-        style={fullWidth}
-    />
-</Tooltip>
+
+export const CustomInputText=({objKey, parms, onChange, toolTip, validator})=>(
+    <Tooltip placement="top" title={toolTip}>
+        <Input
+            value={parms[objKey]}
+            onChange={onChangeHelper(e=>e.target.value)(onChange, validator, objKey)}
+            style={fullWidth}
+        />
+    </Tooltip>
 )
-CustomTextArea.propTypes={
+
+CustomInputText.propTypes={
     objKey:PropTypes.string.isRequired,
     parms:PropTypes.object.isRequired,
     onChange:PropTypes.func.isRequired,
@@ -117,7 +113,7 @@ CustomFormItemGeneric.propTypes={
 }
 
 export const CustomFormItemInput=CustomFormItemGeneric(CustomInput)
-export const CustomFormItemTextArea=CustomFormItemGeneric(CustomTextArea)
+export const CustomFormItemTextInput=CustomFormItemGeneric(CustomInputText)
 
 export const CustomUpdateButton=({disabled, onClick, text, ...rest})=>(
     <FormItem {...formItemLayoutLabel} colon={false} label=" ">

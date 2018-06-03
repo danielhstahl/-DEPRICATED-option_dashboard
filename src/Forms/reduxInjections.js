@@ -8,12 +8,9 @@ import {
 import actionParameters from '../Actions/parameters' 
 import {
     generateConvertSpecificToAdvanced, 
-    generateConvertAdvancedToSpecific,
-    getParametersByFeature
+    generateConvertAdvancedToSpecific
 } from '../Utils/conversionUtils'
-import {modelObj} from '../modelSkeleton'
-const {
-    updateParameters, 
+const { 
     updateOptionForm, 
     updateSlider, 
     updateQuantile
@@ -23,29 +20,40 @@ export const mapStateToProps=({form})=>form //includes a lot
 
 export const mapDispatchToProps=dispatch=>({
     submitCalculator:(specificParameters, model)=>()=>{
-        getCalculation(generateConvertSpecificToAdvanced(modelObj[model])(specificParameters), dispatch)
+        getCalculation(generateConvertSpecificToAdvanced(model)(specificParameters), dispatch)
     },
     submitCalibrator:(specificParameters, model, range)=>()=>{
-        const advancedParameters=generateConvertSpecificToAdvanced(modelObj[model])(specificParameters)
-        const variable=getParametersByFeature(modelObj[model].parameters, 'variable').reduce((aggr, curr)=>({
-            ...aggr,
-            [curr.key]:advancedParameters[curr.key]
-        }), {})
+        const advancedParameters=generateConvertSpecificToAdvanced(model)(specificParameters)
+        const calibrateParameters=model.parameters.reduce((aggr, curr)=>{
+            if(curr.feature==='variable'){
+                return {
+                    ...aggr, 
+                    variable:{
+                        ...aggr.variable, 
+                        [curr.key]:advancedParameters[curr.key]
+                    }
+                }
+            }
+            return {
+                ...aggr,
+                [curr.key]:advancedParameters[curr.key]
+            }
+        }, {constraints:range})
         getCalibration(
-            model, 
-            generateConvertAdvancedToSpecific(modelObj[model])
+            model.name, 
+            generateConvertAdvancedToSpecific(model)
         )(
-            {...advancedParameters, variable, constraints:range}, 
+            calibrateParameters, 
             dispatch
         )
     },
     submitDensity:(specificParameters, model)=>()=>{
-        getVaRData(generateConvertSpecificToAdvanced(modelObj[model])(specificParameters), dispatch)
+        getVaRData(generateConvertSpecificToAdvanced(model)(specificParameters), dispatch)
     },
-    submitMaturities:ticker=>()=>getMaturities(ticker, dispatch),
-    getOptions:(ticker, maturity)=>()=>getOptions(ticker, maturity, dispatch),
+    submitMaturities:(ticker, model)=>()=>getMaturities(model.name)(ticker, dispatch),
+    getOptions:(ticker, maturity, model)=>()=>getOptions(model.name)(ticker, maturity, dispatch),
     generateUpdateParameters:model=>(key, value, validateStatus)=>{
-        updateParameters['update'+model](key, value, validateStatus, dispatch)
+        actionParameters['update'+model.name](key, value, validateStatus, dispatch)
     },
     updateOptionForm:(key, value)=>updateOptionForm(key, value, dispatch),
     updateSlider:(key, value)=>{

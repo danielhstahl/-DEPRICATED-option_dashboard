@@ -1,21 +1,21 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {getMaturities} from '../../Actions/lambda' 
-import { Col, Alert } from 'antd'
-import { arrayValidator, validateAll } from '../helperValidators'
-import actionParameters from '../../Actions/parameters' 
-import {CustomFormItemInput, CustomUpdateButton} from '../HelperComponents/FormHelper'
+import { Col } from 'antd'
+import {
+    CustomFormItemTextInput, 
+    CustomUpdateButton
+} from '../HelperComponents/FormHelper'
 import {mapStateToProps, mapDispatchToProps} from '../reduxInjections'
-const { updateCalibration }=actionParameters 
 
 const OptionMaturities=({
     updateOptionForm,
     submitMaturities,
     optionValues,
+    model,
     progress
 })=>[
 <Col xs={24} key={'ticker'}>
-    <CustomFormItemInput 
+    <CustomFormItemTextInput 
         objKey='ticker' 
         parms={optionValues}
         toolTip="This is the ticker of the underlying. For example, AAPL"
@@ -25,7 +25,8 @@ const OptionMaturities=({
 </Col>,
 <Col xs={24} key={'submitTicker'}>
     <CustomUpdateButton 
-        onClick={submitMaturities(optionValues.ticker)}
+        disabled={optionValues.ticker.length===0}
+        onClick={submitMaturities(optionValues.ticker, model)}
         text="Get Maturities"
         loading={progress.isMaturityInProgress}
     />

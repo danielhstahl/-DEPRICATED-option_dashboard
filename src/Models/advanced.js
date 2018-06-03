@@ -101,11 +101,6 @@ export const model={
       "feature": "variable"
     }
   ],
-  "advancedToAdvanced": ({rho, adaV, v0, speed, sigma, sigJ, muJ, lambda, ...rest})=>({
-    ...rest,
-    variable:{
-      rho, adaV, v0, speed, sigma, sigJ, muJ, lambda
-    }
-  }),
+  "advancedToAdvanced": parameters=>parameters,
   "advancedToadvanced": parameters=>parameters
 }

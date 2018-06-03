@@ -2,7 +2,7 @@ import {Component} from 'react'
 import { connect } from 'react-redux'
 import { PARAMETERS } from './Utils/constants'
 import { getCalculation, getRangeData } from './Actions/lambda'
-import { generateSubmitOptions, generateConvertSpecificToAdvanced } from './Utils/conversionUtils'
+import { generateConvertSpecificToAdvanced } from './Utils/conversionUtils'
 
 class LoadData extends Component{
     componentDidMount() {

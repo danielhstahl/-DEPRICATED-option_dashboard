@@ -9,8 +9,8 @@ export const UPDATE_RANGE_DATA='UPDATE_RANGE_DATA'
 export const NOTIFY_MATURITIES='NOTIFY_MATURITIES'
 export const NOTIFY_GET_OPTIONS='NOTIFY_GET_OPTIONS'
 export const UPDATE_OPTION_MATURITIES='UPDATE_OPTION_MATURITIES'
-export const UPDATE_OPTION_PRICES='UPDATE_OPTION_PRICES'
 export const UPDATE_OPTION_FORM='UPDATE_OPTION_FORM'
+export const UPDATE_STRIKES_PRICE='UPDATE_STRIKES_PRICE'
 
 export const createActionType=(optionType, sensitivity, algorithm)=>{
     return `UPDATE_${optionType.toUpperCase()}_${sensitivity.toUpperCase()}_${algorithm.toUpperCase()}`

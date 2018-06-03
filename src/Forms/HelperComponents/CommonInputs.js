@@ -2,26 +2,19 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import {PARAMETERS, VALIDATION} from '../../Utils/constants'
-import {modelObj} from '../../modelSkeleton'
 import { Col } from 'antd'
 import PropTypes from 'prop-types'
 import { flexObj } from '../globalOptions'
-import {convertParametersToSpecificAndAddValidation, validateAll} from '../helperValidators'
-import {generateConvertAdvancedToSpecific} from '../../Utils/conversionUtils'
+import {validateAll, getFormItems} from '../helperValidators'
 import { mapStateToProps, mapDispatchToProps } from '../reduxInjections'
 
-const getFormItems=(model, modelParameters, range)=>convertParametersToSpecificAndAddValidation(
-    modelParameters,
-    generateConvertAdvancedToSpecific(modelObj[model])
-)(range)
-
-const CommonInputsD=({model, modelParameters, generateUpdateParameters, ...form})=>getFormItems(model, form.range.defaultRange).map(({key, validator, label, toolTip}, index)=>(
+const CommonInputsD=({model, modelParameters, generateUpdateParameters, range, ...form})=>getFormItems(model, modelParameters, range.defaultRange).map(({key, validator, label, toolTip}, index)=>(
     <Col {...flexObj} key={index}>
         <CustomFormItemInput 
             label={label}
             objKey={key}
-            parms={form[model+PARAMETERS]}
-            validationResults={form[model+VALIDATION][key]}
+            parms={form[model.name+PARAMETERS]}
+            validationResults={form[model.name+VALIDATION][key]}
             validator={validator}
             toolTip={toolTip}
             onChange={generateUpdateParameters(model)}
@@ -44,8 +37,8 @@ export const CommonInputs=connect(mapStateToProps, mapDispatchToProps)(CommonInp
 const CommonCalculatorButtonD=({submitCalculator, model,  ...form})=>(
     <Col {...flexObj} >
         <CustomUpdateButton
-            disabled={validateAll(form[model+VALIDATION])}
-            onClick={submitCalculator(form[model+PARAMETERS], model)}
+            disabled={validateAll(form[model.name+VALIDATION])}
+            onClick={submitCalculator(form[model.name+PARAMETERS], model)}
             text='Calculate'
             loading={form.progress.isCalculationInProgress}
         />
@@ -53,13 +46,13 @@ const CommonCalculatorButtonD=({submitCalculator, model,  ...form})=>(
 )
 export const CommonCalculatorButton=connect(mapStateToProps, mapDispatchToProps)(CommonCalculatorButtonD)
 
-const CommonCalibratorButtonD=({submitCalibrator, model,  ...form})=>(
+const CommonCalibratorButtonD=({submitCalibrator, model, progress, optionValues, range, ...form})=>(
     <Col {...flexObj} >
         <CustomUpdateButton
-            disabled={validateAll(form[model+VALIDATION])}
-            onClick={submitCalibrator(form[model+PARAMETERS], model, form.range.currentRange)}
+            disabled={optionValues.prices.length===0}
+            onClick={submitCalibrator(form[model.name+PARAMETERS], model, range.currentRange)}
             text='Calibrate'
-            loading={form.isCalibationInProgress}
+            loading={progress.isCalibationInProgress}
         />
     </Col>
 )

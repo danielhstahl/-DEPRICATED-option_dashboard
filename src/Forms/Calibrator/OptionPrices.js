@@ -1,15 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Col, Alert } from 'antd'
-import { arrayValidator, validateAll } from '../helperValidators'
-import actionParameters from '../../Actions/parameters' 
-import {getOptions} from '../../Actions/lambda'
+import { Col } from 'antd'
 import {SplineCurves} from '../../Graphs/Graphs.js'
 import {CustomDateDrop, CustomUpdateButton} from '../HelperComponents/FormHelper'
 import { mapDispatchToProps } from '../reduxInjections'
-import {PARAMETERS, VALIDATION} from '../../Utils/constants'
 
-const { updateCalibration }=actionParameters 
 const OptionPrices=({
     updateOptionForm,
     getOptions,
@@ -17,13 +12,12 @@ const OptionPrices=({
     model,
     spline,
     optionValues,
-    progress,
-    ...form
+    progress
 })=>[
 <Col xs={24} key={'selectMaturity'}>
     <CustomDateDrop 
         objKey='maturity' 
-        parms={form[model+PARAMETERS]}
+        parms={optionValues}
         options={optionValues.maturityOptions}
         toolTip="Select the option maturity"
         label="Maturity"
@@ -32,8 +26,8 @@ const OptionPrices=({
 </Col>,
 <Col xs={24} key={'getPrices'}>
     <CustomUpdateButton
-        disabled={optionValues.prices.length===0}
-        onClick={getOptions(optionValues.ticker, optionValues.maturity)}
+        disabled={!optionValues.maturity}
+        onClick={getOptions(optionValues.ticker, optionValues.maturity, model)}
         text="Get Option Prices"
         loading={progress.isGetOptionsInProgress}
     />  

@@ -4,12 +4,10 @@ import { modelMap, defaultKey } from '../modelSkeleton'
 
 import {PARAMETERS, VALIDATION} from '../Utils/constants'
 import { 
-    UPDATE_QUANTILE, 
-    UPDATE_SLIDER_RANGE ,
-    UPDATE_RANGE_DATA,
-    UPDATE_OPTION_PRICES,
+    UPDATE_QUANTILE,
     UPDATE_OPTION_MATURITIES,
     UPDATE_OPTION_FORM,
+    UPDATE_STRIKES_PRICE,
     createValidationType, 
     createOptionType, 
     createOptionReplaceAll,
@@ -62,10 +60,11 @@ const generateParameters=(paramName, defaultState)=>(state=defaultState, action)
 const optionValues=(state=defaultOptionValues, action)=>{
     switch (action.type){
         case UPDATE_OPTION_MATURITIES:
-            return {...state, ...action.data}
-        
+            return {...state, maturityOptions:action.data}
         case UPDATE_OPTION_FORM:
             return {...state, [action.key]:action.value}
+        case UPDATE_STRIKES_PRICE:
+            return {...state, ...action.data}
         default:
             return state
     }

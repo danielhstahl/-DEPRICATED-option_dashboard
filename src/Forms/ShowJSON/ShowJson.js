@@ -15,7 +15,7 @@ export default connect(mapStateToProps)(({model, ...form})=>(
                         generateConvertSpecificToAdvanced(
                             model
                         )(
-                            form[model+PARAMETERS]
+                            form[model.name+PARAMETERS]
                         ), null, 2
                     )}
                 </code>
