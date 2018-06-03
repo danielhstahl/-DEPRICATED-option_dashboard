@@ -50,7 +50,7 @@ const CommonCalibratorButtonD=({submitCalibrator, model, progress, optionValues,
     <Col {...flexObj} >
         <CustomUpdateButton
             disabled={optionValues.prices.length===0}
-            onClick={submitCalibrator(form[model.name+PARAMETERS], model, range.currentRange)}
+            onClick={submitCalibrator(form[model.name+PARAMETERS], optionValues, model, range.currentRange)}
             text='Calibrate'
             loading={progress.isCalibationInProgress}
         />

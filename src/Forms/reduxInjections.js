@@ -22,7 +22,8 @@ export const mapDispatchToProps=dispatch=>({
     submitCalculator:(specificParameters, model)=>()=>{
         getCalculation(generateConvertSpecificToAdvanced(model)(specificParameters), dispatch)
     },
-    submitCalibrator:(specificParameters, model, range)=>()=>{
+    submitCalibrator:(specificParameters, optionValues, model, range)=>()=>{
+        const {k, prices}=optionValues
         const advancedParameters=generateConvertSpecificToAdvanced(model)(specificParameters)
         const calibrateParameters=model.parameters.reduce((aggr, curr)=>{
             if(curr.feature==='variable'){
@@ -38,7 +39,7 @@ export const mapDispatchToProps=dispatch=>({
                 ...aggr,
                 [curr.key]:advancedParameters[curr.key]
             }
-        }, {constraints:range})
+        }, {constraints:range, k, prices})
         getCalibration(
             model.name, 
             generateConvertAdvancedToSpecific(model)
