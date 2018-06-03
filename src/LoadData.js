@@ -1,7 +1,7 @@
 import {Component} from 'react'
 import { connect } from 'react-redux'
 import { PARAMETERS } from './Utils/constants'
-import { getAllData, getRangeData } from './Actions/lambda'
+import { getCalculation, getRangeData } from './Actions/lambda'
 import { generateSubmitOptions, generateConvertSpecificToAdvanced } from './Utils/conversionUtils'
 
 class LoadData extends Component{
@@ -18,8 +18,8 @@ const mapStateToProps=({form}, props)=>({
 })
 const mapDispatchToProps =dispatch=>({
     onLoad:(model, parameters)=>{
-        generateSubmitOptions(dispatch, generateConvertSpecificToAdvanced(model), getAllData)(parameters)()
-        getRangeData(dispatch)()
+        getCalculation(generateConvertSpecificToAdvanced(model)(parameters), dispatch)
+        getRangeData(dispatch)
     }
 })
 

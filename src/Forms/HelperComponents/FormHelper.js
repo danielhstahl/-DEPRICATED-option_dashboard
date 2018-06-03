@@ -1,8 +1,9 @@
 import React from 'react'
 import { Tooltip, Input, Form, Button, Select, InputNumber, Slider } from 'antd'
 import PropTypes from 'prop-types'
-import { fullWidth, formItemLayoutLabel } from './globalOptions'
-import { isNotComplete } from './helperValidators'
+import { fullWidth, formItemLayoutLabel } from '../globalOptions'
+import { isNotComplete } from '../helperValidators'
+
 const onChangeNumberHelper=(onChange, validator, objKey)=>value=>{
     const isValid=validator?validator.fn(value):'truthy'
     onChange(objKey, value, typeof isValid==='boolean'?'error':'') 
@@ -20,7 +21,7 @@ const parseArrOrNumber=(arr, fn)=>Array.isArray(arr)?arr.map(val=>fn(val)):fn(ar
 const fixedVal=round=>val=>val.toFixed(round)
 const onSelectHelper=(onChange, key, parms)=>value=>onChange(key, parseArrOrNumber(value, parseFloat), parms)
 
-export const CustomDrop=({objKey, parms, options, onChange, round, toolTip, multiSelect})=>(
+export const CustomNumberDrop=({objKey, parms, options, onChange, round, toolTip, multiSelect})=>(
 <Tooltip placement="top" title={toolTip}>
     <Select
         value={parseArrOrNumber(parms[objKey], fixedVal(round))}
@@ -35,8 +36,21 @@ export const CustomDrop=({objKey, parms, options, onChange, round, toolTip, mult
     </Select>
 </Tooltip>
 )
+export const CustomDateDrop=({objKey, parms, options, onChange, toolTip})=>(
+<Tooltip placement="top" title={toolTip}>
+    <Select
+        value={new Date(parms[objKey])}
+        onChange={v=>onChange(objKey, v)}
+        style={fullWidth}
+    >
+        {options.map(option=>{
+            return <Option key={option} value={option}>{new Date(option)}</Option>
+        })}
+    </Select>
+</Tooltip>
+)
 
-CustomDrop.propTypes={
+CustomNumberDrop.propTypes={
     objKey:PropTypes.string.isRequired,
     parms:PropTypes.object.isRequired,
     options:PropTypes.arrayOf(PropTypes.number).isRequired,
@@ -87,7 +101,7 @@ CustomTextArea.propTypes={
 }
 
 const CustomFormItemGeneric=CustInput=>({objKey, parms, onChange, toolTip, label, validator, validationResults})=>(
-    <FormItem {...formItemLayoutLabel} label={label} validateStatus={validationResults[objKey]} help={validationResults[objKey]&&validator.help}>
+    <FormItem {...formItemLayoutLabel} label={label} validateStatus={validationResults} help={validationResults&&validator.help}>
         <CustInput objKey={objKey} parms={parms} onChange={onChange} toolTip={toolTip} validator={validator}/>
     </FormItem>
 )

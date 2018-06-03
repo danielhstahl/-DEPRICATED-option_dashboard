@@ -1,6 +1,6 @@
 import React from 'react'
 import { modalInputsIndex } from '../Routes/routeDefinitions'
-import GenerateForm from './GenerateForm'
+import ModelForm from './ModelForm'
 import { Modal, Menu } from 'antd'
 import { Link } from 'react-router-dom'
 const getBaseUrl=path=>path.split("/:")[0]
@@ -22,7 +22,7 @@ const MenuTypes=({match, basePath})=>(
 
 const ModalInputs=({history, match, model, baseUrl})=>{
     const closeModal=()=>history.push(baseUrl)
-    const ModelComponent=GenerateForm[model]
+    //const ModelComponent=GenerateForm[model]
     const baseAndPathUrl=getBaseUrl(match.path)
     return (
     <Modal 
@@ -34,7 +34,7 @@ const ModalInputs=({history, match, model, baseUrl})=>{
         footer={null}
     >
         <MenuTypes match={match} basePath={baseAndPathUrl}/>
-        <ModelComponent match={match} basePath={baseAndPathUrl}/>
+        <ModelForm basePath={baseAndPathUrl} model={model}/>
     </Modal>
     )
 }

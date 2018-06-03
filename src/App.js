@@ -60,9 +60,7 @@ const MenuSensitivities=({history, sensitivity, model, label})=>{
 				<Dropdown.Button 
 					key={1}
 					style={floatRight}
-					onClick={()=>{
-						goToInputModal(model)
-					}}
+					onClick={()=>goToInputModal(model)}
 					overlay={modelChoiceGenerator(goToInputModal)}
 				>
 					{label}: Inputs
@@ -143,7 +141,7 @@ const HoldCards=({match, ...rest})=>{
 		<Col {...colBreaks} >
 			<Card title="Density" bordered={false} >
 				<Density />
-				<QuantileInputs/>
+				<QuantileInputs model={currentModel}/>
 			</Card>
 		</Col>
 	</Row>
