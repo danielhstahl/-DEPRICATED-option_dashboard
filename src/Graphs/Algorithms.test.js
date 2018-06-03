@@ -65,7 +65,7 @@ describe('generateAlgorithmOptionPrices', ()=>{
             algoputworld:'value4',
         },
         form:{
-            calibrateParameters:{
+            optionValues:{
                 k:[4],
                 prices:[5]
             },

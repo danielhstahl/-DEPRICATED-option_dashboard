@@ -5,7 +5,7 @@ import { rootSensitivity, rootModel } from '../Routes/routeDefinitions'
 import { Route, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { PARAMETERS } from '../Utils/constants'
-import { generateConvertSpecificToAdvanced, getAllAdvanced } from '../Utils/conversionUtils'
+import { generateConvertSpecificToAdvanced } from '../Utils/conversionUtils'
 import {
     sensitivities
 } from '../appSkeleton'
@@ -25,10 +25,10 @@ export const ThetaWarning=({adaV, v0})=>(
 const NoSensitivity=({sensitivity, title})=>(
 	<p>Attribute {sensitivity} is not available for {title}!</p>
 )
-const CardPlot=({Algorithm, HelpComponent, url, match, title, parameters, model})=>{
+const CardPlot=({Algorithm, HelpComponent, url, match, title, model, ...form})=>{
 	const rootModelLink=match.params[rootModel]
 	const rootSensitivityLink=match.params[rootSensitivity]
-	const {adaV, v0}=getAllAdvanced(parameters, generateConvertSpecificToAdvanced(model))
+	const {adaV, v0}=generateConvertSpecificToAdvanced(model)(form[model.name+PARAMETERS])
 	const localUrl=`/${rootModelLink}/${rootSensitivityLink}${url}`
 	const Component=Algorithm[rootSensitivityLink]
 	const IVComponent=Algorithm.IV	
@@ -57,8 +57,5 @@ CardPlot.propTypes={
     title:PropTypes.string.isRequired
 }
 
-const mapStateToProps=({form}, {model})=>({
-	parameters:form[model.name+PARAMETERS]
-})
-
+const mapStateToProps=({form})=>form
 export default connect(mapStateToProps)(CardPlot)

@@ -7,8 +7,7 @@ import {
 
 import {
     keySkeleton,
-    algorithms,
-    createActionType
+    algorithms
 } from '../appSkeleton'
 
 import { getDomain } from '../Utils/mertonUtils'
@@ -16,7 +15,8 @@ import { getDomain } from '../Utils/mertonUtils'
 import {
     UPDATE_DENSITY_VAR,
     UPDATE_DENSITY_RAW,
-    UPDATE_SPLINE_DATA
+    UPDATE_SPLINE_DATA,
+    createActionType
 } from '../Actions/actionDefinitions'
 
 const [fangoostName, carrMadanName, fstsName]=algorithms

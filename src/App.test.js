@@ -176,31 +176,15 @@ describe('base app', () => {
         //console.log(wrapper.debug())
         const modal=wrapper.find(Modal)
         expect(modal.length).toEqual(1)
-        expect(modal.find(Button).props().disabled).toEqual(true)
-        const field=wrapper.findWhere(val=>val.props().objKey==='k').find(Input.TextArea)
+        expect(modal.find(Button).first().props().disabled).toEqual(true)
+        const field=wrapper.findWhere(val=>val.props().objKey==='ticker').find(Input)
         const fieldStock=wrapper.findWhere(val=>val.props().objKey==='S0').find(InputNumber)
         //console.log(field.debug())
-        field.props().onChange(mockTextEvent('1, 2, 3'))
+        field.props().onChange(mockTextEvent('AAPL'))
         fieldStock.props().onChange(2)
         wrapper.update()
-        expect(wrapper.find(Modal).find(Button).props().disabled).toBeFalsy()
+        expect(wrapper.find(Modal).find(Button).first().props().disabled).toBeFalsy()
     })   
-    it('errors calibration with incorrect input', ()=>{
-        const wrapper=mount(<Provider store={store}>
-            <MemoryRouter initialEntries={[ `/advanced/price/inputs/calibration` ]}>
-                <App />
-            </MemoryRouter>
-        </Provider>
-        )
-        const modal=wrapper.find(Modal)
-        expect(modal.length).toEqual(1)
-        //expect(modal.find(Button).props().disabled).toBeFalsy()
-        const field=wrapper.findWhere(val=>val.props().objKey==='k').find(Input.TextArea)
-        field.props().onChange(mockTextEvent('hello'))
-        wrapper.update()
-        expect(wrapper.find('.ant-form-explain').text()).toEqual('Requires positive, comma separated numbers like "2, 3, 4"')
-        expect(wrapper.find(Modal).find(Button).props().disabled).toEqual(true)
-    })    
     it('correctly selects quantile', ()=>{
         const wrapper=mount(<Provider store={store}>
             <MemoryRouter initialEntries={[ `/advanced/price` ]}>

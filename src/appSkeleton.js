@@ -19,20 +19,6 @@ export const excludeFrom={
     carrmadan:['delta', 'theta', 'gamma']
 }
 
-export const createActionType=(optionType, sensitivity, algorithm)=>{
-    return `UPDATE_${optionType.toUpperCase()}_${sensitivity.toUpperCase()}_${algorithm.toUpperCase()}`
-}
-
-export const createOptionReplaceAll=modelType=>{
-    return `UPDATE_${modelType.toUpperCase()}_PARAMETER_ALL`
-}
-export const createOptionType=modelType=>{
-    return `UPDATE_${modelType.toUpperCase()}_PARAMETER`
-}
-export const createValidationType=modelType=>{
-    return `UPDATE_${modelType.toUpperCase()}_VALIDATION`
-}
-
 const appSkeleton=cartesian(optionTypes, sensitivities, algorithms).filter(([optionType, sensitivity, algorithm])=>excludePotentialArray(excludeFrom[algorithm], sensitivity))
 
 const appendIfExists=(arr, val)=>arr?[...arr, val]:[val]

@@ -1,34 +1,37 @@
 import { combineReducers } from 'redux'
 
-import {
-    createValidationType, 
-    createOptionType, 
-    createOptionReplaceAll 
-} from '../appSkeleton'
-
 import { modelMap, defaultKey } from '../modelSkeleton'
 
-import {PARAMETERS, NOTIFY, VALIDATION} from '../Utils/constants'
+import {PARAMETERS, VALIDATION} from '../Utils/constants'
 import { 
-    NOTIFY_CALIBRATION, 
-    UPDATE_QUANTILE, 
-    UPDATE_SLIDER_RANGE ,
-    UPDATE_RANGE_DATA
+    UPDATE_QUANTILE,
+    UPDATE_OPTION_MATURITIES,
+    UPDATE_OPTION_FORM,
+    UPDATE_STRIKES_PRICE,
+    createValidationType, 
+    createOptionType, 
+    createOptionReplaceAll,
+    createOptionReplaceSome
 } from '../Actions/actionDefinitions'
 
+import progress from './progressReducer'
+import range from './rangeReducer'
 
 import { extractDefaultValues } from '../Utils/utils'
 
-const calibrateState={
+const defaultOptionValues={
     prices:[],
-    k:[]
+    k:[],
+    ticker:'',
+    maturity:null,
+    maturityOptions:[]
 }
 
 
 const defaultFormValidationStatus={
     numU:'',
     r:'',
-    T:'',
+    T:'', //updated from either the calibration screen OR the calculator screen
     S0:'',
     sigma:'',
     muJ:'',
@@ -38,11 +41,7 @@ const defaultFormValidationStatus={
     meanVol:'',
     v0:'',
     adaV:'',
-    rho:'',
-    k:'',
-    delta:'',
-    q:'',
-    prices:''
+    rho:''
 }
 
 const generateParameters=(paramName, defaultState)=>(state=defaultState, action)=>{
@@ -51,10 +50,26 @@ const generateParameters=(paramName, defaultState)=>(state=defaultState, action)
             return {...state, [action.key]:action.value}
         case createOptionReplaceAll(paramName):
             return {...state, ...action.data}
+        case createOptionReplaceSome(paramName):
+            return {...state, ...action.data}
         default:
             return state
     }
 }
+
+const optionValues=(state=defaultOptionValues, action)=>{
+    switch (action.type){
+        case UPDATE_OPTION_MATURITIES:
+            return {...state, maturityOptions:action.data}
+        case UPDATE_OPTION_FORM:
+            return {...state, [action.key]:action.value}
+        case UPDATE_STRIKES_PRICE:
+            return {...state, ...action.data}
+        default:
+            return state
+    }
+}
+
 const generateValidation=paramName=>(state=defaultFormValidationStatus, action)=>{
     switch (action.type){
         case createValidationType(paramName):
@@ -63,16 +78,6 @@ const generateValidation=paramName=>(state=defaultFormValidationStatus, action)=
             return state
     }
 }
-
-const generateNotify=paramName=>(state=false, action)=>{
-    switch(action.type){
-        case NOTIFY_CALIBRATION:
-            return action.value
-        default:
-            return state
-    }
-}
-
 
 
 const quantile=(state=.01, action)=>{
@@ -84,36 +89,15 @@ const quantile=(state=.01, action)=>{
     }
 }
 
-const range=(state={}, action)=>{
-    switch(action.type){
-        case UPDATE_SLIDER_RANGE:
-            const [lower, upper]=action.value
-            return {...state, [action.key]:{lower, upper}}
-        default:
-            return state
-    }
-}
-
-const staticRange=(state={}, action)=>{
-    switch(action.type){
-        case UPDATE_RANGE_DATA:
-            return action.data
-        default:
-            return state
-    }
-}
-
 export default combineReducers(
     modelMap.reduce((aggr, curr)=>({
-        ...aggr,
-        [curr.name+NOTIFY]:generateNotify(curr.name),
+        ...aggr,       
         [curr.name+PARAMETERS]:generateParameters(curr.name, extractDefaultValues(curr.parameters, defaultKey)),
         [curr.name+VALIDATION]:generateValidation(curr.name),
     }), {
-        calibrateParameters:generateParameters('calibrate', calibrateState),
-        calibrateValidation:generateValidation('calibrate'),
-        range,
         quantile,
-        staticRange
+        range,
+        progress,
+        optionValues
     })
 )
