@@ -31,18 +31,18 @@ export const CustomNumberDrop=({objKey, parms, options, onChange, round, toolTip
 </Tooltip>
 )
 export const CustomDateDrop=({objKey, parms, options, onChange, toolTip})=>(
-<Tooltip placement="top" title={toolTip}>
-    <Select
-        value={parms[objKey]}
-        onChange={v=>onChange(objKey, v)}
-        style={fullWidth}
-    >
-        {options.map(option=>{
-            const date=new Date(option)
-            return <Option key={option} value={option}>{date.toLocaleDateString()}</Option>
-        })}
-    </Select>
-</Tooltip>
+    <Tooltip placement="top" title={toolTip}>
+        <Select
+            value={parms[objKey]}
+            onChange={v=>onChange(objKey, v)}
+            style={fullWidth}
+        >
+            {options.map(option=>{
+                const date=new Date(option)
+                return <Option key={option} value={option}>{date.toLocaleDateString()}</Option>
+            })}
+        </Select>
+    </Tooltip>
 )
 
 CustomNumberDrop.propTypes={
@@ -96,9 +96,9 @@ CustomInputText.propTypes={
     })
 }
 
-const CustomFormItemGeneric=CustInput=>({objKey, parms, onChange, toolTip, label, validator, validationResults})=>(
+const CustomFormItemGeneric=CustInput=>({objKey, parms, onChange, toolTip, label, validator, validationResults, ...rest})=>(
     <FormItem {...formItemLayoutLabel} label={label} validateStatus={validationResults} help={validationResults&&validator.help}>
-        <CustInput objKey={objKey} parms={parms} onChange={onChange} toolTip={toolTip} validator={validator}/>
+        <CustInput objKey={objKey} parms={parms} onChange={onChange} toolTip={toolTip} validator={validator} {...rest}/>
     </FormItem>
 )
 
@@ -114,12 +114,12 @@ CustomFormItemGeneric.propTypes={
 
 export const CustomFormItemInput=CustomFormItemGeneric(CustomInput)
 export const CustomFormItemTextInput=CustomFormItemGeneric(CustomInputText)
+export const CustomFormItemDateDrop=CustomFormItemGeneric(CustomDateDrop)
 
 export const CustomUpdateButton=({disabled, onClick, text, ...rest})=>(
     <FormItem {...formItemLayoutLabel} colon={false} label=" ">
         <Button 
             style={fullWidth}
-            className='side-button submit-button' 
             type="primary" 
             disabled={disabled}
             onClick={onClick}

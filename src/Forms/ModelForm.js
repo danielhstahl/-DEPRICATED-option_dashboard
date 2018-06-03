@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 import { Row } from 'antd'
-
+import { Divider } from 'antd'
 /**Helpers and constants */
 import { gutter } from './globalOptions'
 import {getParametersByFeature} from '../Utils/conversionUtils'
@@ -21,6 +21,7 @@ export default ({model, basePath})=>[
             model={model}
             modelParameters={getParametersByFeature(model.parameters, 'static')}
         />
+        <Divider/>
         <Route 
             path={`${basePath}/manual`} exact 
             render={()=>(<InputCalculator model={model}/>)}

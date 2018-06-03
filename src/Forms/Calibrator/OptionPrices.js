@@ -2,8 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Col } from 'antd'
 import {SplineCurves} from '../../Graphs/Graphs.js'
-import {CustomDateDrop, CustomUpdateButton} from '../HelperComponents/FormHelper'
+import {CustomFormItemDateDrop, CustomUpdateButton} from '../HelperComponents/FormHelper'
 import { mapDispatchToProps } from '../reduxInjections'
+import { flexObj } from '../globalOptions'
 
 const OptionPrices=({
     updateOptionForm,
@@ -14,8 +15,8 @@ const OptionPrices=({
     optionValues,
     progress
 })=>[
-<Col xs={24} key={'selectMaturity'}>
-    <CustomDateDrop 
+<Col {...flexObj} key='selectMaturity'>
+    <CustomFormItemDateDrop 
         objKey='maturity' 
         parms={optionValues}
         options={optionValues.maturityOptions}
@@ -24,7 +25,7 @@ const OptionPrices=({
         onChange={updateOptionForm}
     />
 </Col>,
-<Col xs={24} key={'getPrices'}>
+<Col {...flexObj} key='getPrices'>
     <CustomUpdateButton
         disabled={!optionValues.maturity}
         onClick={getOptions(optionValues.ticker, optionValues.maturity, model)}
@@ -32,7 +33,9 @@ const OptionPrices=({
         loading={progress.isGetOptionsInProgress}
     />  
 </Col>,
-<SplineCurves key='spline' spline={spline} title='Fit' xLabel='Log Strikes' yLabel='Transformed Option Prices'/>
+<Col offset={4} xs={16} key='spline'>
+    <SplineCurves  spline={spline} title='Fit' xLabel='Log Strikes' yLabel='Transformed Option Prices'/>
+</Col>
 
 ]
 const mapStateToProps=({graph, form})=>({...graph, ...form})

@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Col } from 'antd'
+import { flexObj } from '../globalOptions'
 import {
     CustomFormItemTextInput, 
     CustomUpdateButton
@@ -14,7 +15,7 @@ const OptionMaturities=({
     model,
     progress
 })=>[
-<Col xs={24} key={'ticker'}>
+<Col {...flexObj} key='ticker'>
     <CustomFormItemTextInput 
         objKey='ticker' 
         parms={optionValues}
@@ -23,7 +24,7 @@ const OptionMaturities=({
         onChange={updateOptionForm}
     />
 </Col>,
-<Col xs={24} key={'submitTicker'}>
+<Col {...flexObj} key='submitTicker'>
     <CustomUpdateButton 
         disabled={optionValues.ticker.length===0}
         onClick={submitMaturities(optionValues.ticker, model)}
