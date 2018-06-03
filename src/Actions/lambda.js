@@ -42,9 +42,6 @@ const getDData=(section, type)=>(parms, dispatch)=>{
 export const getVaRData=getDData('var', UPDATE_DENSITY_VAR)
 export const getDensity=getDData('raw', UPDATE_DENSITY_RAW)
 
-
-
-
 export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=>{
     dispatch({
         type:NOTIFY_CALIBRATION,
@@ -82,6 +79,7 @@ export const getMaturities=type=>(ticker, dispatch)=>{
         })
     })
 }
+
 export const getOptions=type=>(ticker, maturity, dispatch)=>{
     dispatch({
         type:NOTIFY_GET_OPTIONS,
@@ -106,7 +104,6 @@ export const getOptions=type=>(ticker, maturity, dispatch)=>{
         })
     })
 }
-
 
 export const getCalculation=(parameters, dispatch)=>{
     appSkeleton.forEach(
