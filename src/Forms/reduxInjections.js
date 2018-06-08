@@ -56,7 +56,7 @@ export const mapDispatchToProps=dispatch=>({
     generateUpdateParameters:model=>(key, value, validateStatus)=>{
         actionParameters['update'+model.name](key, value, validateStatus, dispatch)
     },
-    updateOptionForm:(key, value)=>updateOptionForm(key, value, dispatch),
+    updateOptionForm:(key, value, validateStatus)=>updateOptionForm(key, value, validateStatus, dispatch),
     updateSlider:(key, value)=>{
         updateSlider(key, value, dispatch)
     },
