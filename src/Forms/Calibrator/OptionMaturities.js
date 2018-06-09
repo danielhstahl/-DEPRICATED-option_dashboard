@@ -27,7 +27,7 @@ const OptionMaturities=({
 <Col {...flexObj} key='submitTicker'>
     <CustomUpdateButton 
         disabled={optionValues.ticker.length===0}
-        onClick={submitMaturities(optionValues.ticker, model)}
+        onClick={submitMaturities({ticker:optionValues.ticker}, model)}
         text="Get Maturities"
         loading={progress.isMaturityInProgress}
     />

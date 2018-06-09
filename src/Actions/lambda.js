@@ -60,7 +60,7 @@ export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=
     })
 }
 
-export const getMaturities=type=>(ticker, dispatch)=>{
+export const getMaturities=type=>({ticker}, dispatch)=>{
     dispatch({
         type:NOTIFY_MATURITIES,
         value:true
@@ -86,8 +86,7 @@ export const getOptions=type=>({ticker, maturity, minOpenInterest, minRelativeBi
         value:true
     })
     const url=createUrl(['options', ticker, 'prices', maturity])+'?'+querystring.stringify({minOpenInterest, minRelativeBidAskSpread})
-    console.log(url)
-    getDefaultUrl(url).then(({curve, points, ...rest})=>{
+    fetch(url).then(response=>response.json()).then(({curve, points, ...rest})=>{
         dispatch({
             type:createOptionReplaceSome(type),
             data:rest,

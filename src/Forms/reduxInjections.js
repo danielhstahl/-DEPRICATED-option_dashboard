@@ -51,8 +51,8 @@ export const mapDispatchToProps=dispatch=>({
     submitDensity:(specificParameters, model)=>()=>{
         getVaRData(generateConvertSpecificToAdvanced(model)(specificParameters), dispatch)
     },
-    submitMaturities:(ticker, model)=>()=>getMaturities(model.name)(ticker, dispatch),
-    getOptions:(ticker, maturity, model)=>()=>getOptions(model.name)(ticker, maturity, dispatch),
+    submitMaturities:({ticker}, model)=>()=>getMaturities(model.name)({ticker}, dispatch),
+    getOptions:({ticker, maturity, minOpenInterest, minRelativeBidAskSpread}, model)=>()=>getOptions(model.name)({ticker, maturity, minOpenInterest, minRelativeBidAskSpread}, dispatch),
     generateUpdateParameters:model=>(key, value, validateStatus)=>{
         actionParameters['update'+model.name](key, value, validateStatus, dispatch)
     },
