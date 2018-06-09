@@ -56,6 +56,7 @@ const MenuSensitivities=({history, sensitivity, modelLink, label})=>{
 					</Menu.Item>
 				))
 			}
+			<div>
 				<Dropdown.Button 
 					key={1}
 					style={floatRight}
@@ -64,6 +65,7 @@ const MenuSensitivities=({history, sensitivity, modelLink, label})=>{
 				>
 					{label}: Inputs
 				</Dropdown.Button>
+			</div>
 		</Menu>
 	)	
 }

@@ -3,6 +3,7 @@ import {
     UPDATE_QUANTILE, 
     UPDATE_SLIDER_RANGE, 
     UPDATE_OPTION_FORM, 
+    UPDATE_OPTION_VALIDATION,
     createValidationType, 
     createOptionType
 } from './actionDefinitions'
@@ -31,10 +32,14 @@ const updateSlider=(key, value, dispatch)=>{
     })
 }
 
-const updateOptionForm=(key, value, dispatch)=>{
+const updateOptionForm=(key, value, validation, dispatch)=>{
     dispatch({
         type:UPDATE_OPTION_FORM,
         key, value
+    })
+    dispatch({
+        type:UPDATE_OPTION_VALIDATION,
+        key, value:validation
     })
 }
 

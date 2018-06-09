@@ -8,6 +8,7 @@ import {
     UPDATE_OPTION_MATURITIES,
     UPDATE_OPTION_FORM,
     UPDATE_STRIKES_PRICE,
+    UPDATE_OPTION_VALIDATION,
     createValidationType, 
     createOptionType, 
     createOptionReplaceAll,
@@ -24,10 +25,15 @@ const defaultOptionValues={
     k:[],
     ticker:'',
     maturity:null,
+    minRelativeBidAskSpread:.1,
+    minOpenInterest:25,
     maturityOptions:[]
 }
 
-
+const defaultOptionValuesValidation={
+    minOpenInterest:'',
+    minRelativeBidAskSpread:''
+}
 const defaultFormValidationStatus={
     numU:'',
     r:'',
@@ -69,6 +75,14 @@ const optionValues=(state=defaultOptionValues, action)=>{
             return state
     }
 }
+const optionValuesValidation=(state=defaultOptionValuesValidation, action)=>{
+    switch (action.type){
+        case UPDATE_OPTION_VALIDATION:
+            return {...state, [action.key]:action.value}
+        default:
+            return state
+    }
+}
 
 const generateValidation=paramName=>(state=defaultFormValidationStatus, action)=>{
     switch (action.type){
@@ -98,6 +112,7 @@ export default combineReducers(
         quantile,
         range,
         progress,
-        optionValues
+        optionValues,
+        optionValuesValidation
     })
 )

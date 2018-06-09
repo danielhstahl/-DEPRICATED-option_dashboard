@@ -12,6 +12,7 @@ import {
     createOptionReplaceSome,
     createOptionReplaceAll
 } from './actionDefinitions'
+import querystring from 'querystring'
 import appSkeleton from '../appSkeleton'
 
 export const baseUrl=process.env.NODE_ENV === 'production'||process.env.REACT_APP_CUST==='production'?'https://74ekexhct2.execute-api.us-east-1.amazonaws.com/dev/v2/':'/'
@@ -59,7 +60,7 @@ export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=
     })
 }
 
-export const getMaturities=type=>(ticker, dispatch)=>{
+export const getMaturities=type=>({ticker}, dispatch)=>{
     dispatch({
         type:NOTIFY_MATURITIES,
         value:true
@@ -79,13 +80,13 @@ export const getMaturities=type=>(ticker, dispatch)=>{
         })
     })
 }
-
-export const getOptions=type=>(ticker, maturity, dispatch)=>{
+export const getOptions=type=>({ticker, maturity, minOpenInterest, minRelativeBidAskSpread}, dispatch)=>{
     dispatch({
         type:NOTIFY_GET_OPTIONS,
         value:true
     })
-    getDefaultUrl('options', ticker, 'prices', maturity).then(({curve, points, ...rest})=>{
+    const url=createUrl(['options', ticker, 'prices', maturity])+'?'+querystring.stringify({minOpenInterest, minRelativeBidAskSpread})
+    fetch(url).then(response=>response.json()).then(({curve, points, ...rest})=>{
         dispatch({
             type:createOptionReplaceSome(type),
             data:rest,

@@ -2,17 +2,21 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Col } from 'antd'
 import {SplineCurves} from '../../Graphs/Graphs.js'
-import {CustomFormItemDateDrop, CustomUpdateButton} from '../HelperComponents/FormHelper'
+import {CustomFormItemDateDrop, CustomUpdateButton, CustomFormItemInput} from '../HelperComponents/FormHelper'
 import { mapDispatchToProps } from '../reduxInjections'
 import { flexObj } from '../globalOptions'
-
+import {createBounds} from '../helperValidators'
+const validatorBidAsk=createBounds(0, 1)
+const validatorOpenInterest=createBounds(0, 1000000)
+const openInterestKey='minOpenInterest'
+const bidAskKey='minRelativeBidAskSpread'
 const OptionPrices=({
     updateOptionForm,
     getOptions,
-    generateUpdateParameters,
     model,
     spline,
     optionValues,
+    optionValuesValidation,
     progress
 })=>[
 <Col {...flexObj} key='selectMaturity'>
@@ -25,10 +29,37 @@ const OptionPrices=({
         onChange={updateOptionForm}
     />
 </Col>,
+<Col {...flexObj} key='openInterest'>
+    <CustomFormItemInput 
+        objKey={openInterestKey} 
+        parms={optionValues}
+        validationResults={optionValuesValidation[openInterestKey]}
+        validator={validatorOpenInterest}
+        toolTip="Select the minimum open interest"
+        label="Open Interest"
+        onChange={updateOptionForm}
+    />
+</Col>,
+<Col {...flexObj} key='bidAsk'>
+    <CustomFormItemInput 
+        objKey={bidAskKey} 
+        validator={validatorBidAsk}
+        parms={optionValues}
+        validationResults={optionValuesValidation[bidAskKey]}
+        options={optionValues.maturityOptions}
+        toolTip="Select the minimum relative bid-ask spread"
+        label="Bid-Ask Spread"
+        onChange={updateOptionForm}
+    />
+</Col>,
 <Col {...flexObj} key='getPrices'>
     <CustomUpdateButton
         disabled={!optionValues.maturity}
-        onClick={getOptions(optionValues.ticker, optionValues.maturity, model)}
+        onClick={getOptions({
+            ticker:optionValues.ticker, 
+            maturity:optionValues.maturity,
+            [openInterestKey]:optionValues[openInterestKey],
+            [bidAskKey]:optionValues[bidAskKey]}, model)}
         text="Get Option Prices"
         loading={progress.isGetOptionsInProgress}
     />  
