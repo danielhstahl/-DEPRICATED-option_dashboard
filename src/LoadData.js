@@ -1,8 +1,8 @@
 import {Component} from 'react'
 import { connect } from 'react-redux'
-import { PARAMETERS } from './Utils/constants'
+
 import { getCalculation, getRangeData } from './Actions/lambda'
-import { generateConvertSpecificToAdvanced } from './Utils/conversionUtils'
+import { generateConvertSpecificToAdvanced, getCalculationParameters } from './Utils/conversionUtils'
 
 class LoadData extends Component{
     componentDidMount() {
@@ -13,12 +13,17 @@ class LoadData extends Component{
     }
 }
 
-const mapStateToProps=({form}, props)=>({
-    parameters:{...form[props.model.name+PARAMETERS], quantile:form.quantile}
+const mapStateToProps=({form})=>({
+    parameters:form
 })
 const mapDispatchToProps =dispatch=>({
-    onLoad:(model, parameters)=>{
-        getCalculation(generateConvertSpecificToAdvanced(model)(parameters), dispatch)
+    onLoad:(model, form)=>{
+        getCalculation(
+            generateConvertSpecificToAdvanced(model)(
+                getCalculationParameters(form, model)
+            ), 
+            dispatch
+        )
         getRangeData(dispatch)
     }
 })

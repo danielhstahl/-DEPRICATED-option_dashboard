@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { CustomFormItemInput, CustomUpdateButton } from './FormHelper'
 import {PARAMETERS, VALIDATION} from '../../Utils/constants'
+import {getCalculationParameters} from '../../Utils/conversionUtils'
 import { Col } from 'antd'
 import PropTypes from 'prop-types'
 import { flexObj } from '../globalOptions'
@@ -38,7 +39,7 @@ const CommonCalculatorButtonD=({submitCalculator, model,  ...form})=>(
     <Col {...flexObj} >
         <CustomUpdateButton
             disabled={validateAll(form[model.name+VALIDATION])}
-            onClick={submitCalculator(form[model.name+PARAMETERS], model)}
+            onClick={submitCalculator(getCalculationParameters(form, model), model)}
             text='Calculate'
             loading={form.progress.isCalculationInProgress}
         />

@@ -36,6 +36,8 @@ export const getRangeData=dispatch=>getDefaultUrl('parameters', 'parameter_range
 
 const getDData=(section, type)=>(parms, dispatch)=>{
     const base='density'
+    console.log(type)
+    console.log(parms)
     getOptionUrl(base, section)(parms).then(data=>dispatch({
         type,
         data

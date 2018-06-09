@@ -1,7 +1,6 @@
 import React from 'react'
 import { createArray } from '../Utils/utils'
-import {PARAMETERS} from '../Utils/constants'
-
+import {getCalculationParameters} from '../Utils/conversionUtils'
 import { CustomNumberDrop } from './HelperComponents/FormHelper'
 import {mapStateToProps, mapDispatchToProps} from './reduxInjections'
 import { connect } from 'react-redux'
@@ -28,7 +27,7 @@ const QuantileInputs=({model, updateQuantile, submitDensity, ...form})=>(
         <Col xs={24} md={8}>
             <Button 
                 className='side-button submit-button' type="primary" 
-                onClick={submitDensity({quantile:form.quantile, ...form[model.name+PARAMETERS]}, model)}
+                onClick={submitDensity(getCalculationParameters(form, model), model)}
             >Update</Button>
         </Col>
     </Row>
