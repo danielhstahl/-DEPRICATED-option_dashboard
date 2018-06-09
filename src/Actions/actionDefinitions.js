@@ -12,6 +12,7 @@ export const UPDATE_OPTION_MATURITIES='UPDATE_OPTION_MATURITIES'
 export const UPDATE_OPTION_FORM='UPDATE_OPTION_FORM'
 export const UPDATE_OPTION_VALIDATION='UPDATE_OPTION_VALIDATION'
 export const UPDATE_STRIKES_PRICE='UPDATE_STRIKES_PRICE'
+export const NO_TICKER='NO_TICKER'
 
 export const createActionType=(optionType, sensitivity, algorithm)=>{
     return `UPDATE_${optionType.toUpperCase()}_${sensitivity.toUpperCase()}_${algorithm.toUpperCase()}`

@@ -8,6 +8,7 @@ import {
     NOTIFY_GET_OPTIONS,
     UPDATE_OPTION_MATURITIES,
     UPDATE_STRIKES_PRICE,
+    NO_TICKER,
     createActionType,
     createOptionReplaceSome,
     createOptionReplaceAll
@@ -44,6 +45,10 @@ export const getVaRData=getDData('var', UPDATE_DENSITY_VAR)
 export const getDensity=getDData('raw', UPDATE_DENSITY_RAW)
 
 export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=>{
+    const eventRemoveNotify={
+        type:NOTIFY_CALIBRATION,
+        value:false
+    }
     dispatch({
         type:NOTIFY_CALIBRATION,
         value:true
@@ -53,14 +58,18 @@ export const getCalibration=(type, optionalChangeParameters)=>(parms, dispatch)=
             type:createOptionReplaceAll(type),
             data:optionalChangeParameters?optionalChangeParameters(response):response,
         })
-        dispatch({
-            type:NOTIFY_CALIBRATION,
-            value:false
-        })
+        dispatch(eventRemoveNotify)
+    }).catch(err=>{
+        console.log(err)
+        dispatch(eventRemoveNotify)
     })
 }
-
+const msToWait=3000
 export const getMaturities=type=>({ticker}, dispatch)=>{
+    const eventRemoveNotify={
+        type:NOTIFY_MATURITIES,
+        value:false
+    }
     dispatch({
         type:NOTIFY_MATURITIES,
         value:true
@@ -74,13 +83,27 @@ export const getMaturities=type=>({ticker}, dispatch)=>{
             type:UPDATE_OPTION_MATURITIES,
             data:expirationDates,
         })
+        dispatch(eventRemoveNotify)
+    }).catch(err=>{
+        console.log(err)
         dispatch({
-            type:NOTIFY_MATURITIES,
-            value:false
+            type:NO_TICKER,
+            value:true
         })
+        setTimeout(()=>{
+            dispatch({
+                type:NO_TICKER,
+                value:false
+            })
+        }, msToWait)
+        dispatch(eventRemoveNotify)
     })
 }
 export const getOptions=type=>({ticker, maturity, minOpenInterest, minRelativeBidAskSpread}, dispatch)=>{
+    const eventRemoveNotify={
+        type:NOTIFY_GET_OPTIONS,
+        value:false
+    }
     dispatch({
         type:NOTIFY_GET_OPTIONS,
         value:true
@@ -99,10 +122,10 @@ export const getOptions=type=>({ticker, maturity, minOpenInterest, minRelativeBi
             type:UPDATE_SPLINE_DATA,
             data:{curve, points},
         })
-        dispatch({
-            type:NOTIFY_GET_OPTIONS,
-            value:false
-        })
+        dispatch(eventRemoveNotify)
+    }).catch(err=>{
+        console.log(err)
+        dispatch(eventRemoveNotify)
     })
 }
 

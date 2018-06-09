@@ -9,6 +9,7 @@ import {
     UPDATE_OPTION_FORM,
     UPDATE_STRIKES_PRICE,
     UPDATE_OPTION_VALIDATION,
+    NO_TICKER,
     createValidationType, 
     createOptionType, 
     createOptionReplaceAll,
@@ -83,6 +84,14 @@ const optionValuesValidation=(state=defaultOptionValuesValidation, action)=>{
             return state
     }
 }
+const invalidTicker=(state=false, action)=>{
+    switch(action.type){
+        case NO_TICKER:
+            return action.value
+        default:
+            return state
+    }
+}
 
 const generateValidation=paramName=>(state=defaultFormValidationStatus, action)=>{
     switch (action.type){
@@ -113,6 +122,7 @@ export default combineReducers(
         range,
         progress,
         optionValues,
+        invalidTicker,
         optionValuesValidation
     })
 )

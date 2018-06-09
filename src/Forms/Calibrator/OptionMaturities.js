@@ -7,11 +7,15 @@ import {
     CustomUpdateButton
 } from '../HelperComponents/FormHelper'
 import {mapStateToProps, mapDispatchToProps} from '../reduxInjections'
-
+const validator={
+    fn:()=>true,
+    help:'Nothing returned.  Perhaps you chose an invalid ticker?'
+}
 const OptionMaturities=({
     updateOptionForm,
     submitMaturities,
     optionValues,
+    invalidTicker,
     model,
     progress
 })=>[
@@ -21,6 +25,8 @@ const OptionMaturities=({
         parms={optionValues}
         toolTip="This is the ticker of the underlying. For example, AAPL"
         label="Ticker"
+        validator={validator}
+        validationResult={invalidTicker}
         onChange={updateOptionForm}
     />
 </Col>,
