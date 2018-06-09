@@ -26,7 +26,7 @@ const OptionMaturities=({
         toolTip="This is the ticker of the underlying. For example, AAPL"
         label="Ticker"
         validator={validator}
-        validationResult={invalidTicker}
+        validationResults={invalidTicker?'error':false}
         onChange={updateOptionForm}
     />
 </Col>,
@@ -39,7 +39,6 @@ const OptionMaturities=({
     />
 </Col>
 ]
-
 export default connect(
     mapStateToProps,
     mapDispatchToProps
