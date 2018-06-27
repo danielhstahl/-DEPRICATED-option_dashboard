@@ -26,7 +26,7 @@ In a future state, we want the following:
 * ~~Have a "simple" and "advanced" view~~ [Complete](https://github.com/phillyfan1138/option_dashboard/commit/5bba9ab7ed50cc03b20662591789d887fe4f066f)
 * ~~Add "Greeks" (at least delta, maybe gamma and theta)~~ [Complete](https://github.com/phillyfan1138/option_dashboard/commit/c8a8174aea080c8d95d2ae76e74f5ed616accd42)
 * ~~Add calibration (mark to market)~~ [Complete](https://github.com/phillyfan1138/option_dashboard/commit/607d51b93f45b5d75fe6e08ae758b5d38429d5d3)
-* Add data feeds?
+* ~~Add data feeds?
 
 ## Plugin features
 
